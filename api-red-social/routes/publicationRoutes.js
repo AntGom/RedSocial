@@ -25,6 +25,7 @@ router.get("/user/:id/:page?", auth, publicationController.user);
 router.post("/upload/:id", [auth, uploadsMiddleware.single("file0")], publicationController.upload);
 router.get("/media/:file",  publicationController.media);
 router.get("/feed/:page?", auth, publicationController.feed);
+router.put('/edit/:id', auth, publicationController.editPublication);
 router.post("/comment/:publication_id", auth, publicationController.addComment);
 router.get("/comments/:publication_id", auth, publicationController.getComments);
 router.delete("/:publication_id/comments/:comment_id", publicationController.deleteComment);

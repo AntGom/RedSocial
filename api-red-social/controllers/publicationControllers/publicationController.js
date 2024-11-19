@@ -5,6 +5,7 @@ import user from "./user.js";
 import upload from "./upload.js";
 import media from "./media.js";
 import feed from "./feed.js";
+import editPublication from "./editPublication.js";
 import addComment from "./addComment.js";
 import getComments from "./getComments.js";
 import deleteComment from "./eraseComment.js";
@@ -19,8 +20,10 @@ export const publicationController =  {
     upload,
     media,
     feed,
+    editPublication,
     addComment,
     getComments,
     deleteComment,
+
 };
     
