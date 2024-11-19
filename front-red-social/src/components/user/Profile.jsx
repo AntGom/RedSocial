@@ -4,7 +4,7 @@ import avatar from "../../assets/img/user.png";
 import { GetProfile } from "../../helpers/GetProfile";
 import { NavLink, useParams } from "react-router-dom";
 import { Global } from "../../helpers/Global";
-import useAuth from "../../hooks/useAuth";
+import useAuth from "../../hooks/UseAuth";
 import PublicationList from "../publication/PublicationList";
 
 const Profile = () => {

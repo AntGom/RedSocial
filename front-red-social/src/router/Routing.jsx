@@ -32,9 +32,6 @@ const Routing = () => {
             <Route path="siguiendo/:userId" element={<Following/>} />
             <Route path="seguidores/:userId" element={<Followers/>} />
             <Route path="profile/:userId" element={<Profile/>} />
-
-
-
           </Route>
 
           <Route

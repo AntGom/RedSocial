@@ -1,21 +1,20 @@
 import { useState } from "react";
 
 const UseForm = (initialObj = {}) => {
-
   const [form, setForm] = useState(initialObj);
 
-  const changed = ({target}) => {
-    const {name, value} = target;
+  const changed = ({ target }) => {
+    const { name, value } = target;
 
     setForm({
       ...form,
-      [name]: value
+      [name]: value,
     });
   };
 
   return {
     form,
-    changed
+    changed,
   };
 };
 

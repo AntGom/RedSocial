@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useAuth from "../../hooks/useAuth";
+import useAuth from "../../hooks/UseAuth";
 import { Global } from "../../helpers/Global";
 import avatar from "../../assets/img/user.png";
 import SerializeForm from "../../helpers/SerializeForm";
