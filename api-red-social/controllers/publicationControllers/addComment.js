@@ -33,7 +33,7 @@ const addComment = async (req, res) => {
 
     // Crear el comentario
     const newComment = {
-      user: req.user?.id || "Usuario no autenticado", // Asegúrate de que `req.user` esté configurado
+      user: req.user?.id || "Usuario no autenticado",
       text,
       createdAt: new Date(),
     };

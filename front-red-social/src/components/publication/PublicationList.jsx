@@ -1,38 +1,24 @@
 import PropTypes from "prop-types";
 import CommentsList from "./CommentsList";
 import CreateComment from "./CreateComment";
-import { TrashIcon } from "@heroicons/react/24/solid";
+import { TrashIcon, PencilIcon } from "@heroicons/react/24/solid";
 import avatar from "../../assets/img/user.png";
 import ReactTimeAgo from "react-time-ago";
 import { NavLink } from "react-router-dom";
-import { Global } from "../../helpers/Global";
 import useAuth from "../../hooks/useAuth";
+import { useState } from "react";
+import EditPublication from "./EditPublication";
+import DeletePublication from "./DeletePublication";
+import { Global } from "../../helpers/Global";
 
 const PublicationList = ({ publications, getPublications, page, setPage, more }) => {
-  const token = localStorage.getItem("token") || "";
   const { auth } = useAuth();
 
-  const deletePublication = async (publicationId) => {
-    const isConfirmed = window.confirm("¿Estás seguro de eliminar esta publicación?");
-    if (!isConfirmed) return;
+  // Estados
+  const [editing, setEditing] = useState(null);
+  const [deleting, setDeleting] = useState(null);
 
-    try {
-      const response = await fetch(`${Global.url}publication/remove/${publicationId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-      });
-      const data = await response.json();
-      if (data.status === "success") {
-        getPublications(1, true);
-      }
-    } catch (error) {
-      console.error("Error al eliminar la publicación:", error);
-    }
-  };
-
+  // Cambiar de página y cargar más publicaciones
   const nextPage = () => {
     const next = page + 1;
     setPage(next);
@@ -44,8 +30,9 @@ const PublicationList = ({ publications, getPublications, page, setPage, more })
       {publications.map((publication) => (
         <article
           key={publication._id}
-          className="bg-white p-4 rounded-3xl shadow-md border border-gray-200 flex items-center space-x-4"
+          className="relative bg-white p-4 rounded-3xl shadow-md border border-gray-200 flex items-center space-x-4"
         >
+          {/* Imagen de perfil */}
           <NavLink to={`/social/profile/${publication.user?._id}`}>
             <img
               src={
@@ -58,6 +45,7 @@ const PublicationList = ({ publications, getPublications, page, setPage, more })
             />
           </NavLink>
 
+          {/* Contenido de la publicación */}
           <div className="flex-1">
             <div className="flex items-center justify-between">
               <div className="text-sm text-gray-800">
@@ -72,16 +60,27 @@ const PublicationList = ({ publications, getPublications, page, setPage, more })
                 </span>
               </div>
               {auth?._id === publication.user?._id && (
-                <button
-                  onClick={() => deletePublication(publication._id)}
-                  className="text-red-600 hover:text-red-800 flex justify-center items-center"
-                >
-                  <TrashIcon className="h-6 w-6" />
-                </button>
+                <div className="flex items-center space-x-2">
+                  <button
+                    onClick={() => setEditing(publication._id)}
+                    className="text-blue-600 hover:text-blue-800"
+                  >
+                    <PencilIcon className="h-6 w-6" />
+                  </button>
+                  <button
+                    onClick={() => setDeleting(publication._id)}
+                    className="text-red-600 hover:text-red-800"
+                  >
+                    <TrashIcon className="h-6 w-6" />
+                  </button>
+                </div>
               )}
             </div>
 
+            {/* Texto de la publicación */}
             <p className="mt-2 text-gray-700">{publication.text}</p>
+
+            {/* Imagen asociada a la publicación */}
             {publication.file && (
               <img
                 src={`${Global.url}publication/media/${publication.file}`}
@@ -90,12 +89,42 @@ const PublicationList = ({ publications, getPublications, page, setPage, more })
               />
             )}
 
+            {/* Lista de comentarios y creación de comentarios */}
             <CommentsList publicationId={publication._id} />
             <CreateComment publicationId={publication._id} />
           </div>
+
+          {/* Ventana de edición */}
+          {editing === publication._id && (
+            <div className="absolute inset-0 bg-white bg-opacity-80 flex flex-col justify-center items-center z-10">
+              <EditPublication
+                publication={publication}
+                onSave={() => {
+                  setEditing(null);
+                  getPublications(1, true); // Refrescar publicaciones
+                }}
+                onCancel={() => setEditing(null)}
+              />
+            </div>
+          )}
+
+          {/* Ventana de eliminación */}
+          {deleting === publication._id && (
+            <div className="absolute inset-0 bg-white bg-opacity-80 flex flex-col justify-center items-center z-10">
+              <DeletePublication
+                publicationId={publication._id}
+                onDeleteSuccess={() => {
+                  setDeleting(null);
+                  getPublications(1, true); // Refrescar publicaciones
+                }}
+                onCancel={() => setDeleting(null)}
+              />
+            </div>
+          )}
         </article>
       ))}
 
+      {/* Botón para cargar más publicaciones */}
       {more && (
         <div className="text-center mt-6">
           <button
