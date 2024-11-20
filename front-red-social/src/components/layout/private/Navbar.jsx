@@ -1,6 +1,6 @@
 import avatar from "../../../assets/img/user.png";
 import { NavLink } from "react-router-dom";
-import useAuth from "../../../hooks/useAuth";
+import useAuth from "../../../hooks/UseAuth";
 import { Global } from "../../../helpers/Global";
 
 const Nav = () => {
@@ -51,7 +51,7 @@ const Nav = () => {
               <img
                 src={Global.url + "user/avatar/" + auth.image}
                 alt="Foto de Perfil"
-                className="border-2 border-white rounded-full w-10 h-10 "
+                className="border-2 border-white rounded-full w-10 h-10 transition-all duration-300 hover:scale-105 hover:border-yellow-400 "
               />
             )}
             {auth.image == "default.png" && (

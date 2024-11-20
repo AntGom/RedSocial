@@ -59,13 +59,14 @@ const UserList = ({
   return (
     <div className="space-y-8">
       {/* Grid de usuarios */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {users.map((user) => (
           <article
             key={user._id}
-            className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden hover:shadow-lg transition"
+            className="bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-transform transform hover:-translate-y-1 flex flex-col h-full"
           >
-            <div className="p-4">
+            {/* Contenido principal */}
+            <div className="p-4 flex-1 space-y-2">
               {/* Información del usuario */}
               <div className="flex items-center space-x-4">
                 <NavLink to={`/social/profile/${user._id}`}>
@@ -76,16 +77,11 @@ const UserList = ({
                         : avatar
                     }
                     alt="Foto de perfil"
-                    className="w-14 h-14 rounded-full object-cover border-2 border-blue-500"
+                    className="w-16 h-16 rounded-full object-cover border-4 border-blue-500 transition-transform transform hover:scale-110 hover:border-yellow-400"
                   />
                 </NavLink>
-                <div className="flex-1 min-w-0">
-                  <NavLink
-                    to={`/social/profile/${user._id}`}
-                    className="text-base font-bold text-gray-900 hover:text-blue-500 truncate"
-                  >
-                    {user.name} {user.surname}
-                  </NavLink>
+
+                <div>
                   <p className="text-sm text-gray-500">@{user.nick}</p>
                   <p className="text-xs text-gray-400">
                     <ReactTimeAgo
@@ -95,34 +91,38 @@ const UserList = ({
                   </p>
                 </div>
               </div>
-
+              <NavLink
+                to={`/social/profile/${user._id}`}
+                className="flex flex-col items-center text-lg font-semibold text-gray-900 hover:text-blue-500"
+              >
+                <p>{user.name}</p>
+                <p> {user.surname}</p>
+              </NavLink>
               {/* Biografía */}
-              <p className="mt-3 text-sm text-gray-700">
+              <p className="text-sm text-gray-700 line-clamp-2 italic">
                 {user.bio || "Sin biografía"}
               </p>
-
-              {/* Botón de seguir */}
-              {user._id !== auth._id && (
-                <div className="mt-4">
-                  <button
-                    onClick={() =>
-                      following.includes(user._id)
-                        ? unFollow(user._id)
-                        : follow(user._id)
-                    }
-                    className={`w-full py-2 px-4 rounded-full font-bold transition focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-                      following.includes(user._id)
-                        ? "bg-red-500 text-white hover:bg-red-600 focus:ring-red-400"
-                        : "bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-400"
-                    }`}
-                  >
-                    {following.includes(user._id)
-                      ? "Dejar de seguir"
-                      : "Seguir"}
-                  </button>
-                </div>
-              )}
             </div>
+
+            {/* Botón de seguir */}
+            {user._id !== auth._id && (
+              <div className="flex justify-center items-center p-3">
+                <button
+                  onClick={() =>
+                    following.includes(user._id)
+                      ? unFollow(user._id)
+                      : follow(user._id)
+                  }
+                  className={`min-w-28 px-2 py-2 rounded-full font-semibold text-sm transition focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+                    following.includes(user._id)
+                      ? "bg-red-500 text-white hover:bg-red-600 focus:ring-red-400"
+                      : "bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-400"
+                  }`}
+                >
+                  {following.includes(user._id) ? "Dejar de seguir" : "Seguir"}
+                </button>
+              </div>
+            )}
           </article>
         ))}
       </div>

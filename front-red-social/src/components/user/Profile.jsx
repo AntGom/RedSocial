@@ -130,7 +130,7 @@ const Profile = () => {
                   ? `${Global.url}user/avatar/${user.image}`
                   : avatar
               }
-              className="w-28 h-28 rounded-full border-4 border-blue-500 shadow-md transition-all duration-300 hover:scale-105 hover:border-blue-200"
+              className="w-28 h-28 rounded-full border-4 border-blue-500 shadow-md transition-all duration-300 hover:scale-105 hover:border-yellow-400"
               alt={`Foto de perfil de ${user.name}`}
             />
           </div>
