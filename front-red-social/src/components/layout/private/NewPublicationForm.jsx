@@ -1,14 +1,13 @@
-import { NavLink } from "react-router-dom";
-import avatar from "../../../assets/img/user.png";
-import { Global } from "../../../helpers/Global";
-import useAuth from "../../../hooks/useAuth";
-import useForm from "../../../hooks/useForm";
 import { useState, useRef, useEffect } from "react";
+import { Global } from "../../../helpers/Global";
+import useForm from "../../../hooks/useForm";
+import useAuth from "../../../hooks/UseAuth";
 
-const Sidebar = () => {
-  const { auth, counters } = useAuth();
+const NewPublicationForm = () => {
+  const { auth } = useAuth();
   const { form, changed } = useForm({});
   const [stored, setStored] = useState("not_stored");
+  const [showForm, setShowForm] = useState(false); // Estado para mostrar/ocultar formulario
   const fileInputRef = useRef(null);
   const formRef = useRef(null);
 
@@ -57,6 +56,7 @@ const Sidebar = () => {
       }
 
       resetForm();
+      setShowForm(false); // Ocultar formulario tras guardar
     } catch (error) {
       console.error("Error al guardar la publicación:", error);
       setStored("error");
@@ -71,64 +71,33 @@ const Sidebar = () => {
   }, [stored]);
 
   return (
-    <aside className="w-64 fixed top-16 left-0 h-[calc(100vh-4rem)] bg-white shadow-lg">
-      <div className="flex flex-col h-full p-6 space-y-6">
-        {/* Perfil */}
-        <div className="flex items-center space-x-4">
-          <img
-            src={
-              auth.image !== "default.png"
-                ? `${Global.url}user/avatar/${auth.image}`
-                : avatar
-            }
-            alt="Foto de Perfil"
-            className="w-12 h-12 rounded-full object-cover border border-blue-500"
-          />
-          <div>
-            <h1 className="text-lg font-semibold text-gray-800">
-              {auth.name}
-            </h1>
-            <p className="text-sm text-gray-500">@{auth.nick}</p>
-          </div>
-        </div>
-
-        {/* Contadores */}
-        <div className="grid grid-cols-3 gap-2">
-          {[
-            { label: "Siguiendo", count: counters.following },
-            { label: "Seguidores", count: counters.followers },
-            { label: "Publicaciones", count: counters.publications },
-          ].map(({ label, count }) => (
-            <NavLink
-              to={`/social/${label.toLowerCase()}/${auth._id}`}
-              key={label}
-              className="flex flex-col items-center p-2 "
-            >
-              <span className="text-xs font-medium text-gray-600 hover:text-yellow-400 transition">{label}</span>
-              <span className="text-lg font-semibold text-blue-600 ">
-                {count || 0}
-              </span>
-            </NavLink>
-          ))}
-        </div>
-
-        {/* Formulario */}
-        <div className="flex-1">
+    <div className="flex w-full">
+      {!showForm ? (
+        <button
+          onClick={() => setShowForm(true)}
+          className="w-4/5 text-gray-900 font-bold text-xl rounded-lg hover:bg-gray-200 hover:p-2 transition-all duration-300 hover:scale-105 text-left ml-8"
+        >
+          Publicar
+        </button>
+      ) : (
+        <>
           <h2 className="text-lg font-medium text-gray-800 mb-3">
             Nueva publicación
           </h2>
           {stored !== "not_stored" && (
-            <div className={`p-3 rounded-lg mb-3 ${
-              stored === "stored"
-                ? "bg-green-50 text-green-700"
-                : "bg-red-50 text-red-700"
-            }`}>
-            <p className="text-sm text-center">
-              {stored === "stored"
-                ? "Publicación realizada con éxito"
-                : "Error al realizar la publicación"}
-            </p>
-          </div>
+            <div
+              className={`p-3 rounded-lg mb-3 ${
+                stored === "stored"
+                  ? "bg-green-50 text-green-700"
+                  : "bg-red-50 text-red-700"
+              }`}
+            >
+              <p className="text-sm text-center">
+                {stored === "stored"
+                  ? "Publicación realizada con éxito"
+                  : "Error al realizar la publicación"}
+              </p>
+            </div>
           )}
           <form ref={formRef} onSubmit={savePublication} className="space-y-4">
             <textarea
@@ -152,10 +121,10 @@ const Sidebar = () => {
               </button>
             </div>
           </form>
-        </div>
-      </div>
-    </aside>
+        </>
+      )}
+    </div>
   );
 };
 
-export default Sidebar;
+export default NewPublicationForm;

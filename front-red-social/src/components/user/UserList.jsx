@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import avatar from "../../assets/img/user.png";
 import { Global } from "../../helpers/Global";
-import useAuth from "../../hooks/UseAuth";
+import useAuth from "../../hooks/useAuth";
 import PropTypes from "prop-types";
 import ReactTimeAgo from "react-time-ago";
 

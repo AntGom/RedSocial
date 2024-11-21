@@ -1,7 +1,7 @@
-import Navbar from "./Navbar";
+//import Navbar from "./Navbar";
 import { Navigate, Outlet } from "react-router-dom";
-import Sidebar from "./Sidebar";
-import useAuth from "../../../hooks/useAuth";
+import NewSidebar from "./NewSidebar";
+import useAuth from "../../../hooks/UseAuth";
 
 const PrivateLayout = () => {
   const { auth, loading } = useAuth();
@@ -16,9 +16,10 @@ const PrivateLayout = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar />
-      <div className="flex pt-16">
-        <Sidebar />
+      {/* <Navbar /> */}
+      <div className="flex">
+         <NewSidebar /> 
+
         <main className="flex-1 ml-64 p-6">
           {auth._id ? <Outlet /> : <Navigate to="/login" />}
         </main>

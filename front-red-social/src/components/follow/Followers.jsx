@@ -22,50 +22,42 @@ const Followers = () => {
   }, []);
 
   const getUsers = async (nextPage = 1) => {
-    //Efecto de carga
+    // Efecto de carga
     setLoading(true);
-
-    //Sacar userId de la url?
+  
+    // Sacar userId de la URL
     const userId = params.userId;
-    
-    //-->Peticion para obtener los usuarios
-    const request = await fetch(Global.url + "follow/followers/"+ userId + "/"+ nextPage, {
+  
+    // Petición para obtener los seguidores
+    const request = await fetch(Global.url + "follow/followers/" + userId + "/" + nextPage, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("token"),
       },
     });
-
+  
     const data = await request.json();
-
-    let cleanUsers = [];
-    //Recorrer y limpiar follows para quedarme con followed
-    data.follows.forEach((follow) => {
-      cleanUsers = [...cleanUsers, follow.user];
-    })
-    data.users = cleanUsers;
-
-
-    //-->Crear estado para poder listarlos
-    if (data.users && data.status === "success") {
-      
-      let newUsers = data.users;
-
-      if (users.length >= 1) {
-        newUsers = [...users, ...data.users];
-      }
-
+  
+    if (data.status === "success" && data.follows) {
+      // Procesar los usuarios que te siguen
+      const cleanUsers = data.follows.map((follow) => follow.user);
+      const newUsers = nextPage === 1 ? cleanUsers : [...users, ...cleanUsers];
+  
       setUsers(newUsers);
       setFollowing(data.user_following);
       setLoading(false);
-
-      //-->Paginacion y fin btn "mostrar más"
-      if (users.length >= data.total - data.users.length) {
+  
+      // Verificar si hay más usuarios por cargar
+      if (newUsers.length >= data.total) {
         setMore(false);
       }
+    } else {
+      setLoading(false);
+      setMore(false);
     }
   };
+  
 
   return (
     <>
