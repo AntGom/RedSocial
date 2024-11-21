@@ -1,22 +1,23 @@
-import UseForm from "../../hooks/useForm";
+import UseForm from "../../hooks/UseForm";
 import { Global } from "../../helpers/Global";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useAuth from "../../hooks/UseAuth";
+import { XCircleIcon } from "@heroicons/react/24/outline";
+
 
 const Login = () => {
-
   const { form, changed } = UseForm({});
   const [saved, setSaved] = useState("not_sended");
 
-  const {setAuth} = useAuth();
+  const { setAuth } = useAuth();
 
   const loginUser = async (e) => {
     e.preventDefault();
 
-    //Datos del formulario
+    // Datos del formulario
     const userToLogin = form;
 
-    //Peticion al backend
+    // Petición al backend
     const request = await fetch(Global.url + "user/login", {
       method: "POST",
       body: JSON.stringify(userToLogin),
@@ -27,69 +28,109 @@ const Login = () => {
 
     const data = await request.json();
 
-    //Persistir los datos en el navegador
-    if(data.status === "success"){
-
+    // Persistir los datos en el navegador
+    if (data.status === "success") {
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
       setSaved("login");
 
-      //Setear datos en auth
+      // Setear datos en auth
       setAuth(data.user);
-      
-      //Redirigir al usuario a la página de social
+
+      // Redirigir usuario a página de social
       setTimeout(() => {
         window.location.href = "/social";
       }, 300);
-
-    }else{
+    } else {
       setSaved("error");
     }
   };
 
+    // Temporizador para ocultar el mensaje después de 3 segundos
+  useEffect(() => {
+    if (saved === "login" || saved === "error") {
+      const timer = setTimeout(() => setSaved("not_sended"), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [saved]); 
+
   return (
     <>
-      <header className=" p-4 text-cyan-800 text-center mt-2 w-full">
-        <h1 className="text-2xl font-bold">Login</h1>
+      <header className="p-4 text-gray-900 text-center mt-2 w-full">
+        <h1 className="text-2xl font-bold">Identifícate</h1>
       </header>
 
       <div className="flex justify-center items-center h-2/5">
-        <form className="bg-cyan-800 p-6 rounded-3xl shadow-lg shadow-blue-600 w-2/5" onSubmit={loginUser}>
+        <form
+          className="bg-white border-2 border-gray-900 p-6 rounded-xl shadow-lg shadow-gray-600 w-2/5"
+          onSubmit={loginUser}
+        >
           <div className="mb-4">
-            <label htmlFor="email" className="block text-white">Email</label>
-            <input type="email" id="email" name="email" onChange={changed} className="border rounded w-full py-2 px-3" />
+            <label
+              htmlFor="email"
+              className="block text-gray-900 font-semibold"
+            >
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              onChange={changed}
+              className="border-2 border-red-600 rounded w-full py-2 px-3"
+            />
           </div>
 
           <div className="mb-4">
-            <label htmlFor="password" className="block text-white">Password</label>
+            <label
+              htmlFor="password"
+              className="block text-gray-900 font-semibold"
+            >
+              Password
+            </label>
             <input
               type="password"
               id="password"
               name="password"
               onChange={changed}
-              className="border rounded w-full py-2 px-3"
+              className="border-2 border-red-600 rounded w-full py-2 px-3"
             />
           </div>
 
-          <input type="submit" value="Identifícate" className="bg-blue-500 text-white rounded py-2 px-4 hover:bg-blue-700" />
+          <input
+            type="submit"
+            value="Entrar"
+            className="text-gray-900 border-2 font-semibold border-red-600 rounded py-2 px-4 hover:scale-110 transition-all duration-300"
+          />
         </form>
       </div>
 
-      {saved === "login" ? (
-        <strong className="text-green-500 text-center" aria-live="polite">
-          ¡¡Usuario identificado correctamente!!
-        </strong>
-      ) : (
-        ""
-      )}
-
-      {saved === "error" ? (
-        <strong className="text-red-500 text-center" aria-live="polite">
-          Error al identificar el usuario
-        </strong>
-      ) : (
-        ""
+      {/* Mensajes centrados */}
+      {(saved === "login" || saved === "error") && (
+        <div className="fixed inset-0 flex items-center justify-center bg-opacity-50 bg-black">
+          <div
+            className={`relative p-4 rounded-lg shadow-md text-center text-white ${
+              saved === "login" ? "bg-green-600" : "bg-red-600"
+            }`}
+            aria-live="polite"
+          >
+            <div className="flex">
+              <p className="p-2">
+                {saved === "login"
+                  ? "¡¡Usuario identificado correctamente!!"
+                  : "Email o contraseña incorrectos"}
+              </p>
+              <button
+                onClick={() => setSaved("not_sended")}
+                className="text-white font-bold text-xl"
+                aria-label="Cerrar mensaje"
+              >
+                <XCircleIcon className="w-5 h-5 text-white" />
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </>
   );

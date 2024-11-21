@@ -82,7 +82,7 @@ const NewPublicationForm = () => {
     <>
       <button
         onClick={() => setShowForm(true)}
-        className="w-4/5 text-gray-900 font-bold text-xl rounded-lg hover:bg-gray-200 hover:p-2 transition-all duration-300 hover:scale-105 text-left ml-8"
+        className="w-4/5  text-gray-900 font-bold text-xl rounded-lg hover:bg-gray-200 hover:p-2 transition-all duration-300 hover:scale-105 text-left "
       >
         Publicar
       </button>

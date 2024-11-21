@@ -12,7 +12,7 @@ const NewSidebar = () => {
   const { auth } = useAuth();
 
   return (
-    <aside className=" w-1/5 fixed h-full gray-50 shadow-xl">
+    <aside className=" w-1/5 fixed h-full gray-50 shadow-xl bg-white border-2 border-r-red-600">
       <section className=" flex flex-col h-full">
         <article className="flex flex-col gap-4 items-center">
           <NavLink to="/social/feed" className="p-4">

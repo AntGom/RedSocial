@@ -10,7 +10,7 @@ import People from "../components/user/People";
 import Config from "../components/user/Config";
 import Following from "../components/follow/Following";
 import Followers from "../components/follow/Followers.jsx";
-import Profile from "../components/user/Profile.jsx";
+import Profile from "../components/user/Profile/Profile.jsx";
 
 const Routing = () => {
   return (
