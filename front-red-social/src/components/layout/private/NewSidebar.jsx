@@ -5,8 +5,8 @@ import avatar from "../../../assets/img/user.png";
 import { NavLink } from "react-router-dom";
 import useAuth from "../../../hooks/UseAuth";
 import { Global } from "../../../helpers/Global";
-import UserCounters from "./UserCounters";
-import NewPublicationForm from "./NewPublicationForm";
+import UserCounters from "../../user/UserCounters";
+import NewPublicationForm from "../../publication/NewPublicationForm";
 
 const NewSidebar = () => {
   const { auth } = useAuth();

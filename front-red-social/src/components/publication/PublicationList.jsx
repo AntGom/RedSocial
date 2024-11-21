@@ -5,7 +5,7 @@ import { TrashIcon, PencilIcon } from "@heroicons/react/24/solid";
 import avatar from "../../assets/img/user.png";
 import ReactTimeAgo from "react-time-ago";
 import { NavLink } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
+import useAuth from "../../hooks/UseAuth";
 import { useState } from "react";
 import EditPublication from "./EditPublication";
 import DeletePublication from "./DeletePublication";
