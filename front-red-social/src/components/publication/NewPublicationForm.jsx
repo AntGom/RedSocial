@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Global } from "../../helpers/Global";
 import useForm from "../../hooks/UseForm";
 import useAuth from "../../hooks/UseAuth";
+import { FolderPlusIcon } from "@heroicons/react/24/solid";
 import Modal from "./ModalNewPublication";
 
 const NewPublicationForm = () => {
@@ -110,21 +111,26 @@ const NewPublicationForm = () => {
         <form ref={formRef} onSubmit={savePublication} className="space-y-4">
           <textarea
             name="text"
-            className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none min-h-[120px]"
+            className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none min-h-[120px]"
             placeholder="¿Qué estás pensando?"
             onChange={changed}
           />
 
-          <div className="space-y-4">
-            <input
-              type="file"
-              ref={fileInputRef}
-              className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-            />
+          <div className="flex items-center justify-around space-x-4">
+            {/* Botón para seleccionar archivo */}
+            <label
+              htmlFor="fileInput"
+              className="flex items-center p-2 border border-gray-800 rounded-lg cursor-pointer hover:bg-gray-100"
+            >
+              <FolderPlusIcon className="h-6 w-6 text-gray-700" />
+              <span className="ml-2 text-gray-700">Añadir archivo</span>
+            </label>
+            <input id="fileInput" type="file" ref={fileInputRef} className="hidden" />
 
+            {/* Botón de publicar */}
             <button
               type="submit"
-              className="w-full py-2.5 px-4 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              className="p-2 text-gray-900 font-medium rounded-lg border-2 border-red-600 hover:scale-105 transition-all duration-200"
             >
               Publicar
             </button>

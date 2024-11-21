@@ -57,10 +57,10 @@ const Modal = ({ isOpen, onClose, title, children }) => {
 };
 
 Modal.propTypes = {
-  isOpen: PropTypes.bool.isRequired, // Debe ser un booleano
-  onClose: PropTypes.func.isRequired, // Debe ser una función
-  title: PropTypes.string.isRequired, // Debe ser una cadena de texto
-  children: PropTypes.node.isRequired, // Puede ser cualquier tipo de nodo
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default Modal;
