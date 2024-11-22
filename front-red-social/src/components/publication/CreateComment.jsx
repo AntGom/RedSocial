@@ -49,14 +49,14 @@ const CreateComment = ({ publicationId }) => {
       <textarea
         value={commentText}
         onChange={handleChange}
-        className="w-full p-2 border border-gray-300 rounded-2xl"
+        className="w-full p-2 border border-gray-300 rounded-lg"
         placeholder="Escribe un comentario..."
         rows="2"
       />
       {error && <p className="text-red-500">{error}</p>}
       <button
         type="submit"
-        className="px-6 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700"
+        className=" font-semibold border-2 border-red-600 p-2 rounded-lg hover:scale-105 transition-all gap-1"
       >
         Comentar
       </button>

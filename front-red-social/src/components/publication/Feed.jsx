@@ -55,13 +55,11 @@ const Feed = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
-      <header className="mb-4">
-        <h1 className="text-3xl font-bold text-gray-900 text-center">
-          Timeline
-        </h1>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <header className="mb-2">
+
         <button
-          className="px-6 py-2 bg-blue-600 text-white rounded-3xl shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="font-semibold border-2 border-red-600 p-2 rounded-xl hover:scale-105 transition-all"
           onClick={() => getPublications(1, true)}
         >
           Mostrar nuevas

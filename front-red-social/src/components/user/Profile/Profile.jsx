@@ -63,7 +63,7 @@ const Profile = () => {
   if (!user.name) return <div>Cargando...</div>;
 
   return (
-    <section>
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <HeaderProfile
         user={user}
         auth={auth}

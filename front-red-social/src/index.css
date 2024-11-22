@@ -3,35 +3,3 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-/* Estilos base */
-:root {
-  --primary: #3b82f6;
-  --danger: #dc2626;
-}
-
-/* Componentes personalizados */
-.btn {
-  @apply px-4 py-2 rounded-lg font-medium transition;
-  @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
-}
-
-.btn-primary {
-  @apply bg-blue-600 text-white hover:bg-blue-700;
-  @apply focus:ring-blue-500;
-}
-
-.btn-danger {
-  @apply bg-red-600 text-white hover:bg-red-700;
-  @apply focus:ring-red-500;
-}
-
-.input {
-  @apply w-full p-3 border border-gray-200 rounded-lg;
-  @apply focus:ring-2 focus:ring-blue-500 focus:border-transparent;
-}
-
-/* Utilidades */
-.card {
-  @apply bg-white rounded-xl shadow-sm p-6;
-  @apply hover:shadow-md transition;
-}

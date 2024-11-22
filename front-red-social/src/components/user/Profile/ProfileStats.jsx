@@ -29,8 +29,8 @@ ProfileStats.propTypes = {
     _id: PropTypes.string.isRequired,
   }).isRequired,
   counters: PropTypes.shape({
-    following: PropTypes.number.isRequired,
-    followers: PropTypes.number.isRequired,
+    following: PropTypes.number,
+    followers: PropTypes.number,
   }).isRequired,
 };
 

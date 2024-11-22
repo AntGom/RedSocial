@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { Global } from "../../helpers/Global";
+import { XCircleIcon } from "@heroicons/react/24/solid";
 
 const DeletePublication = ({ publicationId, onDeleteSuccess, onCancel }) => {
   const token = localStorage.getItem("token") || "";
@@ -30,16 +31,16 @@ const DeletePublication = ({ publicationId, onDeleteSuccess, onCancel }) => {
   };
 
   return (
-    <div className="absolute inset-0 bg-gray-800 bg-opacity-50 flex items-center rounded-3xl justify-center z-10">
-      <div className="bg-white p-6 rounded-3xl shadow-lg text-center">
+    <div className="absolute inset-0 bg-gray-800 bg-opacity-50 flex items-center rounded-lg justify-center z-10">
+      <div className="bg-white p-6 rounded-lg shadow-lg text-center">
         <p className="text-gray-700 font-semibold">
           ¿Estás seguro de que deseas eliminar esta publicación?
         </p>
         <div className="flex justify-center space-x-4 mt-4">
           <button
             onClick={deletePublication}
-            className={`px-4 py-2 text-white rounded-3xl ${
-              loading ? "bg-gray-400" : "bg-red-600 hover:bg-red-700"
+            className={`p-2 text-gray-900 font-medium rounded-lg border-2 border-red-600 hover:scale-105 transition-all duration-200 ${
+              loading ? "bg-gray-400" : ""
             }`}
             disabled={loading}
           >
@@ -47,9 +48,9 @@ const DeletePublication = ({ publicationId, onDeleteSuccess, onCancel }) => {
           </button>
           <button
             onClick={onCancel}
-            className="px-4 py-2 bg-blue-400 text-white rounded-3xl hover:bg-blue-500"
+            className="px-4 py-2 border-2  hover:scale-110 transition-all duration-300 text-gray-900 rounded-xl"
           >
-            Volver
+            <XCircleIcon className="w-6 h-6 text-red-500" />
           </button>
         </div>
       </div>

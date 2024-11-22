@@ -12,7 +12,7 @@ const HeaderProfile = ({ user, auth, counters, iFollow, setIFollow, token }) => 
         <h2 className="text-2xl font-bold text-gray-900">
           {user.name} {user.surname}
         </h2>
-        <p className="text-sm text-blue-600">{counters.publications || 0} Publicaciones</p>
+        <p className="text-sm font-semibold text-red-600">{counters.publications || 0} Publicaciones</p>
       </div>
 
       {/* Imagen y acciones */}
@@ -47,11 +47,11 @@ HeaderProfile.propTypes = {
     _id: PropTypes.string.isRequired,
   }).isRequired,
   counters: PropTypes.shape({
-    publications: PropTypes.number.isRequired,
-    following: PropTypes.number.isRequired,
-    followers: PropTypes.number.isRequired,
+    publications: PropTypes.number,
+    following: PropTypes.number,
+    followers: PropTypes.number,
   }).isRequired,
-  iFollow: PropTypes.bool.isRequired,
+  iFollow: PropTypes.bool,
   setIFollow: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
 };

@@ -33,7 +33,7 @@ const DeleteComment = ({ publicationId, commentId, onDelete }) => {
   return (
     <button
       onClick={handleDelete}
-      className="text-red-600 hover:text-red-800"
+      className="text-red-600 hover:text-red-800 hover:scale-125 transition-all duration-300"
       title="Eliminar comentario"
     >
       <TrashIcon className="h-5 w-5" />

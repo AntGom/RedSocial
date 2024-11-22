@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import avatar from "../../assets/img/user.png";
 import { Global } from "../../helpers/Global";
-import useAuth from "../../hooks/useAuth";
+import useAuth from "../../hooks/UseAuth";
 import PropTypes from "prop-types";
 import ReactTimeAgo from "react-time-ago";
 
@@ -57,7 +57,7 @@ const UserList = ({
   };
 
   return (
-    <div className="space-y-8">
+    <div className="flex flex-col">
       {/* Grid de usuarios */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {users.map((user) => (
@@ -130,7 +130,7 @@ const UserList = ({
       {/* Spinner de carga */}
       {loading && (
         <div className="flex justify-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-500"></div>
         </div>
       )}
 

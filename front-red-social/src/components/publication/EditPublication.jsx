@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { Global } from "../../helpers/Global";
+import { XCircleIcon } from "@heroicons/react/24/solid";
 
 const EditPublication = ({ publication, onSave, onCancel }) => {
   const [editText, setEditText] = useState(publication.text);
@@ -35,28 +36,29 @@ const EditPublication = ({ publication, onSave, onCancel }) => {
   };
 
   return (
-    <div className="absolute inset-0 bg-gray-800 bg-opacity-50 flex flex-col gap-2 items-center rounded-2xl justify-center z-10 ">
+    <div className="absolute inset-0 bg-gray-800 bg-opacity-40 flex flex-col gap-2 items-center rounded-lg justify-center z-10 ">
       <textarea
         value={editText}
         onChange={(e) => setEditText(e.target.value)}
-        className="bg-white p-6 rounded-xl shadow-lg text-start w-3/5"
+        className="bg-white p-6 rounded-lg border-2 border-red-600 shadow-lg text-start w-4/5"
       />
-      <div className="bg-white p-3 rounded-xl shadow-lg text-center w-1/4 ">
+      <div className="bg-white p-3 rounded-lg shadow-lg text-center w-1/3 ">
               <p className="text-gray-900 font-semibold">
-          ¿Guardar cambios??
+          ¿Guardar cambios?
         </p>
       <div className="flex justify-center space-x-4 mt-4">
         <button
           onClick={saveEdit}
-          className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-3xl"
+          className="px-4 py-2 border-2 border-red-600 hover:scale-110 transition-all duration-300 text-gray-900 rounded-xl"
         >
           Aceptar
         </button>
         <button
           onClick={onCancel}
-          className="px-4 py-2 bg-blue-400 text-white rounded-3xl hover:bg-blue-500"
+          className="px-4 py-2 border-2  hover:scale-110 transition-all duration-300 text-gray-900 rounded-xl"
         >
-          Cancelar
+          <XCircleIcon className="w-6 h-6 text-red-500" />
+          
         </button>
       </div>
       </div>
