@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import { Global } from "../../helpers/Global";
+import { Global } from "../../../helpers/Global";
 import PropTypes from "prop-types";
-import DeleteComment from "./DeleteComment";
+import DeleteComment from "../Comments/DeleteComment";
+import ReactTimeAgo from "react-time-ago";
 
 const CommentsList = ({ publicationId }) => {
   const [comments, setComments] = useState([]);
@@ -76,10 +77,20 @@ const CommentsList = ({ publicationId }) => {
                 className="w-8 h-8 rounded-full border-2 border-blue-500 object-cover"
               />
               <div className="flex-1">
-                <p className="font-semibold text-gray-800">
-                  {comment.user?.name} {comment.user?.surname}
-                </p>
-                <p className="text-gray-600">{comment.text}</p>
+                <div className="flex flex-row items-center">
+                  <p className="font-semibold text-gray-800">
+                    {comment.user?.name} {comment.user?.surname}
+                  </p>
+                  <p className="text-gray-600 text-sm items-center ml-2">
+                    <ReactTimeAgo
+                      date={new Date(comment.createdAt).getTime()}
+                      locale="es-ES"
+                    />
+                  </p>
+                </div>
+                <div>
+                  <p className="text-gray-600">{comment.text}</p>
+                </div>
               </div>
               <DeleteComment
                 publicationId={publicationId}

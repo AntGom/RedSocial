@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Global } from "../../helpers/Global";
+import { Global } from "../../../helpers/Global";
 import PropTypes from "prop-types";
 
 const CreateComment = ({ publicationId }) => {
@@ -21,14 +21,17 @@ const CreateComment = ({ publicationId }) => {
     setError("");
 
     try {
-      const response = await fetch(`${Global.url}publication/comment/${publicationId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: localStorage.getItem("token"),
-        },
-        body: JSON.stringify({ text: commentText }),
-      });
+      const response = await fetch(
+        `${Global.url}publication/comment/${publicationId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("token"),
+          },
+          body: JSON.stringify({ text: commentText }),
+        }
+      );
 
       const data = await response.json();
       if (data.status === "success") {
@@ -65,7 +68,7 @@ const CreateComment = ({ publicationId }) => {
 };
 
 CreateComment.propTypes = {
-  publicationId: PropTypes.string.isRequired
+  publicationId: PropTypes.string.isRequired,
 };
 
 export default CreateComment;

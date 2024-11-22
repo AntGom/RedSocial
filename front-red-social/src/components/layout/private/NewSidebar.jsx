@@ -1,4 +1,4 @@
-import { CogIcon } from "@heroicons/react/24/outline";
+import { WrenchScrewdriverIcon } from "@heroicons/react/24/solid";
 import { ArrowLeftStartOnRectangleIcon } from "@heroicons/react/24/solid";
 import { UserGroupIcon } from "@heroicons/react/24/solid";
 import avatar from "../../../assets/img/user.png";
@@ -26,7 +26,7 @@ const NewSidebar = () => {
           <NavLink
             to={"/social/profile/" + auth._id}
             className={
-              "rounded-lg w-4/5 hover:bg-gray-200 hover:p-4 transition-all duration-300 hover:scale-105"
+              "rounded-lg w-4/5 hover:bg-gray-200 transition-all duration-300 hover:scale-110"
             }
           >
             <div className="flex justify-start gap-2 ">
@@ -52,7 +52,7 @@ const NewSidebar = () => {
 
           <NavLink
             to="/social/people"
-            className="w-4/5 p-2 flex items-center justify-start gap-2 -mb-2 hover:bg-gray-200 transition-all duration-300 hover:scale-105 hover:p-4 rounded-xl"
+            className="w-4/5 p-2 flex items-center justify-start gap-2 -mb-2 hover:bg-gray-200 transition-all duration-300 hover:scale-110 rounded-xl"
           >
             <UserGroupIcon className="h-6 w-6" />
             <div className="font-bold text-xl">Gente</div>
@@ -64,16 +64,16 @@ const NewSidebar = () => {
 
           <NavLink
             to="/social/config"
-            className="h-auto w-4/5 flex items-center justify-start gap-2 hover:bg-gray-200 hover:p-2 transition-all duration-300 hover:scale-105 rounded-xl"
+            className="h-auto w-4/5 flex items-center justify-start gap-2 hover:bg-gray-200 p-2 -mt-2 -mb-2 transition-all duration-300 hover:scale-110 rounded-xl"
           >
-            <CogIcon className="h-6 w-6" />
-            <div className="font-bold text-xl">Ajustes</div>
+            
+            <div className="font-bold text-xl">Ajustes</div><WrenchScrewdriverIcon className="h-6 w-6" />
           </NavLink>
 
           <div>
             <NavLink
               to="/social/logout"
-              className="text-gray-900 font-bold border-2 border-red-600 rounded-lg p-2 flex transition-all duration-300 hover:scale-105 hover:p-4"
+              className="text-gray-900 font-bold border-2 border-red-600 rounded-lg p-2 flex transition-all duration-300 hover:scale-125 "
             >
               <ArrowLeftStartOnRectangleIcon className="h-6 w-6 text-sm" />
               Salir

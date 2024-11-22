@@ -47,7 +47,6 @@ const Login = () => {
     }
   };
 
-    // Temporizador para ocultar el mensaje después de 3 segundos
   useEffect(() => {
     if (saved === "login" || saved === "error") {
       const timer = setTimeout(() => setSaved("not_sended"), 3000);
@@ -101,12 +100,11 @@ const Login = () => {
           <input
             type="submit"
             value="Entrar"
-            className="text-gray-900 border-2 font-semibold border-red-600 rounded py-2 px-4 hover:scale-110 transition-all duration-300"
+            className="text-gray-900 border-2 font-semibold border-red-600 rounded py-2 px-4 hover:scale-110 transition-all duration-300 cursor-pointer"
           />
         </form>
       </div>
 
-      {/* Mensajes centrados */}
       {(saved === "login" || saved === "error") && (
         <div className="fixed inset-0 flex items-center justify-center bg-opacity-50 bg-black">
           <div

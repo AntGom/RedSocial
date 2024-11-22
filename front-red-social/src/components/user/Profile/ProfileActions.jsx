@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { WrenchScrewdriverIcon } from "@heroicons/react/24/solid";
+import { NavLink } from "react-router-dom";
 
 const ProfileActions = ({ user, auth, iFollow, setIFollow, token }) => {
   const follow = async () => {
@@ -39,12 +40,14 @@ const ProfileActions = ({ user, auth, iFollow, setIFollow, token }) => {
   };
 
   return (
-    <div className="flex items-center mr-8 mb-3">
+    <section className="flex items-center mr-8 mb-3">
       {user._id === auth._id ? (
-        <button className="flex items-center justify-center bg-white border-2 border-red-600 text-gray-900 px-4 py-2 rounded-lg shadow-md hover:scale-105 transition-all w-40 h-10">
-          <WrenchScrewdriverIcon className="w-5 h-5 mr-2" />
-          Editar perfil
-        </button>
+        <NavLink to="/social/config">
+          <button className="flex items-center justify-center bg-white border-2 border-red-600 text-gray-900 font-semibold px-4 py-2 rounded-lg shadow-md hover:scale-105 transition-all w-40 h-10">
+            <WrenchScrewdriverIcon className="w-5 h-5 mr-2" />
+            Editar perfil
+          </button>
+        </NavLink>
       ) : (
         <button
           onClick={() => (iFollow ? unFollow() : follow())}
@@ -57,7 +60,7 @@ const ProfileActions = ({ user, auth, iFollow, setIFollow, token }) => {
           {iFollow ? "Dejar de seguir" : "Seguir"}
         </button>
       )}
-    </div>
+    </section>
   );
 };
 

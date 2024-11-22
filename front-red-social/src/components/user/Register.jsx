@@ -78,7 +78,7 @@ const Register = () => {
         <input type="password" name="password" onChange={changed} className="border-2 border-red-600 rounded w-full py-2 px-3" />
       </div>
 
-      <input type="submit" value="Regístrate" className="text-gray-900 border-2 font-semibold border-red-600 rounded py-2 px-4 hover:scale-110 transition-all duration-300" />
+      <input type="submit" value="Regístrate" className="text-gray-900 border-2 font-semibold border-red-600 rounded py-2 px-4 hover:scale-110 transition-all duration-300 cursor-pointer" />
     </form>
     </div>
   </>
