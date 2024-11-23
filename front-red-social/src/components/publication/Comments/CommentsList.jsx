@@ -94,8 +94,8 @@ const CommentsList = ({ publicationId }) => {
               </div>
               <DeleteComment
                 publicationId={publicationId}
-                commentId={comment._id}
                 onDelete={handleCommentDelete}
+                commentUserId={comment.user._id}
               />
             </div>
           ))

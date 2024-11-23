@@ -28,6 +28,6 @@ router.get("/feed/:page?", auth, publicationController.feed);
 router.put('/edit/:id', auth, publicationController.editPublication);
 router.post("/comment/:publication_id", auth, publicationController.addComment);
 router.get("/comments/:publication_id", auth, publicationController.getComments);
-router.delete("/:publication_id/comments/:comment_id", publicationController.deleteComment);
+router.delete("/:publication_id/comments/:comment_id", auth, publicationController.deleteComment);
 
 export default router;
