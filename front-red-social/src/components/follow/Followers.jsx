@@ -60,9 +60,9 @@ const Followers = () => {
   
 
   return (
-    <>
-      <header className="content__header">
-        <h1 className="content__title">Seguidores de {userProfile.nick}</h1>
+    <div className="max-w-7xl">
+      <header className="mb-4">
+        <h1 className="text-3xl font-bold text-gray-900 text-start">Seguidores de {userProfile.nick}</h1>
       </header>
 
       <UserList
@@ -75,7 +75,7 @@ const Followers = () => {
         page={page}
         setPage={setPage}
       />
-    </>
+    </div>
   );
 };
 

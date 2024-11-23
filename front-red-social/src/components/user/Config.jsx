@@ -3,9 +3,15 @@ import useAuth from "../../hooks/UseAuth";
 import { Global } from "../../helpers/Global";
 import avatar from "../../assets/img/user.png";
 import SerializeForm from "../../helpers/SerializeForm";
+import {
+  EyeIcon,
+  EyeSlashIcon,
+  FolderOpenIcon,
+} from "@heroicons/react/24/solid";
 
 const Config = () => {
   const { auth, setAuth } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
   const [saved, setSaved] = useState("not_saved");
 
   const updateUser = async (e) => {
@@ -65,15 +71,14 @@ const Config = () => {
 
   return (
     <>
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-gray-900 text-center">
-          Configuración
+      
+        <h1 className="text-3xl font-bold text-gray-900 text-start">
+          Editar Perfil
         </h1>
-      </section>
 
-      <section className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-3xl mt-6">
-        <form className="space-y-6" onSubmit={updateUser}>
-          <div className="space-y-4">
+      <section className="max-w-3xl mx-auto p-6 bg-gray-100 border-2 rounded-lg mt-4 mb-8">
+        <form onSubmit={updateUser}>
+          <div className="space-y-3">
             <div>
               <label
                 htmlFor="name"
@@ -85,7 +90,7 @@ const Config = () => {
                 type="text"
                 name="name"
                 defaultValue={auth.name}
-                className="w-full p-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                className="w-full p-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none"
               />
             </div>
 
@@ -100,7 +105,7 @@ const Config = () => {
                 type="text"
                 name="surname"
                 defaultValue={auth.surname}
-                className="w-full p-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                className="w-full p-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none"
               />
             </div>
 
@@ -115,7 +120,7 @@ const Config = () => {
                 type="text"
                 name="nick"
                 defaultValue={auth.nick}
-                className="w-full p-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                className="w-full p-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none"
               />
             </div>
 
@@ -129,7 +134,7 @@ const Config = () => {
               <textarea
                 name="bio"
                 defaultValue={auth.bio}
-                className="w-full p-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                className="w-full p-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none"
               />
             </div>
 
@@ -144,7 +149,7 @@ const Config = () => {
                 type="email"
                 name="email"
                 defaultValue={auth.email}
-                className="w-full p-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                className="w-full p-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none"
               />
             </div>
 
@@ -155,11 +160,24 @@ const Config = () => {
               >
                 Contraseña
               </label>
-              <input
-                type="password"
-                name="password"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  className="w-full p-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 flex items-center pr-3"
+                >
+                  {showPassword ? (
+                    <EyeSlashIcon className="w-6 h-6 text-gray-700" />
+                  ) : (
+                    <EyeIcon className="w-6 h-6 text-gray-700" />
+                  )}
+                </button>
+              </div>
             </div>
 
             <div>
@@ -177,14 +195,17 @@ const Config = () => {
                       : avatar
                   }
                   alt="Avatar"
-                  className="w-16 h-16 rounded-full border-2 border-blue-500"
+                  className="w-16 h-16 rounded-full border-2 border-gray-700"
                 />
-                <input
-                  type="file"
-                  name="file0"
-                  id="file"
-                  className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-200 file:text-blue-700 hover:file:bg-blue-100"
-                />
+                {/* Botón para seleccionar archivo */}
+                <label
+                  htmlFor="fileInput"
+                  className="flex items-center p-2 border border-gray-800 rounded-lg cursor-pointer hover:bg-gray-100"
+                >
+                  <FolderOpenIcon className="h-6 w-6 text-gray-700" />
+                  <span className="ml-2 text-gray-700">Seleccionar imagen</span>
+                </label>
+                <input id="fileInput" type="file" className="hidden" />
               </div>
             </div>
           </div>
@@ -201,9 +222,9 @@ const Config = () => {
           )}
 
           <div className="flex justify-center">
-            <button
+          <button
               type="submit"
-              className="w-1/4 py-2 px-4  bg-blue-600 text-white font-medium rounded-3xl hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              className="p-2 text-gray-900 font-medium rounded-lg border-2 border-red-600 hover:scale-105 transition-all duration-300"
             >
               Actualizar
             </button>

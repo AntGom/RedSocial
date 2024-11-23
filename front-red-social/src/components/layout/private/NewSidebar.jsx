@@ -1,4 +1,4 @@
-import { WrenchScrewdriverIcon } from "@heroicons/react/24/solid";
+import { WrenchScrewdriverIcon } from "@heroicons/react/24/outline";
 import { ArrowLeftStartOnRectangleIcon } from "@heroicons/react/24/solid";
 import { UserGroupIcon } from "@heroicons/react/24/solid";
 import avatar from "../../../assets/img/user.png";
@@ -29,18 +29,18 @@ const NewSidebar = () => {
               "rounded-lg w-4/5 hover:bg-gray-200 transition-all duration-300 hover:scale-110"
             }
           >
-            <div className="flex justify-start gap-2 ">
+            <div className="flex justify-start gap-2 items-center">
               {auth.image !== "default.png" ? (
                 <img
                   src={Global.url + "user/avatar/" + auth.image}
                   alt="Foto de Perfil"
-                  className="rounded-full w-12 h-12"
+                  className="rounded-full w-12 h-12 border-2 border-gray-400 object-cover"
                 />
               ) : (
                 <img
                   src={avatar}
                   alt="Foto de Perfil"
-                  className=" rounded-lg w-10 h-10 "
+                  className=" rounded-lg w-10 h-10 border-2 border-gray-500"
                 />
               )}
               <div className=" flex flex-col items-center">
@@ -67,7 +67,7 @@ const NewSidebar = () => {
             className="h-auto w-4/5 flex items-center justify-start gap-2 hover:bg-gray-200 p-2 -mt-2 -mb-2 transition-all duration-300 hover:scale-110 rounded-xl"
           >
             
-            <div className="font-bold text-xl">Ajustes</div><WrenchScrewdriverIcon className="h-6 w-6" />
+            <div className="font-bold text-xl">Editar Perfil</div><WrenchScrewdriverIcon className="h-6 w-6" />
           </NavLink>
 
           <div>

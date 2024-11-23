@@ -16,7 +16,7 @@ const HeaderProfile = ({ user, auth, counters, iFollow, setIFollow, token }) => 
       </div>
 
       {/* Imagen y acciones */}
-      <div className="flex items-end justify-between bg-gray-100 rounded-lg">
+      <div className="flex items-end justify-between h-36 bg-gray-100 rounded-lg">
         <ProfileImage user={user} />
         <ProfileActions
           user={user}

@@ -33,7 +33,7 @@ const UserCounters = () => {
         </article>
 
         <article>
-          <NavLink to={"/social/profile/" + auth._id}
+          <NavLink to={"publications/" + auth._id}
           className={
             "flex justify-between p-0.5 hover:bg-gray-200  transition-all duration-300 hover:scale-105 rounded-lg"}>
             <div className="text-md font-medium text-gray-900 ">Publicaciones</div>

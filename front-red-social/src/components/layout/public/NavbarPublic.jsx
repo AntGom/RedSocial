@@ -15,7 +15,7 @@ const NavbarPublic = () => {
         <li className=" hover:scale-110 transition-all duration-300">
           <NavLink to="/login"
             className="text-gray-900 font-bold border-2 border-red-600 rounded-lg p-2">
-            <span>Login</span>
+            <span>Entrar</span>
           </NavLink>
         </li>
         <li className=" hover:scale-110 transition-all duration-300">

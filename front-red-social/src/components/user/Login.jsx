@@ -3,11 +3,15 @@ import { Global } from "../../helpers/Global";
 import { useState, useEffect } from "react";
 import useAuth from "../../hooks/UseAuth";
 import { XCircleIcon } from "@heroicons/react/24/outline";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
+
 
 
 const Login = () => {
   const { form, changed } = UseForm({});
   const [saved, setSaved] = useState("not_sended");
+  const [showPassword, setShowPassword] = useState(false);
+
 
   const { setAuth } = useAuth();
 
@@ -82,25 +86,37 @@ const Login = () => {
           </div>
 
           <div className="mb-4">
-            <label
-              htmlFor="password"
-              className="block text-gray-900 font-semibold"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              onChange={changed}
-              className="border-2 border-red-600 rounded w-full py-2 px-3"
-            />
+          <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-900"
+              >
+                Contraseña
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  className="border-2 border-red-600 rounded w-full py-2 px-3"
+                  onChange={changed}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)} 
+                  className="absolute inset-y-0 right-0 flex items-center pr-3"
+                >
+                  {showPassword ? (
+                    <EyeSlashIcon className="w-6 h-6 text-gray-700" />
+                  ) : (
+                    <EyeIcon className="w-6 h-6 text-gray-700" />
+                  )}
+                </button>
+              </div>
           </div>
 
           <input
             type="submit"
             value="Entrar"
-            className="text-gray-900 border-2 font-semibold border-red-600 rounded py-2 px-4 hover:scale-110 transition-all duration-300 cursor-pointer"
+            className="text-gray-900 border-2 font-bold border-red-600 rounded py-2 px-4 hover:scale-110 transition-all duration-300 cursor-pointer"
           />
         </form>
       </div>

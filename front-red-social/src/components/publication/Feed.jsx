@@ -67,8 +67,8 @@ const Feed = () => {
       </header>
 
       {publications.length === 0 ? (
-        <div>
-          <h1>NO HAY PUBLICACIONES PARA MOSTRAR</h1>.
+        <div className="max-w-7xl mb-4">
+          <h1 className="text-3xl font-bold text-gray-900 text-start">NO HAY PUBLICACIONES PARA MOSTRAR</h1>.
         </div>
       ) : (
         <PublicationList

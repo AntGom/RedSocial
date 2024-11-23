@@ -37,7 +37,7 @@ const People = () => {
 
   return (
     <div className="flex-1 flex-col">
-      <h1 className="flex text-3xl font-bold text-gray-900">
+      <h1 className="flex text-3xl font-bold text-gray-900 mb-4">
         Descubre personas
       </h1>
 

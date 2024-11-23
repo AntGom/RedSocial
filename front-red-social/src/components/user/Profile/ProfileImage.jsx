@@ -9,7 +9,7 @@ const ProfileImage = ({ user }) => (
           ? `http://localhost:3900/api/user/avatar/${user.image}`
           : avatar
       }
-      className="w-28 h-28 rounded-full transition-all duration-300 hover:scale-105 cursor-pointer ml-4"
+      className="w-28 h-28 ml-2 border-4 border-white rounded-full object-cover transition-all duration-300 hover:scale-110"
       alt={`Foto de perfil de ${user.name}`}
     />
   </div>
