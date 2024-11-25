@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import PublicLayout from "../components/layout/public/PublicLayout";
 import Login from "../components/user/Login";
-import Register from "../components/user/Register";
+import Register from "../components/user/Register/Register.jsx";
 import PrivateLayout from "../components/layout/private/PrivateLayout";
 import Feed from "../components/publication/Feed";
 import {AuthProvider} from "../context/AuthProvider";
