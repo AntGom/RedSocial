@@ -64,10 +64,8 @@ const PublicationCard = ({ publication, getPublications }) => {
             </div>
           )}
         </div>
-
         {/* Texto */}
         <p className="mt-4 text-gray-800">{publication.text}</p>
-
         {/* Imagen asociada */}
         {publication.file && (
           <div className="mt-4 relative">
@@ -80,9 +78,11 @@ const PublicationCard = ({ publication, getPublications }) => {
             />
           </div>
         )}
-
         {/* Lista de comentarios */}
-        <CommentsList publicationId={publication._id} />
+        <CommentsList
+          publicationId={publication._id}
+          publicationUserId={publication.user?._id}
+        />
         <CreateComment publicationId={publication._id} />
       </div>
 

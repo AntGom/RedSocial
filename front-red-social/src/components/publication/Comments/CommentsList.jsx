@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import DeleteComment from "../Comments/DeleteComment";
 import ReactTimeAgo from "react-time-ago";
 
-const CommentsList = ({ publicationId }) => {
+const CommentsList = ({ publicationId, publicationUserId }) => {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showComments, setShowComments] = useState(false);
@@ -94,7 +94,9 @@ const CommentsList = ({ publicationId }) => {
               </div>
               <DeleteComment
                 publicationId={publicationId}
+                publicationUserId={publicationUserId}
                 onDelete={handleCommentDelete}
+                commentId={comment._id}
                 commentUserId={comment.user._id}
               />
             </div>
@@ -106,6 +108,7 @@ const CommentsList = ({ publicationId }) => {
 
 CommentsList.propTypes = {
   publicationId: PropTypes.string.isRequired,
+  publicationUserId: PropTypes.string.isRequired,
 };
 
 export default CommentsList;

@@ -3,27 +3,26 @@ import PropTypes from "prop-types";
 import { Global } from "../../../helpers/Global";
 import { useState, useEffect } from "react";
 
-const DeleteComment = ({ publicationId, commentId, commentUserId, onDelete }) => {
+const DeleteComment = ({ publicationId, publicationUserId, commentId, commentUserId, onDelete }) => {
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [isOwner, setIsOwner] = useState(false); // Estado para verificar si el usuario es el propietario
+  const [isOwner, setIsOwner] = useState(false); 
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      // Decodificar el token JWT para obtener los datos del usuario logueado
+      // Decodificar token para obtener datos del usuario logueado
       try {
-        const user = JSON.parse(atob(token.split('.')[1])); // Decodificamos el payload
-        console.log("Usuario decodificado:", user); // Verifica el usuario del token
+        const user = JSON.parse(atob(token.split('.')[1])); //Decodificar payload
 
-        // Compara el id del usuario logueado con el id del usuario que creó el comentario
-        setIsOwner(user.id === commentUserId);
+        // Compara id de usuario logueado con id usuario que creó el comentario/owner publicacion
+        setIsOwner(user.id === commentUserId || user.id === publicationUserId  );
       } catch (error) {
         console.error("Error al decodificar el token:", error);
       }
     }
-  }, [commentUserId]); // Se ejecuta cuando commentUserId cambia
+  }, [commentUserId, publicationUserId]);
 
   const handleDelete = async () => {
     setLoading(true);
@@ -66,7 +65,7 @@ const DeleteComment = ({ publicationId, commentId, commentUserId, onDelete }) =>
   };
 
   if (!isOwner) {
-    return null; // No mostrar el componente si el usuario no es el propietario del comentario
+    return null; // No mostrar el componente si el usuario no es el propietario del comentario o de la publicacion
   }
 
   return (
@@ -134,6 +133,7 @@ const DeleteComment = ({ publicationId, commentId, commentUserId, onDelete }) =>
 
 DeleteComment.propTypes = {
   publicationId: PropTypes.string.isRequired,
+  publicationUserId: PropTypes.string,
   commentId: PropTypes.string.isRequired,
   commentUserId: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,

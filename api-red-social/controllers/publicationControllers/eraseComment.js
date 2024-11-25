@@ -46,8 +46,8 @@ const deleteComment = async (req, res) => {
       });
     }
 
-    // Verificar propiedad del comentario
-    if (comment.user.toString() !== userId) {
+    // Comprobar propiedad del comentario/publicacion
+    if (comment.user.toString() !== userId && publication.user.toString() !== userId) {
       console.error(`Error: Usuario ${userId} no autorizado para eliminar el comentario ${comment_id}`);
       return res.status(403).json({ 
         status: "error", 
