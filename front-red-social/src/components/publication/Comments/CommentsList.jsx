@@ -55,7 +55,7 @@ const CommentsList = ({ publicationId, publicationUserId }) => {
       >
         {showComments
           ? `Ocultar comentarios (${comments.length})`
-          : `Mostrar comentarios (${comments.length})`}
+          : `Ver comentarios (${comments.length})`}
       </button>
 
       {showComments &&
@@ -65,7 +65,7 @@ const CommentsList = ({ publicationId, publicationUserId }) => {
           comments.map((comment) => (
             <div
               key={comment._id}
-              className="flex items-start space-x-3 mt-3 bg-gray-100 p-3 rounded-lg"
+              className="flex items-start space-x-3 mt-3 bg-gray-50 border-2 border-red-300 p-3 rounded-lg"
             >
               <img
                 src={

@@ -127,7 +127,7 @@ const PublicationCard = ({ publication, getPublications }) => {
             <img
               src={`${Global.url}publication/media/${viewingImage}`}
               alt="Imagen en tamaño original"
-              className="max-w-screen max-h-screen rounded-lg mb-8"
+              className="max-w-screen h-screen rounded-lg"
             />
           </div>
         </div>

@@ -10,11 +10,13 @@ const NewPublicationForm = () => {
   const { form, changed } = useForm({});
   const [stored, setStored] = useState("not_stored");
   const [showForm, setShowForm] = useState(false);
+  const [selectedFileName, setSelectedFileName] = useState(""); // Estado para el nombre del archivo
   const fileInputRef = useRef(null);
   const formRef = useRef(null);
 
   const resetForm = () => {
     if (formRef.current) formRef.current.reset();
+    setSelectedFileName(""); // Restablecer el nombre del archivo
   };
 
   const savePublication = async (e) => {
@@ -71,6 +73,11 @@ const NewPublicationForm = () => {
     }
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setSelectedFileName(file ? file.name : "");
+  };
+
   useEffect(() => {
     if (stored !== "not_stored") {
       const timer = setTimeout(() => setStored("not_stored"), 3000);
@@ -116,7 +123,8 @@ const NewPublicationForm = () => {
             onChange={changed}
           />
 
-          <div className="flex items-center justify-around space-x-4">
+          <div className="flex items-center justify-around">
+            <div className="flex items-center gap-2">
             {/* Botón para seleccionar archivo */}
             <label
               htmlFor="fileInput"
@@ -125,7 +133,19 @@ const NewPublicationForm = () => {
               <FolderPlusIcon className="h-6 w-6 text-gray-700" />
               <span className="ml-2 text-gray-700">Añadir archivo</span>
             </label>
-            <input id="fileInput" type="file" ref={fileInputRef} className="hidden" />
+            <input
+              id="fileInput"
+              type="file"
+              ref={fileInputRef}
+              className="hidden"
+              onChange={handleFileChange}
+            />
+            {/* Mostrar nombre del archivo seleccionado */}
+            {selectedFileName && (
+              <span className="text-sm text-gray-600">{selectedFileName}</span>
+            )}
+
+            </div>
 
             {/* Botón de publicar */}
             <button
