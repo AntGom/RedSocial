@@ -13,6 +13,7 @@ const Config = () => {
   const { auth, setAuth } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [saved, setSaved] = useState("not_saved");
+  const [file, setFile] = useState(null); // Estado para el archivo
 
   const updateUser = async (e) => {
     e.preventDefault();
@@ -33,9 +34,8 @@ const Config = () => {
       const data = await request.json();
       handleResponse(data);
 
-      const fileInput = document.querySelector("#file");
-      if (data.status === "success" && fileInput.files[0]) {
-        await uploadImage(fileInput.files[0], token);
+      if (data.status === "success" && file) {
+        await uploadImage(file, token); // Subir la imagen solo si es exitosa la actualización
       }
     } catch (error) {
       setSaved("error");
@@ -57,24 +57,32 @@ const Config = () => {
     const formData = new FormData();
     formData.append("file0", file);
 
-    const uploadRequest = await fetch(Global.url + "user/upload", {
-      method: "POST",
-      body: formData,
-      headers: {
-        Authorization: token,
-      },
-    });
+    try {
+      const uploadRequest = await fetch(Global.url + "user/upload", {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: token,
+        },
+      });
 
-    const uploadData = await uploadRequest.json();
-    handleResponse(uploadData);
+      const uploadData = await uploadRequest.json();
+      handleResponse(uploadData);
+    } catch (error) {
+      setSaved("error");
+      console.error(error);
+    }
+  };
+
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0]); // Establecer el archivo seleccionado
   };
 
   return (
     <>
-      
-        <h1 className="text-3xl font-bold text-gray-900 text-start">
-          Editar Perfil
-        </h1>
+      <h1 className="text-3xl font-bold text-gray-900 text-start">
+        Editar Perfil
+      </h1>
 
       <section className="max-w-3xl mx-auto p-6 bg-gray-100 border-2 rounded-lg mt-4 mb-8">
         <form onSubmit={updateUser}>
@@ -195,20 +203,26 @@ const Config = () => {
                       : avatar
                   }
                   alt="Avatar"
-                  className="w-16 h-16 rounded-full border-2 border-gray-700"
+                  className="w-16 h-16 rounded-full border-2 border-gray-700 object-cover"
                 />
                 {/* Botón para seleccionar archivo */}
                 <label
                   htmlFor="fileInput"
-                  className="flex items-center p-2 border border-gray-800 rounded-lg cursor-pointer hover:bg-gray-100"
+                  className="flex items-center p-2 border border-gray-800 rounded-lg cursor-pointer hover:bg-gray-200"
                 >
                   <FolderOpenIcon className="h-6 w-6 text-gray-700" />
                   <span className="ml-2 text-gray-700">Seleccionar imagen</span>
                 </label>
-                <input id="fileInput" type="file" className="hidden" />
+                <input
+                  id="fileInput"
+                  type="file"
+                  className="hidden"
+                  onChange={handleFileChange}
+                />
               </div>
             </div>
           </div>
+
           {saved === "saved" && (
             <div className="p-4 mb-6 text-md font-bold text-green-700 bg-yellow-300 rounded-3xl text-center mx-auto w-1/2">
               ¡¡Usuario actualizado correctamente!!
@@ -222,7 +236,7 @@ const Config = () => {
           )}
 
           <div className="flex justify-center">
-          <button
+            <button
               type="submit"
               className="p-2 text-gray-900 font-medium rounded-lg border-2 border-red-600 hover:scale-105 transition-all duration-300"
             >
