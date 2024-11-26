@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import PublicLayout from "../components/layout/public/PublicLayout";
-import Login from "../components/user/Login";
+import Login from "../components/user/Login/Login";
 import Register from "../components/user/Register/Register";
 import ConfirmAccount from "../components/user/Register/ConfirmAccount";
 import PrivateLayout from "../components/layout/private/PrivateLayout";
