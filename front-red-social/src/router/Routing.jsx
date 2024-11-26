@@ -8,7 +8,7 @@ import Feed from "../components/publication/Feed";
 import {AuthProvider} from "../context/AuthProvider";
 import LogOut from "../components/user/LogOut";
 import People from "../components/user/People";
-import Config from "../components/user/Config";
+import Config from "../components/user/EditProfile/Config";
 import Following from "../components/follow/Following";
 import Followers from "../components/follow/Followers.jsx";
 import Profile from "../components/user/Profile/Profile.jsx";
