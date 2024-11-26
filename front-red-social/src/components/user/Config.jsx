@@ -8,12 +8,12 @@ import {
   EyeSlashIcon,
   FolderOpenIcon,
 } from "@heroicons/react/24/solid";
+import { XCircleIcon } from "@heroicons/react/24/outline";
 
 const Config = () => {
   const { auth, setAuth } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
-  const [saved, setSaved] = useState("not_saved");
-  const [file, setFile] = useState(null); // Estado para el archivo
+  const [saved, setSaved] = useState("not_saved"); // Estado de los mensajes (not_saved, saved, error)
 
   const updateUser = async (e) => {
     e.preventDefault();
@@ -34,8 +34,9 @@ const Config = () => {
       const data = await request.json();
       handleResponse(data);
 
-      if (data.status === "success" && file) {
-        await uploadImage(file, token); // Subir la imagen solo si es exitosa la actualización
+      const fileInput = document.querySelector("#fileInput"); // Corregido el selector
+      if (data.status === "success" && fileInput.files[0]) {
+        await uploadImage(fileInput.files[0], token);
       }
     } catch (error) {
       setSaved("error");
@@ -57,41 +58,27 @@ const Config = () => {
     const formData = new FormData();
     formData.append("file0", file);
 
-    try {
-      const uploadRequest = await fetch(Global.url + "user/upload", {
-        method: "POST",
-        body: formData,
-        headers: {
-          Authorization: token,
-        },
-      });
+    const uploadRequest = await fetch(Global.url + "user/upload", {
+      method: "POST",
+      body: formData,
+      headers: {
+        Authorization: token,
+      },
+    });
 
-      const uploadData = await uploadRequest.json();
-      handleResponse(uploadData);
-    } catch (error) {
-      setSaved("error");
-      console.error(error);
-    }
-  };
-
-  const handleFileChange = (event) => {
-    setFile(event.target.files[0]); // Establecer el archivo seleccionado
+    const uploadData = await uploadRequest.json();
+    handleResponse(uploadData);
   };
 
   return (
     <>
-      <h1 className="text-3xl font-bold text-gray-900 text-start">
-        Editar Perfil
-      </h1>
+      <h1 className="text-3xl font-bold text-gray-900 text-start">Editar Perfil</h1>
 
       <section className="max-w-3xl mx-auto p-6 bg-gray-100 border-2 rounded-lg mt-4 mb-8">
         <form onSubmit={updateUser}>
           <div className="space-y-3">
             <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-gray-900"
-              >
+              <label htmlFor="name" className="block text-sm font-medium text-gray-900">
                 Nombre
               </label>
               <input
@@ -103,10 +90,7 @@ const Config = () => {
             </div>
 
             <div>
-              <label
-                htmlFor="surname"
-                className="block text-sm font-medium text-gray-900"
-              >
+              <label htmlFor="surname" className="block text-sm font-medium text-gray-900">
                 Apellidos
               </label>
               <input
@@ -118,10 +102,7 @@ const Config = () => {
             </div>
 
             <div>
-              <label
-                htmlFor="nick"
-                className="block text-sm font-medium text-gray-900"
-              >
+              <label htmlFor="nick" className="block text-sm font-medium text-gray-900">
                 Nickname
               </label>
               <input
@@ -133,10 +114,7 @@ const Config = () => {
             </div>
 
             <div>
-              <label
-                htmlFor="bio"
-                className="block text-sm font-medium text-gray-900"
-              >
+              <label htmlFor="bio" className="block text-sm font-medium text-gray-900">
                 Biografía
               </label>
               <textarea
@@ -147,10 +125,7 @@ const Config = () => {
             </div>
 
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-900"
-              >
+              <label htmlFor="email" className="block text-sm font-medium text-gray-900">
                 Email
               </label>
               <input
@@ -162,10 +137,7 @@ const Config = () => {
             </div>
 
             <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-900"
-              >
+              <label htmlFor="password" className="block text-sm font-medium text-gray-900">
                 Contraseña
               </label>
               <div className="relative">
@@ -189,13 +161,10 @@ const Config = () => {
             </div>
 
             <div>
-              <label
-                htmlFor="file0"
-                className="block text-sm font-medium text-gray-900"
-              >
+              <label htmlFor="file0" className="block text-sm font-medium text-gray-900">
                 Avatar
               </label>
-              <div className="flex items-center mt-2 space-x-4">
+              <div className="flex items-center mt-2 space-x-4 ">
                 <img
                   src={
                     auth.image !== "default.png"
@@ -203,37 +172,20 @@ const Config = () => {
                       : avatar
                   }
                   alt="Avatar"
-                  className="w-16 h-16 rounded-full border-2 border-gray-700 object-cover"
+                  className="w-16 h-16 rounded-full border-2 bg-gray-300 border-gray-700 object-contain"
                 />
                 {/* Botón para seleccionar archivo */}
                 <label
                   htmlFor="fileInput"
-                  className="flex items-center p-2 border border-gray-800 rounded-lg cursor-pointer hover:bg-gray-200"
+                  className="flex items-center p-2 border border-gray-800 rounded-lg cursor-pointer hover:bg-gray-100"
                 >
                   <FolderOpenIcon className="h-6 w-6 text-gray-700" />
                   <span className="ml-2 text-gray-700">Seleccionar imagen</span>
                 </label>
-                <input
-                  id="fileInput"
-                  type="file"
-                  className="hidden"
-                  onChange={handleFileChange}
-                />
+                <input id="fileInput" type="file" className="hidden" />
               </div>
             </div>
           </div>
-
-          {saved === "saved" && (
-            <div className="p-4 mb-6 text-md font-bold text-green-700 bg-yellow-300 rounded-3xl text-center mx-auto w-1/2">
-              ¡¡Usuario actualizado correctamente!!
-            </div>
-          )}
-
-          {saved === "error" && (
-            <div className="p-4 mb-6 text-sm font-bold text-red-700 bg-red-300 rounded-3xl text-center mx-auto w-1/2">
-              Error al actualizar los datos de usuario
-            </div>
-          )}
 
           <div className="flex justify-center">
             <button
@@ -245,6 +197,33 @@ const Config = () => {
           </div>
         </form>
       </section>
+
+      {/* Success or error message similar to LoginMessage */}
+      {saved !== "not_saved" && (
+        <div className="fixed inset-0 flex items-center justify-center bg-opacity-50 bg-black z-50">
+          <div
+            className={`relative p-4 rounded-lg shadow-md text-center text-white ${
+              saved === "saved" ? "bg-green-600" : "bg-red-600"
+            }`}
+            aria-live="polite"
+          >
+            <div className="flex">
+              <p className="p-2">
+                {saved === "saved"
+                  ? "¡¡Usuario actualizado correctamente!!"
+                  : "Error al actualizar los datos de usuario"}
+              </p>
+              <button
+                onClick={() => setSaved("not_saved")}
+                className="text-white font-bold text-xl"
+                aria-label="Cerrar mensaje"
+              >
+                <XCircleIcon className="w-5 h-5 text-white" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
