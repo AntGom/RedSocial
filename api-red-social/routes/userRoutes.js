@@ -20,6 +20,7 @@ const uploadsMiddleware = multer({ storage: storage });
 
 //Definir las rutas
 router.post("/register", userController.register);
+router.get("/confirm/:token", userController.confirmRegistration);
 router.post("/login", userController.login);
 
 //Auth Routes

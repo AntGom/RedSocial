@@ -1,12 +1,13 @@
 import PropTypes from "prop-types";
 import avatar from "../../../assets/img/user.png";
+import { Global } from "../../../helpers/Global";
 
 const ProfileImage = ({ user }) => (
   <div className="relative flex-shrink-0">
     <img
       src={
         user.image && user.image !== "default.png"
-          ? `http://localhost:3900/api/user/avatar/${user.image}`
+          ? `${Global.url}user/avatar/${user.image}`
           : avatar
       }
       className="w-28 h-28 ml-2 border-4 border-white rounded-full object-cover transition-all duration-300 hover:scale-110"

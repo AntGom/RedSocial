@@ -4,31 +4,29 @@ import UseForm from "../../../hooks/UseForm";
 import { useNavigate } from "react-router-dom";
 import FormInput from "./FormInput";
 import PasswordInput from "./PasswordInput";
-import validateForm from "../../../helpers/validateForm.js"; // Importar la validación
+import validateForm from "../../../helpers/validateForm.js";
 
 const Register = () => {
-  const { form, changed } = UseForm({});
+  const { form, changed, setForm } = UseForm({});
   const [saved, setSaved] = useState("not_sended");
-  const [errors, setErrors] = useState({}); // Para manejar los errores de validación
-  const navigate = useNavigate(); // Inicializamos useNavigate
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
-  // Función para manejar el envío del formulario
   const saveUser = async (e) => {
     e.preventDefault();
-    const validationErrors = validateForm(form); // Realiza la validación
-    setErrors(validationErrors); // Actualiza los errores en el estado
 
-    // Si hay errores, no se envía el formulario
+    // Validar formulario
+    const validationErrors = validateForm(form);
+    setErrors(validationErrors);
+
     if (Object.keys(validationErrors).length > 0) {
       return;
     }
 
-    let newUser = form;
-
     // Realizar la solicitud
     const request = await fetch(Global.url + "user/register", {
       method: "POST",
-      body: JSON.stringify(newUser),
+      body: JSON.stringify(form),
       headers: {
         "Content-Type": "application/json",
       },
@@ -36,15 +34,13 @@ const Register = () => {
 
     const data = await request.json();
 
-    // Manejar la respuesta del servidor
     if (data.status === "success") {
-      setSaved("saved"); // Cambiar estado a 'saved' para mostrar mensaje éxito
-      setTimeout(() => {
-        navigate("/login"); // Redirigir a login tras 2 segundos
-      }, 2000); // Espera 2 segundos redirigir
+      setSaved("saved");
+      setForm({}); // Limpia el formulario
+      setTimeout(() => navigate("/login"), 2000);
     } else {
-      setSaved("error"); // Cambiar estado a 'error' si error
-      setErrors({ general: data.message }); // Mostrar el mensaje de error general
+      setSaved("error");
+      setErrors({ general: data.message });
     }
   };
 
@@ -58,13 +54,13 @@ const Register = () => {
         <div>
           {saved === "saved" && (
             <strong className="text-green-500">
-              ¡¡Usuario registrado correctamente!!
+              ¡Usuario registrado correctamente! Confirma tu cuenta desde el correo que has recibido.
             </strong>
           )}
 
           {saved === "error" && errors.general && (
             <strong className="text-red-500">
-              {errors.general} {/* Mostrar el error general enviado desde el backend */}
+              {errors.general}
             </strong>
           )}
         </div>

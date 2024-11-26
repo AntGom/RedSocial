@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import PublicLayout from "../components/layout/public/PublicLayout";
 import Login from "../components/user/Login";
-import Register from "../components/user/Register/Register.jsx";
+import Register from "../components/user/Register/Register";
+import ConfirmAccount from "../components/user/Register/ConfirmAccount";
 import PrivateLayout from "../components/layout/private/PrivateLayout";
 import Feed from "../components/publication/Feed";
 import {AuthProvider} from "../context/AuthProvider";
@@ -22,6 +23,7 @@ const Routing = () => {
             <Route index element={<Login />} />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
+            <Route path="/confirm/:token" element={<ConfirmAccount />} />
           </Route>
 
           <Route path="/social" element={<PrivateLayout />}>

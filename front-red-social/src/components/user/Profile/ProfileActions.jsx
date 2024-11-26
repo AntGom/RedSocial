@@ -1,4 +1,6 @@
 import PropTypes from "prop-types";
+import { Global } from "../../../helpers/Global";
+
 import {
   WrenchScrewdriverIcon,
   UserPlusIcon,
@@ -9,7 +11,7 @@ import { NavLink } from "react-router-dom";
 const ProfileActions = ({ user, auth, iFollow, setIFollow, token }) => {
   const follow = async () => {
     if (!user._id) return; // Verificación añadida
-    const request = await fetch("http://localhost:3900/api/follow/save", {
+    const request = await fetch(`${Global.url}follow/save`, {
       method: "POST",
       body: JSON.stringify({ followed: user._id }),
       headers: {
@@ -27,7 +29,7 @@ const ProfileActions = ({ user, auth, iFollow, setIFollow, token }) => {
   const unFollow = async () => {
     if (!user._id) return; // Verificación añadida
     const request = await fetch(
-      `http://localhost:3900/api/follow/unfollow/${user._id}`,
+      `${Global.url}follow/unfollow/${user._id}`,
       {
         method: "DELETE",
         headers: {
