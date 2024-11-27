@@ -1,10 +1,14 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { Global } from "../../helpers/Global";
-import { XCircleIcon } from "@heroicons/react/24/solid";
+import NotificationMessage from "./NewPublication/NotificationMessage";
+import FileInput from "./NewPublication/FileInput";
+import Modal from "./NewPublication/ModalNewPublication";
 
 const EditPublication = ({ publication, onSave, onCancel }) => {
   const [editText, setEditText] = useState(publication.text);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [status, setStatus] = useState("not_stored");
   const token = localStorage.getItem("token") || "";
 
   const saveEdit = async () => {
@@ -14,6 +18,7 @@ const EditPublication = ({ publication, onSave, onCancel }) => {
     }
 
     try {
+      // Editar texto de la publicación
       const response = await fetch(`${Global.url}publication/edit/${publication._id}`, {
         method: "PUT",
         headers: {
@@ -26,44 +31,76 @@ const EditPublication = ({ publication, onSave, onCancel }) => {
       const data = await response.json();
 
       if (data.status === "success") {
-        onSave(); // Notifica al padre que la edición se hizo
+        if (selectedFile) {
+          // Si hay un archivo seleccionado, subirlo
+          const formData = new FormData();
+          formData.append("file0", selectedFile);
+
+          const uploadResponse = await fetch(
+            `${Global.url}publication/upload/${publication._id}`,
+            {
+              method: "POST",
+              body: formData,
+              headers: {
+                Authorization: token,
+              },
+            }
+          );
+
+          const uploadData = await uploadResponse.json();
+          if (uploadData.status === "success") {
+            setStatus("stored"); // Mensaje de éxito
+          } else {
+            setStatus("error"); // Mensaje de error si la carga falla
+          }
+        } else {
+          setStatus("stored"); // Mensaje de éxito si no hay archivo
+        }
+
+        setTimeout(() => {
+          onSave(); // Notifica al padre que edicion OK
+        }, 3000);
       } else {
-        console.error("Error al actualizar la publicación:", data.message);
+        setStatus("error");
       }
     } catch (error) {
+      setStatus("error"); 
       console.error("Error en la solicitud de edición:", error);
     }
   };
 
   return (
-    <div className="absolute inset-0 bg-gray-800 bg-opacity-40 flex flex-col gap-2 items-center rounded-lg justify-center z-10 ">
+    <Modal isOpen={true} onClose={onCancel} title="Editar publicación">
       <textarea
         value={editText}
         onChange={(e) => setEditText(e.target.value)}
-        className="bg-white p-6 rounded-lg border-2 border-red-600 shadow-lg text-start w-4/5"
+        className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none min-h-[120px]"
       />
-      <div className="bg-white p-3 rounded-lg shadow-lg text-center w-1/3 ">
-              <p className="text-gray-900 font-semibold">
-          ¿Guardar cambios?
-        </p>
-      <div className="flex justify-center space-x-4 mt-4">
+
+      <FileInput onFileSelect={setSelectedFile} />
+
+      <div className="flex justify-end mt-4 gap-4">
         <button
           onClick={saveEdit}
-          className="px-4 py-2 border-2 border-red-600 hover:scale-110 transition-all duration-300 text-gray-900 rounded-xl"
+          className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all"
         >
-          Aceptar
+          Guardar
         </button>
         <button
           onClick={onCancel}
-          className="px-4 py-2 border-2  hover:scale-110 transition-all duration-300 text-gray-900 rounded-xl"
+          className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-all"
         >
-          <XCircleIcon className="w-6 h-6 text-red-500" />
-          
+          Cancelar
         </button>
       </div>
-      </div>
 
-    </div>
+      <NotificationMessage
+        status={status}
+        setStatus={setStatus}
+        successMessage="¡Publicación actualizada con éxito!"
+        errorMessage="Error al actualizar la publicación."
+      />
+    </Modal>
   );
 };
 

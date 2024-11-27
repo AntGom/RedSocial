@@ -2,23 +2,21 @@ import { useState, useRef } from "react";
 import { Global } from "../../../helpers/Global";
 import useForm from "../../../hooks/UseForm";
 import useAuth from "../../../hooks/UseAuth";
-import { FolderPlusIcon } from "@heroicons/react/24/solid";
 import Modal from "./ModalNewPublication";
-
 import NotificationMessage from "./NotificationMessage";
+import FileInput from "./FileInput"; // Importar el componente FileInput
 
 const NewPublicationForm = () => {
   const { auth } = useAuth();
   const { form, changed } = useForm({});
   const [stored, setStored] = useState("not_stored");
   const [showForm, setShowForm] = useState(false);
-  const [selectedFileName, setSelectedFileName] = useState("");
-  const fileInputRef = useRef(null);
+  const [selectedFile, setSelectedFile] = useState(null); // Guardar el archivo seleccionado
   const formRef = useRef(null);
 
   const resetForm = () => {
     if (formRef.current) formRef.current.reset();
-    setSelectedFileName("");
+    setSelectedFile(null);
   };
 
   const savePublication = async (e) => {
@@ -50,9 +48,9 @@ const NewPublicationForm = () => {
       const data = await request.json();
       setStored(data.status === "success" ? "stored" : "error");
 
-      if (data.status === "success" && fileInputRef.current.files[0]) {
+      if (data.status === "success" && selectedFile) {
         const formData = new FormData();
-        formData.append("file0", fileInputRef.current.files[0]);
+        formData.append("file0", selectedFile);
 
         const uploadRequest = await fetch(
           Global.url + "publication/upload/" + data.publicationStored._id,
@@ -69,19 +67,14 @@ const NewPublicationForm = () => {
 
       resetForm();
 
-      // Añadir un setTimeout para cerrar el modal después de 3 segundos
+      // Cerrar el modal después de 3 segundos
       setTimeout(() => {
         setShowForm(false);
-      }, 3000); // 3000 milisegundos = 3 segundos
+      }, 3000);
     } catch (error) {
       console.error("Error al guardar la publicación:", error);
       setStored("error");
     }
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setSelectedFileName(file ? file.name : "");
   };
 
   return (
@@ -114,28 +107,7 @@ const NewPublicationForm = () => {
           />
 
           <div className="flex items-center justify-around">
-            <div className="flex items-center gap-2">
-              <label
-                htmlFor="fileInput"
-                className="flex items-center p-2 border border-gray-800 rounded-lg cursor-pointer hover:bg-gray-100"
-              >
-                <FolderPlusIcon className="h-6 w-6 text-gray-700" />
-                <span className="ml-2 text-gray-700">Añadir archivo</span>
-              </label>
-              <input
-                id="fileInput"
-                type="file"
-                ref={fileInputRef}
-                className="hidden"
-                onChange={handleFileChange}
-              />
-              {selectedFileName && (
-                <span className="text-sm text-gray-700">
-                  {selectedFileName}
-                </span>
-              )}
-            </div>
-
+            <FileInput onFileSelect={setSelectedFile} /> {/* Componente reutilizable */}
             <button
               type="submit"
               className="p-2 text-gray-900 font-medium rounded-lg border-2 border-red-600 hover:scale-105 transition-all duration-200"
