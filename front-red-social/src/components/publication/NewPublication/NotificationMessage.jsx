@@ -3,7 +3,7 @@ import { XCircleIcon } from "@heroicons/react/24/outline";
 
 const NotificationMessage = ({ status, setStatus, successMessage, errorMessage }) => (
   status !== "not_stored" && (
-    <div className="fixed inset-0 flex items-center justify-center bg-opacity-50 bg-black z-50">
+    <div className="fixed inset-0 flex items-center justify-center bg-opacity-50 bg-black z-50 rounded-xl">
       <div
         className={`relative p-4 rounded-lg shadow-md text-center text-white ${
           status === "stored" ? "bg-green-600" : "bg-red-600"

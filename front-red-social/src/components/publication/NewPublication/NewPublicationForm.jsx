@@ -130,7 +130,7 @@ const NewPublicationForm = () => {
                 onChange={handleFileChange}
               />
               {selectedFileName && (
-                <span className="text-sm text-gray-600">
+                <span className="text-sm text-gray-700">
                   {selectedFileName}
                 </span>
               )}
