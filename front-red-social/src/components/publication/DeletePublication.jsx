@@ -1,29 +1,41 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { Global } from "../../helpers/Global";
-import { XCircleIcon } from "@heroicons/react/24/solid";
+import NotificationMessage from "./NewPublication/NotificationMessage";
+import Modal from "./NewPublication/ModalNewPublication";
 
 const DeletePublication = ({ publicationId, onDeleteSuccess, onCancel }) => {
-  const token = localStorage.getItem("token") || "";
-  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState("not_stored");
+  const [loading, setLoading] = useState(false); 
+  const token = localStorage.getItem("token");
 
   const deletePublication = async () => {
     setLoading(true);
+    setStatus("not_stored");
     try {
-      const response = await fetch(`${Global.url}publication/remove/${publicationId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-      });
+      const response = await fetch(
+        `${Global.url}publication/remove/${publicationId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
+      );
       const data = await response.json();
+
       if (data.status === "success") {
-        onDeleteSuccess();
+        setStatus("stored"); 
+        setTimeout(() => {
+          onDeleteSuccess(); 
+        }, 1500);
       } else {
+        setStatus("error"); 
         console.error("Error al eliminar la publicación:", data.message);
       }
     } catch (error) {
+      setStatus("error"); // Mostrar mensaje de error
       console.error("Error al eliminar la publicación:", error);
     } finally {
       setLoading(false);
@@ -31,30 +43,35 @@ const DeletePublication = ({ publicationId, onDeleteSuccess, onCancel }) => {
   };
 
   return (
-    <div className="absolute inset-0 bg-gray-800 bg-opacity-50 flex items-center rounded-lg justify-center z-10">
-      <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-        <p className="text-gray-700 font-semibold">
-          ¿Estás seguro de que deseas eliminar esta publicación?
-        </p>
-        <div className="flex justify-center space-x-4 mt-4">
-          <button
-            onClick={deletePublication}
-            className={`p-2 text-gray-900 font-medium rounded-lg border-2 border-red-600 hover:scale-105 transition-all duration-200 ${
-              loading ? "bg-gray-400" : ""
-            }`}
-            disabled={loading}
-          >
-            {loading ? "Eliminando..." : "Eliminar"}
-          </button>
-          <button
-            onClick={onCancel}
-            className="px-4 py-2 border-2  hover:scale-110 transition-all duration-300 text-gray-900 rounded-xl"
-          >
-            <XCircleIcon className="w-6 h-6 text-red-500" />
-          </button>
-        </div>
+    <Modal isOpen={true} onClose={onCancel} title="Eliminar publicación">
+      <NotificationMessage
+        status={status}
+        setStatus={setStatus}
+        successMessage="¡Publicación eliminada con éxito!"
+        errorMessage="Error al eliminar la publicación."
+      />
+      <p className="text-gray-700 font-semibold text-center">
+        ¿Estás seguro de que deseas eliminar esta publicación?
+      </p>
+
+      <div className="flex justify-end mt-6 gap-4">
+        <button
+          onClick={deletePublication}
+          className={`px-4 py-2 text-white font-medium rounded-lg bg-red-600 hover:bg-red-700 transition-all ${
+            loading ? "bg-gray-400 cursor-not-allowed" : ""
+          }`}
+          disabled={loading}
+        >
+          {loading ? "Eliminando..." : "Eliminar"}
+        </button>
+        <button
+          onClick={onCancel}
+          className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-all"
+        >
+          Cancelar
+        </button>
       </div>
-    </div>
+    </Modal>
   );
 };
 

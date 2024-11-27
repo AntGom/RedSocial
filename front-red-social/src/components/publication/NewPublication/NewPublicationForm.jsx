@@ -70,7 +70,7 @@ const NewPublicationForm = () => {
       // Cerrar el modal después de 3 segundos
       setTimeout(() => {
         setShowForm(false);
-      }, 3000);
+      }, 1500);
     } catch (error) {
       console.error("Error al guardar la publicación:", error);
       setStored("error");
