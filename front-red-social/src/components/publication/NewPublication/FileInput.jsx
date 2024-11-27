@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import PropTypes from "prop-types"; // Importamos PropTypes
+import PropTypes from "prop-types";
 import { FolderPlusIcon } from "@heroicons/react/24/solid";
 
 const FileInput = ({ onFileSelect }) => {
@@ -10,7 +10,7 @@ const FileInput = ({ onFileSelect }) => {
     const file = e.target.files[0];
     setSelectedFileName(file ? file.name : "");
     if (onFileSelect) {
-      onFileSelect(file); // Pasamos el archivo seleccionado al padre
+      onFileSelect(file);
     }
   };
 
@@ -37,9 +37,8 @@ const FileInput = ({ onFileSelect }) => {
   );
 };
 
-// Definimos las propTypes para validar el componente
 FileInput.propTypes = {
-  onFileSelect: PropTypes.func.isRequired, // Espera una función obligatoria
+  onFileSelect: PropTypes.func.isRequired,
 };
 
 export default FileInput;

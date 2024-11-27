@@ -1,10 +1,11 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { Global } from "../../../helpers/Global";
 import useForm from "../../../hooks/UseForm";
 import useAuth from "../../../hooks/UseAuth";
 import Modal from "./ModalNewPublication";
 import NotificationMessage from "./NotificationMessage";
 import FileInput from "./FileInput";
+import { CountersContext } from "../../../context/CountersContext";
 
 const NewPublicationForm = () => {
   const { auth } = useAuth();
@@ -13,6 +14,8 @@ const NewPublicationForm = () => {
   const [showForm, setShowForm] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const formRef = useRef(null);
+
+  const { updateCounters } = useContext(CountersContext);
 
   const resetForm = () => {
     if (formRef.current) formRef.current.reset();
@@ -43,42 +46,43 @@ const NewPublicationForm = () => {
       const data = await request.json();
       setStored(data.status === "success" ? "stored" : "error");
 
-      if (data.status === "success" && selectedFile) {
-        const formData = new FormData();
-        formData.append("file0", selectedFile);
+      if (data.status === "success") {
+        updateCounters("publications", 1);
 
-        const uploadRequest = await fetch(
-          Global.url + "publication/upload/" + data.publicationStored._id,
-          {
-            method: "POST",
-            body: formData,
-            headers: { Authorization: token },
-          }
-        );
+        if (selectedFile) {
+          const formData = new FormData();
+          formData.append("file0", selectedFile);
 
-        const uploadData = await uploadRequest.json();
-        setStored(uploadData.status === "success" ? "stored" : "error");
+          const uploadRequest = await fetch(
+            Global.url + "publication/upload/" + data.publicationStored._id,
+            {
+              method: "POST",
+              body: formData,
+              headers: { Authorization: token },
+            }
+          );
+
+          const uploadData = await uploadRequest.json();
+          setStored(uploadData.status === "success" ? "stored" : "error");
+        }
       }
 
       resetForm();
-
-      // Cerrar el modal después de 1.5 segundos
       setTimeout(() => {
         setShowForm(false);
-      }, 1500);
+      }, 1000);
     } catch (error) {
       console.error("Error al guardar la publicación:", error);
       setStored("error");
     }
   };
 
-  // Ocultar el mensaje de éxito/error después de 1.5 segundos
   useEffect(() => {
     if (stored === "stored" || stored === "error") {
       const timer = setTimeout(() => {
-        setStored("not_stored"); 
+        setStored("not_stored");
       }, 1500);
-      return () => clearTimeout(timer); // Limpiar temporizador al desmontar
+      return () => clearTimeout(timer);
     }
   }, [stored]);
 

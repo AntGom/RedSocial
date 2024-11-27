@@ -1,13 +1,16 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Global } from "../../helpers/Global";
 import NotificationMessage from "./NewPublication/NotificationMessage";
 import Modal from "./NewPublication/ModalNewPublication";
+import { CountersContext } from "../../context/CountersContext";
 
 const DeletePublication = ({ publicationId, onDeleteSuccess, onCancel }) => {
   const [status, setStatus] = useState("not_stored");
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
+  
+  const { updateCounters } = useContext(CountersContext);
 
   const deletePublication = async () => {
     setLoading(true);
@@ -26,16 +29,18 @@ const DeletePublication = ({ publicationId, onDeleteSuccess, onCancel }) => {
       const data = await response.json();
 
       if (data.status === "success") {
-        setStatus("stored"); 
+        setStatus("stored");
+        updateCounters("publications", -1);
+
         setTimeout(() => {
-          onDeleteSuccess(); 
-        }, 1500);
+          onDeleteSuccess();
+        }, 1000);
       } else {
-        setStatus("error"); 
+        setStatus("error");
         console.error("Error al eliminar la publicación:", data.message);
       }
     } catch (error) {
-      setStatus("error"); // Mostrar mensaje de error
+      setStatus("error");
       console.error("Error al eliminar la publicación:", error);
     } finally {
       setLoading(false);
