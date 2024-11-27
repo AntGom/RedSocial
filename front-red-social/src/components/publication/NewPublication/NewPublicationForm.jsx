@@ -1,17 +1,17 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Global } from "../../../helpers/Global";
 import useForm from "../../../hooks/UseForm";
 import useAuth from "../../../hooks/UseAuth";
 import Modal from "./ModalNewPublication";
 import NotificationMessage from "./NotificationMessage";
-import FileInput from "./FileInput"; // Importar el componente FileInput
+import FileInput from "./FileInput";
 
 const NewPublicationForm = () => {
   const { auth } = useAuth();
   const { form, changed } = useForm({});
   const [stored, setStored] = useState("not_stored");
   const [showForm, setShowForm] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null); // Guardar el archivo seleccionado
+  const [selectedFile, setSelectedFile] = useState(null);
   const formRef = useRef(null);
 
   const resetForm = () => {
@@ -27,11 +27,6 @@ const NewPublicationForm = () => {
     }
 
     const token = localStorage.getItem("token");
-    if (!token) {
-      setStored("error");
-      console.error("Error: No se encontró un token en el localStorage.");
-      return;
-    }
 
     try {
       const newPublication = { ...form, user: auth._id };
@@ -67,7 +62,7 @@ const NewPublicationForm = () => {
 
       resetForm();
 
-      // Cerrar el modal después de 3 segundos
+      // Cerrar el modal después de 1.5 segundos
       setTimeout(() => {
         setShowForm(false);
       }, 1500);
@@ -76,6 +71,16 @@ const NewPublicationForm = () => {
       setStored("error");
     }
   };
+
+  // Ocultar el mensaje de éxito/error después de 1.5 segundos
+  useEffect(() => {
+    if (stored === "stored" || stored === "error") {
+      const timer = setTimeout(() => {
+        setStored("not_stored"); 
+      }, 1500);
+      return () => clearTimeout(timer); // Limpiar temporizador al desmontar
+    }
+  }, [stored]);
 
   return (
     <>
@@ -107,7 +112,7 @@ const NewPublicationForm = () => {
           />
 
           <div className="flex items-center justify-around">
-            <FileInput onFileSelect={setSelectedFile} /> {/* Componente reutilizable */}
+            <FileInput onFileSelect={setSelectedFile} />
             <button
               type="submit"
               className="p-2 text-gray-900 font-medium rounded-lg border-2 border-red-600 hover:scale-105 transition-all duration-200"
