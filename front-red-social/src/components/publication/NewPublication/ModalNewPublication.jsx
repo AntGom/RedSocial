@@ -1,5 +1,5 @@
 import { XCircleIcon } from "@heroicons/react/24/outline";
-import PropTypes from "prop-types"; // Importa PropTypes
+import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
 

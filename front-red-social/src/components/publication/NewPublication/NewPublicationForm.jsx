@@ -1,22 +1,24 @@
-import { useState, useRef, useEffect } from "react";
-import { Global } from "../../helpers/Global";
-import useForm from "../../hooks/UseForm";
-import useAuth from "../../hooks/UseAuth";
+import { useState, useRef } from "react";
+import { Global } from "../../../helpers/Global";
+import useForm from "../../../hooks/UseForm";
+import useAuth from "../../../hooks/UseAuth";
 import { FolderPlusIcon } from "@heroicons/react/24/solid";
 import Modal from "./ModalNewPublication";
+
+import NotificationMessage from "./NotificationMessage";
 
 const NewPublicationForm = () => {
   const { auth } = useAuth();
   const { form, changed } = useForm({});
   const [stored, setStored] = useState("not_stored");
   const [showForm, setShowForm] = useState(false);
-  const [selectedFileName, setSelectedFileName] = useState(""); // Estado para el nombre del archivo
+  const [selectedFileName, setSelectedFileName] = useState("");
   const fileInputRef = useRef(null);
   const formRef = useRef(null);
 
   const resetForm = () => {
     if (formRef.current) formRef.current.reset();
-    setSelectedFileName(""); // Restablecer el nombre del archivo
+    setSelectedFileName("");
   };
 
   const savePublication = async (e) => {
@@ -66,7 +68,11 @@ const NewPublicationForm = () => {
       }
 
       resetForm();
-      setShowForm(false);
+
+      // Añadir un setTimeout para cerrar el modal después de 3 segundos
+      setTimeout(() => {
+        setShowForm(false);
+      }, 3000); // 3000 milisegundos = 3 segundos
     } catch (error) {
       console.error("Error al guardar la publicación:", error);
       setStored("error");
@@ -78,18 +84,11 @@ const NewPublicationForm = () => {
     setSelectedFileName(file ? file.name : "");
   };
 
-  useEffect(() => {
-    if (stored !== "not_stored") {
-      const timer = setTimeout(() => setStored("not_stored"), 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [stored]);
-
   return (
     <>
       <button
         onClick={() => setShowForm(true)}
-        className="w-4/5  text-gray-900 font-bold text-xl rounded-lg hover:bg-gray-200 p-2 -mb-2 transition-all duration-300 hover:scale-110 text-left "
+        className="w-4/5 text-gray-900 font-bold text-xl rounded-lg hover:bg-gray-200 p-2 -mb-2 transition-all duration-300 hover:scale-110 text-left"
       >
         Publicar
       </button>
@@ -99,21 +98,12 @@ const NewPublicationForm = () => {
         onClose={() => setShowForm(false)}
         title="Nueva publicación"
       >
-        {stored !== "not_stored" && (
-          <div
-            className={`p-3 rounded-lg mb-4 ${
-              stored === "stored"
-                ? "bg-green-50 text-green-700 border border-green-200"
-                : "bg-red-50 text-red-700 border border-red-200"
-            }`}
-          >
-            <p className="text-sm text-center font-medium">
-              {stored === "stored"
-                ? "Publicación realizada con éxito"
-                : "Error al realizar la publicación"}
-            </p>
-          </div>
-        )}
+        <NotificationMessage
+          status={stored}
+          setStatus={setStored}
+          successMessage="Publicación realizada con éxito"
+          errorMessage="Error al realizar la publicación"
+        />
 
         <form ref={formRef} onSubmit={savePublication} className="space-y-4">
           <textarea
@@ -125,29 +115,27 @@ const NewPublicationForm = () => {
 
           <div className="flex items-center justify-around">
             <div className="flex items-center gap-2">
-            {/* Botón para seleccionar archivo */}
-            <label
-              htmlFor="fileInput"
-              className="flex items-center p-2 border border-gray-800 rounded-lg cursor-pointer hover:bg-gray-100"
-            >
-              <FolderPlusIcon className="h-6 w-6 text-gray-700" />
-              <span className="ml-2 text-gray-700">Añadir archivo</span>
-            </label>
-            <input
-              id="fileInput"
-              type="file"
-              ref={fileInputRef}
-              className="hidden"
-              onChange={handleFileChange}
-            />
-            {/* Mostrar nombre del archivo seleccionado */}
-            {selectedFileName && (
-              <span className="text-sm text-gray-600">{selectedFileName}</span>
-            )}
-
+              <label
+                htmlFor="fileInput"
+                className="flex items-center p-2 border border-gray-800 rounded-lg cursor-pointer hover:bg-gray-100"
+              >
+                <FolderPlusIcon className="h-6 w-6 text-gray-700" />
+                <span className="ml-2 text-gray-700">Añadir archivo</span>
+              </label>
+              <input
+                id="fileInput"
+                type="file"
+                ref={fileInputRef}
+                className="hidden"
+                onChange={handleFileChange}
+              />
+              {selectedFileName && (
+                <span className="text-sm text-gray-600">
+                  {selectedFileName}
+                </span>
+              )}
             </div>
 
-            {/* Botón de publicar */}
             <button
               type="submit"
               className="p-2 text-gray-900 font-medium rounded-lg border-2 border-red-600 hover:scale-105 transition-all duration-200"

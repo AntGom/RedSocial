@@ -19,7 +19,7 @@ const upload = async (req, res) => {
         const fileExtension = savedFileName.split(".").pop().toLowerCase();
 
         // Comprobar la extensión del archivo
-        const validExtensions = new Set(["png", "jpg", "jpeg", "gif"]);
+        const validExtensions = new Set(["png", "jpg", "jpeg", "gif", "webp"]);
         if (!validExtensions.has(fileExtension)) {
             await fs.promises.unlink(req.file.path); // Elimina el archivo si la extensión no es válida
             return res.status(400).json({

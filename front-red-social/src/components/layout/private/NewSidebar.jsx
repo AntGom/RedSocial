@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 import useAuth from "../../../hooks/UseAuth";
 import { Global } from "../../../helpers/Global";
 import UserCounters from "../../user/UserCounters";
-import NewPublicationForm from "../../publication/NewPublicationForm";
+import NewPublicationForm from "../../publication/NewPublication/NewPublicationForm";
 
 const NewSidebar = () => {
   const { auth } = useAuth();

@@ -22,7 +22,7 @@ const save = async (req, res) => {
 
         return res.status(200).send({
             status: "success",
-            message: "Publicación guardada con éxito",
+            message: "Publicación realizada con éxito",
             publicationStored,
             userId: newPublication.user
         });
