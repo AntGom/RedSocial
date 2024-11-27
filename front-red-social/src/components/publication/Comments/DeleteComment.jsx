@@ -1,23 +1,30 @@
-import { TrashIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import PropTypes from "prop-types";
-import { Global } from "../../../helpers/Global";
 import { useState, useEffect } from "react";
+import { Global } from "../../../helpers/Global";
+import { TrashIcon } from "@heroicons/react/24/outline";
+import Modal from "../NewPublication/ModalNewPublication";
+import NotificationMessage from "../NewPublication/NotificationMessage";
 
-const DeleteComment = ({ publicationId, publicationUserId, commentId, commentUserId, onDelete }) => {
+const DeleteComment = ({
+  publicationId,
+  publicationUserId,
+  commentId,
+  commentUserId,
+  onDelete,
+}) => {
   const [showModal, setShowModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [isOwner, setIsOwner] = useState(false); 
+  const [isOwner, setIsOwner] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       // Decodificar token para obtener datos del usuario logueado
       try {
-        const user = JSON.parse(atob(token.split('.')[1])); //Decodificar payload
-
+        const user = JSON.parse(atob(token.split(".")[1])); // Decodificar payload
         // Compara id de usuario logueado con id usuario que creó el comentario/owner publicacion
-        setIsOwner(user.id === commentUserId || user.id === publicationUserId  );
+        setIsOwner(user.id === commentUserId || user.id === publicationUserId);
       } catch (error) {
         console.error("Error al decodificar el token:", error);
       }
@@ -58,14 +65,8 @@ const DeleteComment = ({ publicationId, publicationUserId, commentId, commentUse
     }
   };
 
-  const handleModalClick = (e) => {
-    if (e.target === e.currentTarget) {
-      setShowModal(false);
-    }
-  };
-
   if (!isOwner) {
-    return null; // No mostrar el componente si el usuario no es el propietario del comentario o de la publicacion
+    return null; // No mostrar si usuario no es propietario comentario/publicación
   }
 
   return (
@@ -80,52 +81,42 @@ const DeleteComment = ({ publicationId, publicationUserId, commentId, commentUse
       </button>
 
       {showModal && (
-        <div
-          className="absolute inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-10"
-          onClick={handleModalClick}
+        <Modal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          title="Eliminar Comentario"
         >
-          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-            <p className="text-gray-700 font-semibold">
-              ¿Estás seguro de querer eliminar este comentario?
-            </p>
-            <div className="flex justify-center space-x-4 mt-4">
-              <button
-                onClick={handleDelete}
-                className={`p-2 text-gray-900 font-medium rounded-lg border-2 ${
-                  loading
-                    ? "border-gray-400 bg-gray-400 cursor-not-allowed"
-                    : "border-red-600 hover:scale-105"
-                } transition-all duration-200`}
-                disabled={loading}
-              >
-                {loading ? "Eliminando..." : "Eliminar"}
-              </button>
-              <button
-                onClick={() => setShowModal(false)}
-                className="px-4 py-2 border-2 hover:scale-110 transition-all duration-300 text-gray-900 rounded-xl"
-              >
-                <XCircleIcon className="w-6 h-6 text-red-500" />
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {modalMessage && (
-        <div
-          className="absolute inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-20"
-          onClick={() => setModalMessage("")}
-        >
-          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-            <p className="text-gray-900 font-semibold">{modalMessage}</p>
-            <button
-              onClick={() => setShowModal(false)}
-              className="mt-4 px-4 py-2 border-2 hover:scale-110 transition-all duration-300 text-gray-900 rounded-xl"
-            >
-              <XCircleIcon className="w-6 h-6 text-red-500" />
-            </button>
-          </div>
-        </div>
+          {modalMessage ? (
+            <NotificationMessage
+              status="error"
+              setStatus={() => {}}
+              errorMessage={modalMessage}
+            />
+          ) : (
+            <>
+              <p className="text-gray-700 font-semibold text-center">
+                ¿Estás seguro de que deseas eliminar este comentario?
+              </p>
+              <div className="flex justify-end mt-6 gap-4">
+                <button
+                  onClick={handleDelete}
+                  className={`px-4 py-2 text-white font-medium rounded-lg bg-red-600 hover:bg-red-700 transition-all ${
+                    loading ? "bg-gray-400 cursor-not-allowed" : ""
+                  }`}
+                  disabled={loading}
+                >
+                  {loading ? "Eliminando..." : "Eliminar"}
+                </button>
+                <button
+                  onClick={() => setShowModal(false)}
+                  className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-all"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </>
+          )}
+        </Modal>
       )}
     </>
   );
