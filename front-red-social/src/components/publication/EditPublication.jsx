@@ -51,7 +51,7 @@ const EditPublication = ({ publication, onSave, onCancel }) => {
           if (uploadData.status === "success") {
             setStatus("stored"); // Mensaje de éxito
           } else {
-            setStatus("error"); // Mensaje de error si la carga falla
+            setStatus("error"); // Mensaje de error si carga falla
           }
         } else {
           setStatus("stored"); // Mensaje de éxito si no hay archivo
@@ -59,7 +59,7 @@ const EditPublication = ({ publication, onSave, onCancel }) => {
 
         setTimeout(() => {
           onSave(); // Notifica al padre que edicion OK
-        }, 3000);
+        }, 1500);
       } else {
         setStatus("error");
       }

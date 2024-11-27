@@ -5,6 +5,7 @@ import useAuth from "../../hooks/UseAuth";
 import PropTypes from "prop-types";
 import ReactTimeAgo from "react-time-ago";
 import { UserPlusIcon, UserMinusIcon } from "@heroicons/react/24/solid";
+import  useCounters from "../../hooks/useCounters.js";
 
 const UserList = ({
   users,
@@ -17,6 +18,7 @@ const UserList = ({
   getUsers,
 }) => {
   const { auth } = useAuth();
+  const { updateCounters } = useCounters();  // Consumiendo el contexto
 
   const nextPage = () => {
     let next = page + 1;
@@ -38,6 +40,7 @@ const UserList = ({
 
     if (data.status === "success") {
       setFollowing([...following, userId]);
+      updateCounters("following", 1);  // Incrementa el contador de following
     }
   };
 
@@ -54,6 +57,7 @@ const UserList = ({
 
     if (data.status === "success") {
       setFollowing(following.filter((followId) => followId !== userId));
+      updateCounters("following", -1);  // Decrementa el contador de following
     }
   };
 
@@ -97,7 +101,7 @@ const UserList = ({
                 className="flex flex-col items-center text-lg font-semibold text-gray-900 "
               >
                 <p>{user.name}</p>
-                <p> {user.surname}</p>
+                <p>{user.surname}</p>
               </NavLink>
               {/* Biografía */}
               <p className="text-sm text-gray-700 line-clamp-2 italic">
