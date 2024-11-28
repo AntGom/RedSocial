@@ -32,5 +32,6 @@ router.get("/comments/:publication_id", auth, publicationController.getComments)
 router.delete("/:publication_id/comments/:comment_id", auth, publicationController.deleteComment);
 router.post("/like/:publication_id", auth, likesController.newLike);
 router.post("/unlike/:publication_id", auth, likesController.unlike);
+router.get("/likes/:publication_id", auth, likesController.getLikes);
 
 export default router;
