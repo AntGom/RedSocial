@@ -17,14 +17,13 @@ const newLike = async (req, res) => {
         .json({ message: "Ya has dado like a esta publicación" });
     }
 
-    // Agregar el like
     publication.likes.push(userId);
     await publication.save();
 
-    // Obtener la publicación actualizada con los detalles del usuario que ha dado like
+    // Publicación actualizada con detalles del user que da like
     const updatedPublication = await Publication.findById(publicationId).populate({
       path: "likes",
-      select: "nick", // Incluye solo estos campos del usuario
+      select: "nick",
     });
 
     res.status(200).json({
