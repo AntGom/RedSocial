@@ -4,11 +4,9 @@ const detail = async (req, res) => {
   
   try {
 
-    // Obtener id de la publicación
-    // Find con la condición del id y hacer populate del campo user
+    // Id de la publicación
     const publication = await Publication.findById(req.params.id).populate('user', 'image');
 
-    // Devolver respuesta
     if (!publication) {
       return res.status(404).json({
         status: "error",
@@ -20,7 +18,7 @@ const detail = async (req, res) => {
       message: "Publicación obtenida correctamente",
       publication: publication,
       userId: publication.user._id,
-      userImage: publication.user.image, // Añadir la imagen del usuario aquí
+      userImage: publication.user.image, 
     });
 
   } catch (error) {

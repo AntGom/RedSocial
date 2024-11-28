@@ -6,9 +6,9 @@ import upload from "./upload.js";
 import media from "./media.js";
 import feed from "./feed.js";
 import editPublication from "./editPublication.js";
-import addComment from "./addComment.js";
-import getComments from "./getComments.js";
-import deleteComment from "./eraseComment.js";
+import addComment from "../comments/addComment.js";
+import getComments from "../comments/getComments.js";
+import deleteComment from "../comments/eraseComment.js";
 
 
 

@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { publicationController } from "../controllers/publicationControllers/publicationController.js";
+import { likesController } from "../controllers/likes/likesController.js";
 import multer from "multer";
 import auth from "../middlewares/auth.js";
 
@@ -29,5 +30,7 @@ router.put('/edit/:id', auth, publicationController.editPublication);
 router.post("/comment/:publication_id", auth, publicationController.addComment);
 router.get("/comments/:publication_id", auth, publicationController.getComments);
 router.delete("/:publication_id/comments/:comment_id", auth, publicationController.deleteComment);
+router.post("/like/:publication_id", auth, likesController.newLike);
+router.post("/unlike/:publication_id", auth, likesController.unlike);
 
 export default router;

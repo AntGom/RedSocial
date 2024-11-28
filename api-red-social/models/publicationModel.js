@@ -31,6 +31,12 @@ const PublicationSchema = Schema({
     type: String,
   },
   comments: [CommentSchema], 
+  likes: [
+    {
+      type: Schema.ObjectId,
+      ref: "User",
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,

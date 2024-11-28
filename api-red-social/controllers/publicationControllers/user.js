@@ -7,7 +7,6 @@ const user = async (req, res) => {
         const page = Math.max(1, parseInt(req.params.page) || 1);
         const itemsPerPage = 5;
 
-        // Opciones de paginación
         const options = {
             page,
             limit: itemsPerPage,
@@ -23,12 +22,11 @@ const user = async (req, res) => {
             return res.status(200).json({
                 status: "success",
                 message: "No hay publicaciones para mostrar",
-                totalPages: 0, // Establecer totalPages a 0
+                totalPages: 0, 
                 publications: []
             });
         }
 
-        // Construir la respuesta con publicaciones
         return res.status(200).json({
             status: "success",
             message: "Publicaciones obtenidas correctamente",

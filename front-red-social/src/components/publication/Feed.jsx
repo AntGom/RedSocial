@@ -59,7 +59,7 @@ const Feed = () => {
       <header className="mb-2">
 
         <button
-          className="font-semibold border-2 border-red-600 p-2 rounded-xl hover:scale-105 transition-all"
+          className="font-semibold border-2 border-red-600 p-2 rounded-lg hover:scale-105 transition-all"
           onClick={() => getPublications(1, true)}
         >
           Mostrar nuevas
