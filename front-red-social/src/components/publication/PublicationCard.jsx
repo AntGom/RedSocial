@@ -9,6 +9,7 @@ import EditPublication from "./EditPublication";
 import DeletePublication from "./DeletePublication";
 import CommentsList from "./Comments/CommentsList";
 import CreateComment from "./Comments/CreateComment";
+import LikeButton from "./Likes/LikeButton";
 import { Global } from "../../helpers/Global";
 
 const PublicationCard = ({ publication, getPublications }) => {
@@ -78,6 +79,20 @@ const PublicationCard = ({ publication, getPublications }) => {
             />
           </div>
         )}
+
+        {/* Botón de Like */}
+        <div className="mt-4">
+          <LikeButton 
+            initialLikes={publication.likes?.length || 0}
+            initialLiked={publication.likes?.includes(auth?._id)}
+            publicationId={publication._id}
+            onLikeChange={(newCount) => {
+              // Actualizar el estado local de la publicación si es necesario
+              publication.likes.length = newCount;
+            }}
+          />
+        </div>
+
         {/* Lista de comentarios */}
         <CommentsList
           publicationId={publication._id}

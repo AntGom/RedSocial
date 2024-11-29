@@ -31,7 +31,7 @@ router.post("/comment/:publication_id", auth, publicationController.addComment);
 router.get("/comments/:publication_id", auth, publicationController.getComments);
 router.delete("/:publication_id/comments/:comment_id", auth, publicationController.deleteComment);
 router.post("/like/:publication_id", auth, likesController.newLike);
-router.post("/unlike/:publication_id", auth, likesController.unlike);
+router.delete("/like/:publication_id", auth, likesController.unlike);
 router.get("/likes/:publication_id", auth, likesController.getLikes);
 router.get("/likes/user/:user_id/:page?", auth, likesController.getUserLikes);
 

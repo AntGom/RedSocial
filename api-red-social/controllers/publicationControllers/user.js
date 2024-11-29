@@ -3,7 +3,6 @@ import Publication from "../../models/publicationModel.js";
 const user = async (req, res) => {
     try {
         const userId = req.params.id;
-        // Validar que la página sea un número positivo
         const page = Math.max(1, parseInt(req.params.page) || 1);
         const itemsPerPage = 5;
 

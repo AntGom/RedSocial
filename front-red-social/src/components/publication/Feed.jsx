@@ -35,17 +35,12 @@ const Feed = () => {
       if (data.status === "success") {
         const newPublications =
           actualPage === 1
-            ? data.posts || []
-            : [...publications, ...(data.posts || [])];
+            ? data.publications
+            : [...publications, ...data.publications];
 
         setPublications(newPublications);
 
-        if (
-          newPublications.length >= data.total ||
-          data.totalPages <= actualPage
-        ) {
-          setMore(false);
-        }
+        setMore(data.hasNextPage);
       } else {
         console.error("Error en la respuesta de la API:", data);
       }
@@ -57,9 +52,8 @@ const Feed = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <header className="mb-2">
-
         <button
-          className="font-semibold border-2 border-red-600 p-2 rounded-lg hover:scale-105 transition-all"
+          className="font-semibold border-2 border-red-600 p-2 rounded-xl hover:scale-105 transition-all"
           onClick={() => getPublications(1, true)}
         >
           Mostrar nuevas
@@ -68,7 +62,9 @@ const Feed = () => {
 
       {publications.length === 0 ? (
         <div className="max-w-7xl mb-4">
-          <h1 className="text-3xl font-bold text-gray-900 text-start">NO HAY PUBLICACIONES PARA MOSTRAR</h1>.
+          <h1 className="text-3xl font-bold text-gray-900 text-start">
+            NO HAY PUBLICACIONES PARA MOSTRAR
+          </h1>
         </div>
       ) : (
         <PublicationList

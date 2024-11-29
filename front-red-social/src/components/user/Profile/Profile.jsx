@@ -32,7 +32,7 @@ const Profile = () => {
     });
     const data = await response.json();
     setUser(data.user);
-    setIFollow(data.following && data.following._id);
+    setIFollow(!!data.following && !!data.following._id);
   };
 
   const getPublications = async (actualPage = 1, newProfile = false) => {
