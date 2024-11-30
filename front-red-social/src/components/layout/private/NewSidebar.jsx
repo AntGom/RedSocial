@@ -17,9 +17,9 @@ const NewSidebar = () => {
         <article className="flex flex-col gap-4 items-center">
           <NavLink to="/social/feed" className="p-4">
             <img
-              src="/logoRedCorto.webp"
+              src="/too-red-logo.jpg"
               alt="Logo de la Red Social"
-              className="w-16 h-16 rounded-xl border-2 border-red-900 hover:scale-110 hover:border-orange-500 transition-all duration-300"
+              className="h-20 rounded-lg object-cover border-2 border-red-600 hover:scale-110 hover:border-orange-500 transition-all duration-300"
             />
           </NavLink>
 

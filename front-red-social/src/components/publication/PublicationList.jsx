@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import PublicationCard from "./PublicationCard";
+import PublicationCard from "./PublicationCard/PublicationCard";
 
 const PublicationList = ({ publications, getPublications, page, setPage, more }) => {
   const nextPage = () => {

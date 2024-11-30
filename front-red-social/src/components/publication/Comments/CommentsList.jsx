@@ -4,11 +4,14 @@ import { Global } from "../../../helpers/Global";
 import PropTypes from "prop-types";
 import DeleteComment from "../Comments/DeleteComment";
 import ReactTimeAgo from "react-time-ago";
+import LikeButton from "../Likes/LikeButton";
+import useAuth from "../../../hooks/UseAuth";
 
-const CommentsList = ({ publicationId, publicationUserId }) => {
+const CommentsList = ({ publicationId, likes, publicationUserId }) => {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showComments, setShowComments] = useState(false);
+  const { auth } = useAuth();
 
   const fetchComments = async () => {
     try {
@@ -45,22 +48,33 @@ const CommentsList = ({ publicationId, publicationUserId }) => {
 
   const toggleComments = () => setShowComments((prev) => !prev);
 
-  if (loading) return <p>Cargando comentarios...</p>;
-
+  if (loading) return (
+    <div className="flex justify-center items-center mt-4">
+      <div className="spinner"></div>
+    </div>
+  );
   return (
-    <div className="mt-1">
-      <button
-        onClick={toggleComments}
-        className="text-blue-600 font-semibold underline hover:text-blue-800"
-      >
-        {showComments
-          ? `Ocultar comentarios (${comments.length})`
-          : `Ver comentarios (${comments.length})`}
-      </button>
+    <section className="mt-1 w-full">
+      <article className="flex justify-between mx-2">
+        <button
+          onClick={toggleComments}
+          className="text-blue-600 font-semibold underline hover:text-blue-800"
+        >
+          {showComments
+            ? `Ocultar comentarios (${comments.length})`
+            : `Ver comentarios (${comments.length})`}
+        </button>
+        {/* Botón de Like */}
+        <LikeButton
+          initialLikes={likes.length || 0}
+          initialLiked={likes.includes(auth?._id)}
+          publicationId={publicationId}
+        />
+      </article>
 
       {showComments &&
         (comments.length === 0 ? (
-          <p className="text-gray-500 mt-0">No hay comentarios aún.</p>
+          <p className="text-gray-500">No hay comentarios aún.</p>
         ) : (
           comments.map((comment) => (
             <div
@@ -77,20 +91,16 @@ const CommentsList = ({ publicationId, publicationUserId }) => {
                 className="w-8 h-8 rounded-full border-2 border-blue-500 object-cover"
               />
               <div className="flex-1">
-                <div className="flex flex-row items-center">
-                  <p className="font-semibold text-gray-800">
-                    {comment.user?.name} {comment.user?.surname}
-                  </p>
-                  <p className="text-gray-600 text-sm items-center ml-2">
+                <p className="font-semibold text-gray-800">
+                  {comment.user?.name} {comment.user?.surname}
+                  <span className="text-gray-600 text-sm ml-2">
                     <ReactTimeAgo
                       date={new Date(comment.createdAt).getTime()}
                       locale="es-ES"
                     />
-                  </p>
-                </div>
-                <div>
-                  <p className="text-gray-600">{comment.text}</p>
-                </div>
+                  </span>
+                </p>
+                <p className="text-gray-600">{comment.text}</p>
               </div>
               <DeleteComment
                 publicationId={publicationId}
@@ -102,13 +112,14 @@ const CommentsList = ({ publicationId, publicationUserId }) => {
             </div>
           ))
         ))}
-    </div>
+    </section>
   );
 };
 
 CommentsList.propTypes = {
   publicationId: PropTypes.string.isRequired,
   publicationUserId: PropTypes.string.isRequired,
+  likes: PropTypes.array.isRequired,
 };
 
 export default CommentsList;
