@@ -5,7 +5,7 @@ const resetPassword = async (req, res) => {
   const { token, newPassword } = req.body;
 
   try {
-    // Buscar usuario por token y verificar si ha expirado
+    // Buscar user por token y verificar si ha expirado
     const user = await User.findOne({
       resetPasswordToken: token,
       resetPasswordExpires: { $gt: Date.now() },

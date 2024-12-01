@@ -4,7 +4,7 @@ import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 const LoginForm = ({ changed, loginUser, showPassword, setShowPassword }) => {
   return (
     <form
-      className="bg-white border-2 border-gray-900 p-6 rounded-xl shadow-lg shadow-gray-600 w-2/5"
+      className="bg-white border-2 border-gray-900 p-6 rounded-lg shadow-lg shadow-gray-600 w-2/5"
       onSubmit={loginUser}
     >
       <div className="mb-4">
@@ -21,7 +21,10 @@ const LoginForm = ({ changed, loginUser, showPassword, setShowPassword }) => {
       </div>
 
       <div className="mb-4">
-        <label htmlFor="password" className="block text-sm font-medium text-gray-900">
+        <label
+          htmlFor="password"
+          className="block text-sm font-medium text-gray-900"
+        >
           Contraseña
         </label>
         <div className="relative">
