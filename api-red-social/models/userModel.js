@@ -36,6 +36,14 @@ const UserSchema = Schema({
     type: Date,
     default: Date.now,
   },
+  resetPasswordToken: {
+    type: String,
+    default: null, // Token de recuperación de contraseña
+  },
+  resetPasswordExpires: {
+    type: Date,
+    default: null, // Fecha de expiración del token
+  },
 });
 
 const User = model("User", UserSchema, "users");

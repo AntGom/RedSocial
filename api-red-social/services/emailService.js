@@ -1,4 +1,7 @@
 import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST, 
@@ -13,7 +16,7 @@ const transporter = nodemailer.createTransport({
 export const sendEmail = async (to, subject, html) => {
   try {
     const mailOptions = {
-      from: `"MiApp" <${process.env.SMTP_USER}>`, 
+      from: `"Too-Red" <${process.env.SMTP_USER}>`, 
       to, 
       subject, 
       html,

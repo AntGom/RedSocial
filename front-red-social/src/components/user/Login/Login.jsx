@@ -70,6 +70,12 @@ const Login = () => {
         />
       </div>
 
+      <div className="text-center mt-4">
+        <a href="/recover-password" className="text-blue-600 font-semibold hover:underline">
+          ¿Olvidaste la contraseña?
+        </a>
+      </div>
+
       <LoginMessage saved={saved} setSaved={setSaved} />
     </>
   );

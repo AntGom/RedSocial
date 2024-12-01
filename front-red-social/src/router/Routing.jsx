@@ -3,6 +3,8 @@ import PublicLayout from "../components/layout/public/PublicLayout";
 import Login from "../components/user/Login/Login";
 import Register from "../components/user/Register/Register";
 import ConfirmAccount from "../components/user/Register/ConfirmAccount";
+import RecoverPassword from "../components/user/RecoverPassword";
+import ResetPassword from "../components/user/ResetPassword";
 import PrivateLayout from "../components/layout/private/PrivateLayout";
 import Feed from "../components/publication/Feed";
 import {AuthProvider} from "../context/AuthProvider";
@@ -24,6 +26,8 @@ const Routing = () => {
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
             <Route path="/confirm/:token" element={<ConfirmAccount />} />
+            <Route path="recover-password" element={<RecoverPassword />} />
+            <Route path="reset-password/:token" element={<ResetPassword />} />
           </Route>
 
           <Route path="/social" element={<PrivateLayout />}>
