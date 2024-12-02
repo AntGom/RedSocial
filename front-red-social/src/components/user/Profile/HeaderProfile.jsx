@@ -12,7 +12,7 @@ const HeaderProfile = ({ user, auth, counters, iFollow, setIFollow, token }) => 
         <h2 className="text-2xl font-bold text-gray-900">
           {user.name} {user.surname}
         </h2>
-        <p className="text-sm font-semibold text-red-600">{counters.publications || 0} Publicaciones</p>
+        <p className="text-sm font-semibold text-red-600">Publicaciones: {counters.publications || 0}</p>
       </div>
 
       {/* Imagen y acciones */}
