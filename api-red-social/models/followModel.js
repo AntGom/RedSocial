@@ -1,21 +1,15 @@
 import { Schema, model } from "mongoose";
-import mongoosePaginate from 'mongoose-paginate-v2';
+import mongoosePaginate from "mongoose-paginate-v2";
 
-const FollowSchema = Schema({
-
-    user: { //->Usuario que sigue a...
-        type: Schema.ObjectId,
-        ref: "User",
-    },
-    followed: { //Usuario que está siendo seguido
-        type: Schema.ObjectId,
-        ref: "User",
-    },
-    created_at: {
-        type: Date,
-        default: Date.now,
-    },
-}, { versionKey: false });
+const FollowSchema = new Schema(
+  {
+    user: { type: Schema.ObjectId, ref: "User" },
+    followed: { type: Schema.ObjectId, ref: "User" },
+    created_at: { type: Date, default: Date.now },
+    isDeleted: { type: Boolean, default: false },
+  },
+  { versionKey: false }
+);
 
 FollowSchema.plugin(mongoosePaginate);
 

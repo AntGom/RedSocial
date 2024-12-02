@@ -4,7 +4,7 @@ const conection = async () => {
 
     try {
         await mongoose.connect("mongodb://localhost:27017/mi_redsocial");
-        console.log("Conectado a la BBDD mi_redsocial");
+        console.log("Conectado a la BBDD Too-Red");
 
     } catch (error) {
         console.log(error);

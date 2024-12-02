@@ -2,61 +2,25 @@ import { Schema, model } from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2";
 
 const CommentSchema = new Schema({
-  user: {
-    type: Schema.ObjectId,
-    ref: "User",
-    required: true,
-  },
-  text: {
-    type: String,
-    required: true,
-    trim: true,
-    minlength: 1,
-    maxlength: 1000,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
+  user: { type: Schema.ObjectId, ref: "User", required: true },
+  text: { type: String, required: true, trim: true, minlength: 1, maxlength: 1000 },
+  createdAt: { type: Date, default: Date.now },
 });
 
 const PublicationSchema = new Schema({
-  user: {
-    type: Schema.ObjectId,
-    ref: "User",
-    required: true,
-  },
-  text: {
-    type: String,
-    required: true,
-    trim: true,
-    minlength: 1,
-    maxlength: 1000,
-  },
-  file: {
-    type: String,
-  },
-  likes: [
-    {
-      type: Schema.ObjectId,
-      ref: "User",
-      unique: true,
-    },
-  ],
-  likesCount: {
-    type: Number,
-    default: 0,
-  },
+  user: { type: Schema.ObjectId, ref: "User", required: true },
+  text: { type: String, required: true, trim: true, minlength: 1, maxlength: 1000 },
+  file: String,
+  likes: [{ type: Schema.ObjectId, ref: "User", unique: true }],
+  likesCount: { type: Number, default: 0 },
   comments: [CommentSchema],
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
+  createdAt: { type: Date, default: Date.now },
+  isDeleted: { type: Boolean, default: false },
 });
 
-// Middleware actualizar contador likes
+// Middleware para actualizar contador de likes
 PublicationSchema.pre("save", function (next) {
-  this.likesCount = this.likes.length; // Actualiza contador en base [likes]
+  this.likesCount = this.likes.length;
   next();
 });
 

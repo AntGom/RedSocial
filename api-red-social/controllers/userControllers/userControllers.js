@@ -8,6 +8,7 @@ import list from "./list.js";
 import update from "./update.js";
 import upload from "./upload.js";
 import avatar from "./avatar.js";
+import deleteUser from "./deleteUser.js";
 
 export const userController = { 
     register, 
@@ -19,5 +20,6 @@ export const userController = {
     profile, 
     update, 
     upload,
-    avatar
+    avatar,
+    deleteUser
 };

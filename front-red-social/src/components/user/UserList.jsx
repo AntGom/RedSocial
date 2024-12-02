@@ -18,7 +18,7 @@ const UserList = ({
   getUsers,
 }) => {
   const { auth } = useAuth();
-  const { updateCounters } = useCounters();  // Consumiendo el contexto
+  const { updateCounters } = useCounters();
 
   const nextPage = () => {
     let next = page + 1;
@@ -40,7 +40,7 @@ const UserList = ({
 
     if (data.status === "success") {
       setFollowing([...following, userId]);
-      updateCounters("following", 1);  // Incrementa el contador de following
+      updateCounters("following", 1);
     }
   };
 
@@ -57,7 +57,7 @@ const UserList = ({
 
     if (data.status === "success") {
       setFollowing(following.filter((followId) => followId !== userId));
-      updateCounters("following", -1);  // Decrementa el contador de following
+      updateCounters("following", -1);
     }
   };
 

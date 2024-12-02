@@ -5,6 +5,8 @@ import { PORT } from './env.js';
 import userRoutes from "./routes/userRoutes.js";
 import publicationRoutes from "./routes/publicationRoutes.js";
 import followRoutes from "./routes/followRoutes.js";
+import filterDeleted from "./middlewares/filterDeleted.js";
+
 
 //Conexion a BBDD
 conection();
@@ -15,6 +17,8 @@ app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(filterDeleted);
 
 //Cargar conf rutas
 app.use("/api/user", userRoutes);
