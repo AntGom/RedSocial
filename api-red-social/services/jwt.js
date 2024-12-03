@@ -1,10 +1,10 @@
 import moment from "moment";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
+import { v4 as uuidv4 } from 'uuid';
 
 dotenv.config();
 
-// Generar token
 const generateToken = (user) => {
    const payload = {
     id: user._id,
@@ -22,4 +22,14 @@ const generateToken = (user) => {
    return jwt.sign(payload, process.env.JWT_SECRET);
 };
 
-export { generateToken };
+const secretKey = process.env.JWT_SECRET;
+
+const generateRecoveryToken = (email, isDeleted) => {
+  const token = jwt.sign({ email, isDeleted }, secretKey, {
+    expiresIn: '1h',
+    jwtid: uuidv4(),
+  });
+  return token;
+};
+
+export { generateToken, generateRecoveryToken };

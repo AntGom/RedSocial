@@ -9,6 +9,8 @@ import update from "./update.js";
 import upload from "./upload.js";
 import avatar from "./avatar.js";
 import deleteUser from "./deleteUser.js";
+import requestAccountRecovery from "./requestRecoverAccount.js";
+import recoverAccount from "./recoverAccount.js";
 
 export const userController = { 
     register, 
@@ -21,5 +23,7 @@ export const userController = {
     update, 
     upload,
     avatar,
-    deleteUser
+    deleteUser,
+    requestAccountRecovery,
+    recoverAccount,
 };

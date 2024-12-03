@@ -61,11 +61,11 @@ const ProfileActions = ({ user, auth, iFollow, setIFollow, token }) => {
       if (data.message === "Usuario eliminado correctamente (soft delete)") {
         alert("Perfil eliminado correctamente.");
   
-        // Borrar token y datos de usuario de localStorage
+        //Borrar token y datos de usuario de localStorage
         localStorage.removeItem("token");
         localStorage.removeItem("user");
   
-        // Redirigir a la página de login
+        //Redirigir a la página de login
         navigate("/social/logout");
       } else {
         alert("Error al eliminar el perfil.");
