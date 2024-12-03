@@ -71,8 +71,20 @@ const Login = () => {
       </div>
 
       <div className="text-center mt-4">
-        <a href="/recover-password" className="text-blue-600 font-semibold hover:underline">
+        <a
+          href="/recover-password"
+          className="text-blue-600 font-semibold hover:underline"
+        >
           ¿Olvidaste la contraseña?
+        </a>
+      </div>
+
+      <div className="text-center mt-2">
+        <a
+          href="/recover-request"
+          className="text-blue-600 font-semibold hover:underline"
+        >
+          ¿Cuenta en suspensión? Recuperar ⇨⇨
         </a>
       </div>
 

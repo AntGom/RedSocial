@@ -31,7 +31,7 @@ export const sendEmail = async (to, subject, html) => {
 };
 
 export const sendRecoveryEmail = async (email, token) => {
-  const recoveryUrl = `${process.env.FRONTEND_URL}/recover-account?token=${token}`;
+  const recoveryUrl = `${process.env.CLIENT_URL}/recover-account?token=${token}`;
 
   const mailOptions = {
     from: `"Too-Red" <${process.env.SMTP_USER}>`,

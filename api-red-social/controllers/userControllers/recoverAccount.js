@@ -54,7 +54,7 @@ const recoverAccount = async (req, res) => {
       ),
     ]);
 
-    res.status(200).json({ message: "Cuenta recuperada exitosamente." });
+    res.status(200).json({ message: "Cuenta recuperada con éxito." });
   } catch (error) {
     console.error(error);
     res.status(400).json({ message: "Token inválido o expirado." });
