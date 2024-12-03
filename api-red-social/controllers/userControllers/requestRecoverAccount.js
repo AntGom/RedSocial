@@ -12,7 +12,6 @@ const requestAccountRecovery = async (req, res) => {
       return res.status(404).json({ message: 'No se encontró una cuenta con ese correo.' });
     }
 
-    // Generar token con isDeleted
     const token = generateRecoveryToken(user.email, user.isDeleted);
     await sendRecoveryEmail(user.email, token);
 
