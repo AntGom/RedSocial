@@ -50,13 +50,13 @@ const RecoverAccount = () => {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <header className="p-4 text-gray-900 text-center mt-2 w-full">
+      <header className="p-4 w-3/5 border-2 border-red-600 rounded-lg text-gray-900 text-center mt-14">
         <h1 className="text-2xl font-bold text-gray-900 text-center">
-          Recuperación de Cuenta
+          ¡¡Se ha recuperado la Cuenta!! 
         </h1>
       </header>
 
-      <div className="border-2 border-gray-900 p-6 rounded-lg shadow-lg shadow-gray-600 w-2/5">
+    
         {showToast && (
           <Toast
             message={message || error}
@@ -64,7 +64,6 @@ const RecoverAccount = () => {
             onClose={() => setShowToast(false)}
           />
         )}
-      </div>
     </div>
   );
 };

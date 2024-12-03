@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 const Toast = ({ message, type, onClose }) => {
     useEffect(() => {
-      const timer = setTimeout(onClose, 1500);
+      const timer = setTimeout(onClose, 3000);
       return () => clearTimeout(timer);
     }, [onClose]);
   
