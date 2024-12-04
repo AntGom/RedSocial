@@ -1,6 +1,6 @@
-import User from "../../models/userModel.js";
-import Publication from "../../models/publicationModel.js";
-import Follow from "../../models/followModel.js";
+import User from "../models/userModel.js";
+import Publication from "../models/publicationModel.js";
+import Follow from "../models/followModel.js";
 import moment from "moment";
 
 const deletePhysicallyAfter30Days = async () => {
