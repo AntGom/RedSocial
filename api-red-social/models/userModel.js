@@ -13,7 +13,8 @@ const UserSchema = new Schema({
   created_at: { type: Date, default: Date.now },
   resetPasswordToken: { type: String, default: null },
   resetPasswordExpires: { type: Date, default: null },
-  isDeleted: { type: Boolean, default: false }, 
+  isDeleted: { type: Boolean, default: false },
+  deletedAt: { type: Date, default: null },
 });
 
 const User = model("User", UserSchema, "users");

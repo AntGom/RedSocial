@@ -7,6 +7,8 @@ const FollowSchema = new Schema(
     followed: { type: Schema.ObjectId, ref: "User" },
     created_at: { type: Date, default: Date.now },
     isDeleted: { type: Boolean, default: false },
+    deletedAt: { type: Date, default: null },
+
   },
   { versionKey: false }
 );

@@ -16,6 +16,8 @@ const PublicationSchema = new Schema({
   comments: [CommentSchema],
   createdAt: { type: Date, default: Date.now },
   isDeleted: { type: Boolean, default: false },
+  deletedAt: { type: Date, default: null },
+
 });
 
 // Middleware para actualizar contador de likes

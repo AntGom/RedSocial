@@ -84,7 +84,7 @@ const Login = () => {
           href="/recover-request"
           className="text-blue-600 font-semibold hover:underline"
         >
-          ¿Cuenta en suspensión? Recuperar ⇨⇨
+          ¿Cuenta en suspensión? Recuperar ↻
         </a>
       </div>
 
