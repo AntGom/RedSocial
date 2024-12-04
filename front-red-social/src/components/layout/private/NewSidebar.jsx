@@ -19,7 +19,7 @@ const NewSidebar = () => {
             <img
               src="/too-red-logo.jpg"
               alt="Logo de la Red Social"
-              className="h-20 rounded-lg object-cover border-2 border-red-600 hover:scale-110 hover:border-orange-500 transition-all duration-300"
+              className="h-20 rounded-lg object-cover border-2 border-red-600 hover:scale-110 transition-all duration-300"
             />
           </NavLink>
 
@@ -34,7 +34,7 @@ const NewSidebar = () => {
                 <img
                   src={Global.url + "user/avatar/" + auth.image}
                   alt="Foto de Perfil"
-                  className="rounded-full w-12 h-12 border-2 border-gray-400 object-cover"
+                  className="rounded-full w-12 h-12 border border-red-600 object-cover"
                 />
               ) : (
                 <img

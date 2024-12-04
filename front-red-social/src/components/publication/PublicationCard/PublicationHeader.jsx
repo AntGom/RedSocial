@@ -21,7 +21,7 @@ const PublicationHeader = ({ publication, onEdit, onDelete }) => {
           <img
             src={getUserImage(publication.user?.image)}
             alt="Foto de Perfil"
-            className="w-16 h-16 rounded-full object-cover transition-all duration-300 hover:scale-110"
+            className="w-16 h-16 rounded-full object-cover transition-all border border-red-600 duration-300 hover:scale-110"
           />
         </NavLink>
         <div className="ml-4">

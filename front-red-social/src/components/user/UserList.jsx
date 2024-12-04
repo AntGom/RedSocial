@@ -82,7 +82,7 @@ const UserList = ({
                         : avatar
                     }
                     alt="Foto de perfil"
-                    className="w-16 h-16 rounded-full object-cover border-4 border-white transition-all duration-300 hover:scale-110 "
+                    className="w-16 h-16 rounded-full object-cover border border-red-900 transition-all duration-300 hover:scale-110 "
                   />
                 </NavLink>
 
