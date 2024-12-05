@@ -12,7 +12,13 @@ const getUserImage = (image) => {
 
 const PublicationHeader = ({ publication, onEdit, onDelete }) => {
   const { auth } = useAuth();
-  const isUserOwner = auth?._id === publication.user?._id;
+  console.log("Datos de auth en PublicationHeader:", auth);
+  console.log('Rol del usuario:', auth?.role);
+
+
+  
+  //Usuario es ower/admin?
+  const isUserOwnerOrAdmin = auth?._id === publication.user?._id || auth?.role === "admin";
 
   return (
     <div className="flex items-center justify-between">
@@ -34,14 +40,16 @@ const PublicationHeader = ({ publication, onEdit, onDelete }) => {
           </p>
         </div>
       </div>
-      {isUserOwner && (
+      {isUserOwnerOrAdmin && (
         <div className="flex items-center space-x-4">
+          {/* Botón para editar la publicación */}
           <button
             onClick={() => onEdit(publication._id)}
             className="text-blue-600 hover:text-blue-800 hover:scale-125 transition-all duration-300"
           >
             <PencilIcon className="h-6 w-6" />
           </button>
+          {/* Botón para eliminar la publicación */}
           <button
             onClick={() => onDelete(publication._id)}
             className="text-red-600 hover:text-red-800 hover:scale-125 transition-all duration-300"

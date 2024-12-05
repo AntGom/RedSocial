@@ -8,7 +8,7 @@ import { CountersContext } from "../../context/CountersContext";
 const DeletePublication = ({ publicationId, onDeleteSuccess, onCancel }) => {
   const [status, setStatus] = useState("not_stored");
   const [loading, setLoading] = useState(false);
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token")?.replace(/['"]/g, "");
   
   const { updateCounters } = useContext(CountersContext);
 
@@ -46,6 +46,8 @@ const DeletePublication = ({ publicationId, onDeleteSuccess, onCancel }) => {
       setLoading(false);
     }
   };
+
+  console.log("Token decodificado:", JSON.parse(atob(token.split('.')[1])));
 
   return (
     <Modal isOpen={true} onClose={onCancel} title="Eliminar publicación">

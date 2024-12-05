@@ -1,39 +1,47 @@
-import Publication from '../../models/publicationModel.js';
+import Publication from "../../models/publicationModel.js";
 
 const remove = async (req, res) => {
-    try {
-        // Buscar la publicación que coincida con el ID proporcionado y el usuario actual
-        // Solo el creador de la publicación puede eliminarla
-        const publication = await Publication.findOne({
-            user: req.user.id,  // ID del usuario autenticado
-            _id: req.params.id  // ID de la publicación a eliminar
-        });
+  try {
+    //Busca publicación con el ID
+    const publication = await Publication.findById(req.params.id);
+    console.log("Publicación encontrada:", publication);
+    console.log("Usuario autenticado (req.user):", req.user);
 
-        // Si no se encuentra la publicación, significa que no existe/usuario sin permiso
-        if (!publication) {
-            return res.status(404).json({
-                status: "error",
-                message: "Publicación no encontrada o no tienes permiso para eliminarla",
-
-            });
-        }
-
-        // Si se encuentra la publicación, eliminar
-        await publication.deleteOne();
-
-        return res.status(200).json({
-            status: "success",
-            message: "Publicación eliminada correctamente",
-            publication: req.params.id,
-        });
-
-    } catch (error) {
-        return res.status(500).json({
-            status: "error",
-            message: "Error al eliminar la publicación",
-            error: error.message,
-        });
+    //Publicación existe?
+    if (!publication) {
+      return res.status(404).json({
+        status: "error",
+        message: "La publicación no existe",
+      });
     }
+
+    //Verificar usuario es owner/admin
+    if (
+      publication.user?.toString() === req.user.id.toString() ||
+      req.user.role === "admin"
+    ) {
+      // Eliminar la publicación
+      await publication.deleteOne();
+
+      return res.status(200).json({
+        status: "success",
+        message: "Publicación eliminada correctamente",
+        publication: req.params.id,
+      });
+    } else {
+      return res.status(403).json({
+        status: "error",
+        message: "No tienes permiso para eliminar esta publicación",
+      });
+    }
+  } catch (error) {
+    console.log("Error al eliminar la publicación:", error);
+    return res.status(500).json({
+      status: "error",
+      message: "Error al eliminar la publicación",
+      error: error.message,
+    });
+  }
 };
 
 export default remove;

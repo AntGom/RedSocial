@@ -15,7 +15,7 @@ const profile = async (req, res) => {
         console.log("Followed ID:", req.params.id);
 
         // Obtener el usuario cuyo perfil estamos solicitando, excluyendo password y role
-        const user = await User.findById(req.params.id).select("-password -role");
+        const user = await User.findById(req.params.id).select("-password");
 
         if (!user) {
             return res.status(404).send({
