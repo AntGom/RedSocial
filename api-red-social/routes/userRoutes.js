@@ -40,5 +40,8 @@ router.put("/update", auth, userController.update);
 router.post("/upload", [auth, uploadsMiddleware.single("file0")], userController.upload);
 router.get("/counters/:id", auth, followControllers.counter);
 router.delete("/delete/:id", auth, userController.deleteUser);
+//Sólo Admins
+router.put("/ban/:id", auth, userController.banUser);
+router.put("/unban/:id", auth, userController.unbanUser);
 
 export default router;

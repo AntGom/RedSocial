@@ -15,6 +15,7 @@ const UserSchema = new Schema({
   resetPasswordExpires: { type: Date, default: null },
   isDeleted: { type: Boolean, default: false },
   deletedAt: { type: Date, default: null },
+  isBanned: { type: Boolean, default: false },
 });
 
 const User = model("User", UserSchema, "users");

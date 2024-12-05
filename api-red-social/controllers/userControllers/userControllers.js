@@ -11,6 +11,8 @@ import avatar from "./avatar.js";
 import deleteUser from "./deleteUser.js";
 import requestAccountRecovery from "./requestRecoverAccount.js";
 import recoverAccount from "./recoverAccount.js";
+import banUser from "./banUser.js";
+import unbanUser from "./unbanUser.js";
 
 export const userController = { 
     register, 
@@ -26,4 +28,6 @@ export const userController = {
     deleteUser,
     requestAccountRecovery,
     recoverAccount,
+    banUser,
+    unbanUser
 };
