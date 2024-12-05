@@ -16,7 +16,9 @@ const generateToken = (user) => {
     image: user.image,
     created_at: moment().unix(), 
     iat: moment().unix(),
-    exp: moment().add(30, "days").unix()
+    exp: moment().add(30, "days").unix(),
+    isBanned: user.isBanned || false
+
    }
 
    return jwt.sign(payload, process.env.JWT_SECRET);

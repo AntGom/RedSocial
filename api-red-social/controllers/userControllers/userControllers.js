@@ -13,6 +13,7 @@ import requestAccountRecovery from "./requestRecoverAccount.js";
 import recoverAccount from "./recoverAccount.js";
 import banUser from "./banUser.js";
 import unbanUser from "./unbanUser.js";
+import checkIfBanned from "./checkIfBanned.js";
 
 export const userController = { 
     register, 
@@ -29,5 +30,6 @@ export const userController = {
     requestAccountRecovery,
     recoverAccount,
     banUser,
-    unbanUser
+    unbanUser,
+    checkIfBanned,
 };
