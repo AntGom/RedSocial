@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import useAuth from "../../../hooks/UseAuth";
+import {useAuth} from "../../../hooks/UseAuth";
 import { Global } from "../../../helpers/Global";
 import PublicationList from "../../publication/PublicationList";
 import HeaderProfile from "./HeaderProfile";

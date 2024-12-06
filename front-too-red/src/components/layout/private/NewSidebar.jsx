@@ -3,7 +3,7 @@ import { ArrowLeftStartOnRectangleIcon } from "@heroicons/react/24/solid";
 import { UserGroupIcon } from "@heroicons/react/24/solid";
 import avatar from "../../../assets/img/user.png";
 import { NavLink } from "react-router-dom";
-import useAuth from "../../../hooks/UseAuth";
+import {useAuth} from "../../../hooks/UseAuth";
 import { Global } from "../../../helpers/Global";
 import UserCounters from "../../user/UserCounters";
 import NewPublicationForm from "../../publication/NewPublication/NewPublicationForm";

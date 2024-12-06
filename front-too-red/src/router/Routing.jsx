@@ -9,7 +9,7 @@ import RecoverPassword from "../components/user/RecoverPassword";
 import ResetPassword from "../components/user/ResetPassword";
 import PrivateLayout from "../components/layout/private/PrivateLayout";
 import Feed from "../components/publication/Feed";
-import { AuthProvider } from "../context/AuthProvider";
+import {AuthProvider} from "../context/AuthProvider";
 import LogOut from "../components/user/LogOut";
 import People from "../components/user/People";
 import Config from "../components/user/EditProfile/Config";

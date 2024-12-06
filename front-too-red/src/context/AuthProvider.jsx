@@ -1,83 +1,114 @@
-import { createContext, useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { createContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Global } from "../helpers/Global";
+import { useNavigate } from "react-router-dom";
+import BanNotificationModal from "../components/user/Login/BanNotificationModal";
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
-// Crear el AuthProvider
-export const AuthProvider = ({ children = null }) => {
+export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({});
   const [counters, setCounters] = useState({});
   const [loading, setLoading] = useState(true);
+  const [showBanModal, setShowBanModal] = useState(false); // Estado del modal
+  const navigate = useNavigate();
 
+  // Autenticar usuario al cargar el componente
   useEffect(() => {
     authUser();
   }, []);
 
   const authUser = async () => {
-    //Sacar datos del user identificado del localStorage
     const token = localStorage.getItem("token");
     const user = localStorage.getItem("user");
 
-    //Comprobar si tengo el token y el user
     if (!token || !user) {
       setLoading(false);
       return false;
     }
 
-    //transformar los datos a objeto javaScript
     const userObj = JSON.parse(user);
     const userId = userObj.id;
 
-    //Petición al back para comprobar token y que devuelva los datos del user
-    const request = await fetch(Global.url + "user/profile/" + userId, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-    });
-
-    const data = await request.json();
-
-    //Peticion para los contadores
-    const requestCounters = await fetch(
-      Global.url + "user/counters/" + userId,
-      {
+    try {
+      // Consultar el perfil del usuario
+      const request = await fetch(Global.url + "user/profile/" + userId, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: token,
         },
+      });
+
+      if (!request.ok) {
+        if (request.status === 401 || request.status === 403) {
+          handleLogout(); // Limpia la sesión en caso de error de autorización
+          return false;
+        }
       }
-    );
 
-    const dataCounters = await requestCounters.json();
+      const data = await request.json();
 
-    //Setear el estado de Auth
-    setAuth(data.user);
-    setCounters(dataCounters);
+      if (data.user.isBanned) {
+        setShowBanModal(true); // Mostrar el modal si el usuario está baneado
+      }
+
+      const countersRequest = await fetch(
+        Global.url + "user/counters/" + userId,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+        }
+      );
+
+      const dataCounters = await countersRequest.json();
+
+      setAuth(data.user);
+      setCounters(dataCounters);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error authenticating user", error);
+      setLoading(false);
+    }
+  };
+
+  const handleConfirmBan = () => {
+    handleLogout();
+    setTimeout(() => {
+      navigate("/logOut");
+    }, 2000);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setAuth({});
+    setCounters({});
     setLoading(false);
   };
 
   return (
-    <AuthContext.Provider
-      value={{
-        auth,
-        setAuth,
-        counters,
-        setCounters,
-        loading,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+    <>
+      {showBanModal && <BanNotificationModal onConfirm={handleConfirmBan} />}
+      <AuthContext.Provider
+        value={{
+          auth,
+          setAuth,
+          counters,
+          setCounters,
+          loading,
+        }}
+      >
+        {children}
+      </AuthContext.Provider>
+    </>
   );
 };
 
-// Definir PropTypes para el AuthProvider
 AuthProvider.propTypes = {
-  children: PropTypes.node.isRequired, 
+  children: PropTypes.node.isRequired,
 };
-
-export default AuthContext;

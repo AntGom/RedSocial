@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useContext } from "react";
 import { Global } from "../../../helpers/Global";
 import useForm from "../../../hooks/UseForm";
-import useAuth from "../../../hooks/UseAuth";
+import {useAuth} from "../../../hooks/UseAuth";
 import Modal from "./ModalNewPublication";
 import NotificationMessage from "./NotificationMessage";
 import FileInput from "./FileInput";

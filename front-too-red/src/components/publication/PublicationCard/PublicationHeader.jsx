@@ -4,7 +4,7 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import ReactTimeAgo from "react-time-ago";
 import avatar from "../../../assets/img/user.png";
 import { Global } from "../../../helpers/Global";
-import useAuth from "../../../hooks/UseAuth";
+import {useAuth} from "../../../hooks/UseAuth";
 
 const getUserImage = (image) => {
   return image && image !== "default.png" ? `${Global.url}user/avatar/${image}` : avatar;
@@ -12,11 +12,7 @@ const getUserImage = (image) => {
 
 const PublicationHeader = ({ publication, onEdit, onDelete }) => {
   const { auth } = useAuth();
-  console.log("Datos de auth en PublicationHeader:", auth);
-  console.log('Rol del usuario:', auth?.role);
 
-
-  
   //Usuario es ower/admin?
   const isUserOwnerOrAdmin = auth?._id === publication.user?._id || auth?.role === "admin";
 

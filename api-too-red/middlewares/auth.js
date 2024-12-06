@@ -20,7 +20,7 @@ const auth = async (req, res, next) => {
 
     const user = await User.findById(req.user.id);
     if (user.isBanned) {
-      return res.status(403).send({ status: "error", message: MESSAGES.AUTH.BANNED });
+      return res.status(403).send({ status: "banned", message: MESSAGES.AUTH.BANNED });
     }
 
     next();

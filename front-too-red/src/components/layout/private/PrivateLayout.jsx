@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 import NewSidebar from "./NewSidebar";
-import useAuth from "../../../hooks/UseAuth";
+import {useAuth} from "../../../hooks/UseAuth";
 
 const PrivateLayout = () => {
   const { auth, loading } = useAuth();

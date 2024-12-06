@@ -1,5 +1,5 @@
 import { XCircleIcon } from "@heroicons/react/24/outline";
-import PropTypes from "prop-types"; // Importa PropTypes
+import PropTypes from "prop-types";
 
 const LoginMessage = ({ saved, setSaved }) => {
   return (
@@ -31,7 +31,6 @@ const LoginMessage = ({ saved, setSaved }) => {
   );
 };
 
-// Validación de las props en LoginMessage
 LoginMessage.propTypes = {
   saved: PropTypes.string.isRequired,
   setSaved: PropTypes.func.isRequired,

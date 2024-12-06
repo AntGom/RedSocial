@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import DeleteComment from "../Comments/DeleteComment";
 import ReactTimeAgo from "react-time-ago";
 import LikeButton from "../Likes/LikeButton";
-import useAuth from "../../../hooks/UseAuth";
+import {useAuth} from "../../../hooks/UseAuth";
 
 const CommentsList = ({ publicationId, likes, publicationUserId }) => {
   const [comments, setComments] = useState([]);
