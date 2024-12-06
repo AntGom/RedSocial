@@ -43,6 +43,6 @@ router.delete("/delete/:id", auth, userController.deleteUser);
 //Sólo Admins
 router.put("/ban/:id", auth, userController.banUser);
 router.put("/unban/:id", auth, userController.unbanUser);
-router.get('/check', userController.checkIfBanned);
+router.get('/check', auth, userController.checkIfBanned);
 
 export default router;
