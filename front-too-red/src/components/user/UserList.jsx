@@ -19,6 +19,7 @@ const UserList = ({
 }) => {
   const { auth } = useAuth();
   const { updateCounters } = useCounters();
+  const token = localStorage.getItem("token");
 
   const nextPage = () => {
     let next = page + 1;
@@ -32,7 +33,7 @@ const UserList = ({
       body: JSON.stringify({ followed: userId }),
       headers: {
         "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token"),
+        Authorization: token,
       },
     });
 
@@ -49,7 +50,7 @@ const UserList = ({
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token"),
+        Authorization: token,
       },
     });
 
