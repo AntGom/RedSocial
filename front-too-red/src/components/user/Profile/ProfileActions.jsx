@@ -88,6 +88,8 @@ const ProfileActions = ({ user, auth, iFollow, setIFollow, token }) => {
       const data = await request.json();
       if (data.status === "success") {
         showToastMessage("Usuario baneado con éxito.", "success");
+        // Actualizar el estado para reflejar el baneo
+        user.isBanned = true;
       } else {
         showToastMessage(data.message || "Error al intentar banear al usuario", "error");
       }
@@ -110,6 +112,8 @@ const ProfileActions = ({ user, auth, iFollow, setIFollow, token }) => {
       const data = await request.json();
       if (data.status === "success") {
         showToastMessage("Usuario desbaneado con éxito.", "success");
+        // Actualizar el estado para reflejar el desbaneo
+        user.isBanned = false;
       } else {
         showToastMessage(data.message || "Error al intentar desbanear al usuario", "error");
       }

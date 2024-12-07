@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
-import clsx from 'clsx';
-
+import clsx from "clsx";
 
 const Toast = ({ message, type, onClose }) => {
   useEffect(() => {
@@ -10,19 +9,19 @@ const Toast = ({ message, type, onClose }) => {
   }, [onClose]);
 
   return (
-<div className={clsx(
-  "fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 py-4 px-6 rounded-lg shadow-lg z-50 text-center",
-  {
-    "bg-success-600": type === "success",
-    "bg-error-600": type === "error"
-  }
-)}>
-  <p className="font-semibold">{message}</p>
-</div>
+    <div
+      className={clsx(
+        "fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 py-4 px-6 rounded-lg shadow-lg z-50 text-center",
+        {
+          "bg-success-600": type === "success",
+          "bg-error-600": type === "error",
+        }
+      )}
+    >
+      <p className="font-semibold">{message}</p>
+    </div>
   );
 };
-
-  
 
 Toast.propTypes = {
   message: PropTypes.string.isRequired,
