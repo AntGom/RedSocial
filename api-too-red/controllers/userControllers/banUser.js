@@ -1,5 +1,6 @@
 import User from "../../models/userModel.js";
 import MESSAGES from "../../services/messages.js";
+import { sendEmail } from "../../services/emailService.js";
 
 const banUser = async (req, res) => {
   try {
@@ -18,6 +19,16 @@ const banUser = async (req, res) => {
 
     user.isBanned = true;
     await user.save();
+
+    //Enviar correo al usuario
+    const subject = "Notificación de cuenta baneada - Too-Red";
+    const html = `
+      <h1>Tu cuenta ha sido baneada</h1>
+      <p>Hola ${user.name},</p>
+      <p>Tu cuenta en Too-Red ha sido baneada por un administrador debido a un incumplimiento de nuestras políticas.</p>
+      <p>Si crees que esto es un error, por favor contacta con soporte.</p>
+    `;
+    await sendEmail(user.email, subject, html);
 
     return res.status(200).send({ status: "success", message: MESSAGES.USER.BANNED_SUCCESS });
   } catch (error) {
