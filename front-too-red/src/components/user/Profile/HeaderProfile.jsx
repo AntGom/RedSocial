@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import ProfileImage from "./ProfileImage";
-import ProfileActions from "./ProfileActions";
+import ProfileActions from "./ProfileActions/ProfileActions";
 import ProfileStats from "./ProfileStats";
 import BioSection from "./BioSection";
 

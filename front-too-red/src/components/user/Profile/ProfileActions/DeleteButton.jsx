@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
-import { Global } from "../../../helpers/Global";
-import Modal from "../../publication/NewPublication/ModalNewPublication";
-import NotificationMessage from "../../publication/NewPublication/NotificationMessage";
+import { Global } from "../../../../helpers/Global";
+import Modal from "../../../publication/NewPublication/ModalNewPublication";
+import NotificationMessage from "../../../publication/NewPublication/NotificationMessage";
 
 const DeleteProfileModal = ({ authId, token, onDeleteSuccess, onCancel }) => {
   const [status, setStatus] = useState("not_stored");
