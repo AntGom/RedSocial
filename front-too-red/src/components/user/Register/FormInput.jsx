@@ -18,11 +18,10 @@ const FormInput = ({ label, name, type = "text", value, onChange, error }) => {
   );
 };
 
-// Agregar validación de props con PropTypes
 FormInput.propTypes = {
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  type: PropTypes.string, // tipo opcional, default "text"
+  type: PropTypes.string,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   error: PropTypes.string,

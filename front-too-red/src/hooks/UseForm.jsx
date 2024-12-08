@@ -15,6 +15,7 @@ const UseForm = (initialObj = {}) => {
   return {
     form,
     changed,
+    setForm,
   };
 };
 

@@ -16,6 +16,7 @@ const UserSchema = new Schema({
   isDeleted: { type: Boolean, default: false },
   deletedAt: { type: Date, default: null },
   isBanned: { type: Boolean, default: false },
+  interests: { type: [String], default: [] },
 });
 
 const User = model("User", UserSchema, "users");
