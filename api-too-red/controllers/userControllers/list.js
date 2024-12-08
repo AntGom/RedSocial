@@ -9,7 +9,7 @@ const list = async (req, res) => {
     const skip = (page - 1) * itemsPerPage;
 
     const users = await User.find()
-      .select("-password -role -__v -email")
+      .select("-password -role -__v")
       .skip(skip)
       .limit(itemsPerPage)
       .lean();

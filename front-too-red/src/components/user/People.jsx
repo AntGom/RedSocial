@@ -9,6 +9,7 @@ const People = () => {
   const [more, setMore] = useState(true);
   const [following, setFollowing] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     getUsers(1);
@@ -35,14 +36,33 @@ const People = () => {
     }
   };
 
+  const filteredUsers = users.filter(
+    (user) =>
+      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.nick.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="flex-1 flex-col">
       <h1 className="flex text-3xl font-bold text-gray-900 mb-4">
         Descubre personas
       </h1>
 
+      {/* Buscador */}
+      <div className="mb-4">
+        <input
+          type="text"
+          className="w-full p-2 border-2 border-red-600 rounded-lg"
+          placeholder="Buscar por nombre, nick o email."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+
+      {/* Lista de usuarios filtrada */}
       <UserList
-        users={users}
+        users={filteredUsers}
         getUsers={getUsers}
         following={following}
         setFollowing={setFollowing}
