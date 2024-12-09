@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Select from "react-select";
 import { Global } from "../../../helpers/Global";
 import UseForm from "../../../hooks/UseForm";
 import { useNavigate } from "react-router-dom";
@@ -7,20 +6,7 @@ import FormInput from "./FormInput";
 import PasswordInput from "./PasswordInput";
 import validateForm from "../../../helpers/validateForm.js";
 import Toast from "../../../helpers/Toast.jsx";
-
-const interestOptions = [
-  { value: "Deportes", label: "Deportes" },
-  { value: "Tecnología", label: "Tecnología" },
-  { value: "Arte", label: "Arte" },
-  { value: "Música", label: "Música" },
-  { value: "Cocina", label: "Cocina" },
-  { value: "Literatura", label: "Literatura" },
-  { value: "Política", label: "Política" },
-  { value: "Viajes", label: "Viajes" },
-  { value: "Humor", label: "Humor" },
-  { value: "Historia", label: "Historia" },
-  { value: "Naturaleza", label: "Naturaleza" },
-];
+import InterestsSelect from "./InterestsSelect.jsx";
 
 const Register = () => {
   const { form, changed, setForm } = UseForm({
@@ -31,28 +17,21 @@ const Register = () => {
     password: "",
     interests: [],
   });
-  
+
   const [errors, setErrors] = useState({});
   const [toast, setToast] = useState({ message: "", type: "", show: false });
   const navigate = useNavigate();
 
-  const handleInterestsChange = (selectedOptions) => {
-    const selectedValues = selectedOptions ? selectedOptions.map((option) => option.value) : [];
-    setForm({ ...form, interests: selectedValues });
-  };
-
   const saveUser = async (e) => {
     e.preventDefault();
-  
-    console.log("Formulario enviado:", form);
-  
+
     const validationErrors = validateForm(form);
     setErrors(validationErrors);
-  
+
     if (Object.keys(validationErrors).length > 0) {
       return;
     }
-  
+
     const request = await fetch(Global.url + "user/register", {
       method: "POST",
       body: JSON.stringify(form),
@@ -60,22 +39,30 @@ const Register = () => {
         "Content-Type": "application/json",
       },
     });
-  
+
     const data = await request.json();
-  
+
     if (data.status === "success") {
       setToast({
-        message: "¡Usuario registrado correctamente! Confirma tu cuenta desde el correo que has recibido.",
+        message:
+          "¡Usuario registrado correctamente! Confirma tu cuenta desde el correo que has recibido.",
         type: "success",
-        show: true
+        show: true,
       });
-      setForm({ name: "", surname: "", nick: "", email: "", password: "", interests: [] });
+      setForm({
+        name: "",
+        surname: "",
+        nick: "",
+        email: "",
+        password: "",
+        interests: [],
+      });
       setTimeout(() => navigate("/login"), 2000);
     } else {
       setToast({
         message: data.message,
         type: "error",
-        show: true
+        show: true,
       });
       setErrors({ general: data.message });
     }
@@ -90,7 +77,9 @@ const Register = () => {
       </header>
 
       {/* Mostrar el Toast si show es true */}
-      {toast.show && <Toast message={toast.message} type={toast.type} onClose={closeToast} />}
+      {toast.show && (
+        <Toast message={toast.message} type={toast.type} onClose={closeToast} />
+      )}
 
       <div className="flex flex-col gap-2 justify-center items-center h-2/5">
         <form
@@ -131,21 +120,10 @@ const Register = () => {
             onChange={changed}
             error={errors.password}
           />
-          <div className="mb-4">
-            <label htmlFor="interests" className="block text-gray-900 font-semibold">
-              Intereses
-            </label>
-            <Select
-              id="interests"
-              isMulti
-              options={interestOptions}
-              value={interestOptions.filter(option =>
-                form.interests.includes(option.value)
-              )}
-              onChange={handleInterestsChange}
-              placeholder="Selecciona tus intereses"
-            />
-          </div>
+          <InterestsSelect
+            selectedInterests={form.interests}
+            onChange={(values) => setForm({ ...form, interests: values })}
+          />
 
           <input
             type="submit"

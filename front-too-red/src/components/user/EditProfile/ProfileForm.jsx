@@ -2,15 +2,27 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { Global } from "../../../helpers/Global";
 import avatar from "../../../assets/img/user.png";
-import { EyeIcon, EyeSlashIcon, FolderOpenIcon } from "@heroicons/react/24/solid";
+import {
+  EyeIcon,
+  EyeSlashIcon,
+  FolderOpenIcon,
+} from "@heroicons/react/24/solid";
+import InterestsSelect from "../Register/InterestsSelect";
 
-const ProfileForm = ({ auth, showPassword, setShowPassword, onChange, onFileChange }) => {
+const ProfileForm = ({
+  auth,
+  setAuth,
+  showPassword,
+  setShowPassword,
+  onChange,
+  onFileChange,
+}) => {
   const [selectedFileName, setSelectedFileName] = useState("");
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setSelectedFileName(file ? file.name : ""); // Actualiza el nombre del archivo seleccionado
-    onFileChange(e); // Llama a la función onFileChange pasada como prop para manejar la lógica adicional
+    setSelectedFileName(file ? file.name : "");
+    onFileChange(e);
   };
 
   return (
@@ -18,7 +30,10 @@ const ProfileForm = ({ auth, showPassword, setShowPassword, onChange, onFileChan
       <form onSubmit={onChange}>
         <div className="space-y-3">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-900">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-900"
+            >
               Nombre
             </label>
             <input
@@ -29,7 +44,10 @@ const ProfileForm = ({ auth, showPassword, setShowPassword, onChange, onFileChan
             />
           </div>
           <div>
-            <label htmlFor="surname" className="block text-sm font-medium text-gray-900">
+            <label
+              htmlFor="surname"
+              className="block text-sm font-medium text-gray-900"
+            >
               Apellidos
             </label>
             <input
@@ -40,7 +58,10 @@ const ProfileForm = ({ auth, showPassword, setShowPassword, onChange, onFileChan
             />
           </div>
           <div>
-            <label htmlFor="nick" className="block text-sm font-medium text-gray-900">
+            <label
+              htmlFor="nick"
+              className="block text-sm font-medium text-gray-900"
+            >
               Nickname
             </label>
             <input
@@ -51,7 +72,10 @@ const ProfileForm = ({ auth, showPassword, setShowPassword, onChange, onFileChan
             />
           </div>
           <div>
-            <label htmlFor="bio" className="block text-sm font-medium text-gray-900">
+            <label
+              htmlFor="bio"
+              className="block text-sm font-medium text-gray-900"
+            >
               Biografía
             </label>
             <textarea
@@ -60,8 +84,19 @@ const ProfileForm = ({ auth, showPassword, setShowPassword, onChange, onFileChan
               className="w-full p-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none"
             />
           </div>
+          <InterestsSelect
+            selectedInterests={auth.interests || []}
+            onChange={(values) => {
+              const updatedAuth = { ...auth, interests: values };
+              setAuth(updatedAuth);
+            }}
+          />
+
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-900">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-900"
+            >
               Email
             </label>
             <input
@@ -72,7 +107,10 @@ const ProfileForm = ({ auth, showPassword, setShowPassword, onChange, onFileChan
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-900">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-900"
+            >
               Contraseña
             </label>
             <div className="relative">
@@ -95,12 +133,19 @@ const ProfileForm = ({ auth, showPassword, setShowPassword, onChange, onFileChan
             </div>
           </div>
           <div>
-            <label htmlFor="file0" className="block text-sm font-medium text-gray-900">
+            <label
+              htmlFor="file0"
+              className="block text-sm font-medium text-gray-900"
+            >
               Avatar
             </label>
             <div className="flex items-center mt-2 space-x-4">
               <img
-                src={auth.image !== "default.png" ? `${Global.url}user/avatar/${auth.image}` : avatar}
+                src={
+                  auth.image !== "default.png"
+                    ? `${Global.url}user/avatar/${auth.image}`
+                    : avatar
+                }
                 alt="Avatar"
                 className="w-16 h-16 rounded-full border-2 bg-gray-300 border-gray-700 object-contain"
               />
@@ -118,7 +163,9 @@ const ProfileForm = ({ auth, showPassword, setShowPassword, onChange, onFileChan
                 onChange={handleFileChange} // Maneja el cambio de archivo
               />
               {selectedFileName && (
-                <span className="text-sm text-gray-700">{selectedFileName}</span> // Muestra el nombre del archivo
+                <span className="text-sm text-gray-700">
+                  {selectedFileName}
+                </span> // Muestra el nombre del archivo
               )}
             </div>
           </div>
@@ -145,7 +192,9 @@ ProfileForm.propTypes = {
     bio: PropTypes.string,
     email: PropTypes.string,
     image: PropTypes.string,
+    interests: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
+  setAuth: PropTypes.func.isRequired,
   showPassword: PropTypes.bool.isRequired,
   setShowPassword: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,

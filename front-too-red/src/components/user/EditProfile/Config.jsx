@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {useAuth} from "../../../hooks/UseAuth";
+import { useAuth } from "../../../hooks/UseAuth";
 import { Global } from "../../../helpers/Global";
 import SerializeForm from "../../../helpers/SerializeForm";
 import ProfileForm from "./ProfileForm";
@@ -13,9 +13,9 @@ const Config = () => {
   const updateUser = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
-    let newDataUser = SerializeForm(e.target);
+    let newDataUser = SerializeForm(e.target, { interests: auth.interests });
     delete newDataUser.file0;
-
+    
     try {
       const request = await fetch(Global.url + "user/update", {
         method: "PUT",
@@ -67,9 +67,12 @@ const Config = () => {
 
   return (
     <>
-      <h1 className="text-3xl font-bold text-gray-900 text-start">Editar Perfil</h1>
+      <h1 className="text-3xl font-bold text-gray-900 text-start">
+        Editar Perfil
+      </h1>
       <ProfileForm
         auth={auth}
+        setAuth={setAuth}
         showPassword={showPassword}
         setShowPassword={setShowPassword}
         onChange={updateUser}
