@@ -1,4 +1,6 @@
 import Publication from "../../models/publicationModel.js";
+import User from "../../models/userModel.js";
+import { sendEmail } from "../../services/emailService.js";
 
 const reportPublication = async (req, res) => {
   const { id } = req.params;
@@ -6,7 +8,6 @@ const reportPublication = async (req, res) => {
   const userId = req.user.id;
 
   try {
-    //Buscar publicación
     const publication = await Publication.findById(id);
 
     if (!publication) {
@@ -16,7 +17,7 @@ const reportPublication = async (req, res) => {
       });
     }
 
-    //Comprobar si user reportó publicación antes
+    //Usuario ya ha reportado antes?
     const alreadyReported = publication.reports.some(
       (report) => report.user.toString() === userId
     );
@@ -28,11 +29,35 @@ const reportPublication = async (req, res) => {
       });
     }
 
-    // Añadir reporte
+    //Nickname denunciante
+    const reportUser = await User.findById(userId);
+    const reportUserNickname = reportUser ? reportUser.nick : "Usuario desconocido";
+
+    //Nickname denunciado
+    const postUser = await User.findById(publication.user);
+    const postUserNickname = postUser ? postUser.nick : "Usuario desconocido";
+
+    //Fecha de denuncia
+    const reportDate = new Date();
+    const formattedDate = reportDate.toLocaleString(); // Puedes ajustar el formato según tus necesidades
+
+    //Añadir reporte
     publication.reports.push({ user: userId, reason });
     publication.reportCount = publication.reports.length;
 
     await publication.save();
+
+    //Correo al admin
+    const adminEmail = process.env.ADMIN_EMAIL;
+    const subject = "Reporte de Publicación en Too-Red";
+    const htmlContent = `
+      <h1>Nuevo Reporte de Publicación</h1>
+      <p>Una publicación de <strong>${postUserNickname}</strong> ha sido denunciada por el usuario <strong>${reportUserNickname}</strong>.</p>
+      <p><strong>Motivo del reporte:</strong> ${reason}</p>
+      <p><strong>Fecha de la denuncia:</strong> ${formattedDate}</p>
+      <p><strong>ID de la publicación:</strong> ${publication._id}</p>
+    `;
+    await sendEmail(adminEmail, subject, htmlContent);
 
     return res.status(200).json({
       status: "success",
