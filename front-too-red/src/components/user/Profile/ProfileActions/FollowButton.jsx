@@ -51,7 +51,7 @@ const FollowButton = ({ userId, iFollow, setIFollow, token, showToastMessage }) 
       onClick={iFollow ? unFollow : follow}
       className={`flex items-center justify-center bg-white border-2 ${
         iFollow ? "text-red-600 border-gray-900" : "text-gray-900 border-red-600"
-      } font-semibold px-4 py-2 rounded-lg shadow-md hover:scale-110 duration-300 transition-all w-40 h-10`}
+      } font-semibold px-1 py-2 rounded-lg shadow-md hover:scale-110 duration-300 transition-all w-40 h-10`}
     >
       {iFollow ? (
         <>

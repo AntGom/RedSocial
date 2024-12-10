@@ -36,7 +36,7 @@ export const followUserIds = async (identityUserId) => {
 };
 
 export const followThisUser = async (identityUserId, profileUserId) => {
-  // Verificar que los parámetros estén definidos
+  //Verificar que los parámetros estén definidos
   if (!identityUserId || !profileUserId) {
     throw new Error("Parámetros inválidos");
   }
