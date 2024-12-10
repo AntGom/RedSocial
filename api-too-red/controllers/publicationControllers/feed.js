@@ -8,7 +8,35 @@ const feed = async (req, res) => {
     let page = parseInt(req.params.page) || 1;
     let itemsPerPage = 5;
 
-    //Mis intereses de usuario autenticado
+    //Usuario = admin?
+    const isAdmin = identity.role === 'admin';
+
+    //Usuario = admin=>mostrar todas publicaciones
+    if (isAdmin) {
+      const publications = await Publication.paginate({}, {
+        page: page,
+        limit: itemsPerPage,
+        populate: [
+          { path: "user", select: "_id name surname nick image" },
+          { path: "comments.user", select: "_id name nick image" },
+          { path: "likes.user", select: "_id name nick" },
+        ],
+        sort: { createdAt: -1 },
+      });
+
+      return res.status(200).json({
+        status: "success",
+        message: "Publicaciones obtenidas correctamente",
+        totalArticles: publications.totalDocs,
+        totalPages: publications.totalPages,
+        currentPage: publications.page,
+        hasNextPage: publications.hasNextPage,
+        hasPrevPage: publications.hasPrevPage,
+        publications: publications.docs,
+      });
+    }
+
+    //Si != admin filtrar por seguidos e intereses
     const user = await User.findById(identity.id).select("interests");
     if (!user) {
       return res.status(404).json({
@@ -23,13 +51,13 @@ const feed = async (req, res) => {
     //Usuarios con intereses comunes
     const usersWithCommonInterests = await User.find({
       interests: { $in: user.interests },
-      _id: { $ne: identity.id }, //Excluir a mi mismo
+      _id: { $ne: identity.id }, //Excluirme
     }).select("_id");
 
-    //Crear [] de IDs de usuarios con intereses
+    //[IDs] usuarios con intereses comunes
     const commonInterestUserIds = usersWithCommonInterests.map((u) => u._id);
 
-    //Combinar IDs de los seguidos+intereses
+    //Combinar IDs de seguidos e intereses
     const userIds = [...new Set([...followUserId.following, ...commonInterestUserIds])];
 
     if (userIds.length === 0) {
@@ -45,7 +73,7 @@ const feed = async (req, res) => {
       });
     }
 
-    //Consulta de publicaciones
+    //Publicaciones usuarios seguidos y/o con intereses
     const query = { user: { $in: userIds } };
 
     const publications = await Publication.paginate(query, {
@@ -69,6 +97,7 @@ const feed = async (req, res) => {
       hasPrevPage: publications.hasPrevPage,
       publications: publications.docs,
     });
+
   } catch (error) {
     return res.status(500).json({
       status: "error",
@@ -77,5 +106,6 @@ const feed = async (req, res) => {
     });
   }
 };
+
 
 export default feed;

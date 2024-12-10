@@ -18,7 +18,6 @@ const storage = multer.diskStorage({
   
   const uploadsMiddleware = multer({ storage: storage });
 
-//Definir las rutas
 router.post("/save", auth, publicationController.save);
 router.get("/detail/:id", auth, publicationController.detail);
 router.delete("/remove/:id", auth, publicationController.remove);
@@ -30,6 +29,7 @@ router.put('/edit/:id', auth, publicationController.editPublication);
 router.post("/comment/:publication_id", auth, publicationController.addComment);
 router.get("/comments/:publication_id", auth, publicationController.getComments);
 router.delete("/:publication_id/comments/:comment_id", auth, publicationController.deleteComment);
+router.post("/report/:id", auth, publicationController.reportPublication);
 router.post("/like/:publication_id", auth, likesController.newLike);
 router.delete("/like/:publication_id", auth, likesController.unlike);
 router.get("/likes/:publication_id", auth, likesController.getLikes);

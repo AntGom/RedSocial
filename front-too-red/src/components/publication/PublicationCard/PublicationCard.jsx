@@ -1,16 +1,18 @@
-import PropTypes from "prop-types";
 import { useState } from "react";
+import PropTypes from "prop-types";
 import PublicationHeader from "./PublicationHeader";
 import PublicationContent from "./PublicationContent";
 import PublicationActions from "./PublicationActions";
 import EditPublication from "../EditPublication";
 import DeletePublication from "../DeletePublication";
+import ReportPublication from "./ReportPublication";
 import { Global } from "../../../helpers/Global";
 
 const PublicationCard = ({ publication, getPublications }) => {
   const [editing, setEditing] = useState(null);
   const [deleting, setDeleting] = useState(null);
   const [viewingImage, setViewingImage] = useState(null);
+  const [reporting, setReporting] = useState(false);
 
   return (
     <article className="flex flex-col relative bg-white rounded-lg border hover:bg-gray-100 p-5 mb-4">
@@ -18,6 +20,7 @@ const PublicationCard = ({ publication, getPublications }) => {
         publication={publication}
         onEdit={setEditing}
         onDelete={setDeleting}
+        onReport={() => setReporting(true)}
       />
       <PublicationContent
         text={publication.text}
@@ -49,6 +52,13 @@ const PublicationCard = ({ publication, getPublications }) => {
             getPublications(1, true);
           }}
           onCancel={() => setDeleting(null)}
+        />
+      )}
+
+      {reporting && (
+        <ReportPublication
+          publicationId={publication._id}
+          onClose={() => setReporting(false)}
         />
       )}
 

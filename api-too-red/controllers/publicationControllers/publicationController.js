@@ -9,6 +9,7 @@ import editPublication from "./editPublication.js";
 import addComment from "../comments/addComment.js";
 import getComments from "../comments/getComments.js";
 import deleteComment from "../comments/eraseComment.js";
+import reportPublication from "./reportPublication.js";
 
 
 
@@ -24,6 +25,6 @@ export const publicationController =  {
     addComment,
     getComments,
     deleteComment,
-
+    reportPublication,
 };
     

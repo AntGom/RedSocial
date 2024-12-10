@@ -1,19 +1,19 @@
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
-import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
+import { PencilIcon, TrashIcon, FlagIcon } from "@heroicons/react/24/solid";
 import ReactTimeAgo from "react-time-ago";
 import avatar from "../../../assets/img/user.png";
 import { Global } from "../../../helpers/Global";
-import {useAuth} from "../../../hooks/UseAuth";
+import { useAuth } from "../../../hooks/UseAuth";
 
 const getUserImage = (image) => {
   return image && image !== "default.png" ? `${Global.url}user/avatar/${image}` : avatar;
 };
 
-const PublicationHeader = ({ publication, onEdit, onDelete }) => {
+const PublicationHeader = ({ publication, onEdit, onDelete, onReport }) => {
   const { auth } = useAuth();
 
-  //Usuario es ower/admin?
+  // Usuario es propietario o admin
   const isUserOwnerOrAdmin = auth?._id === publication.user?._id || auth?.role === "admin";
 
   return (
@@ -36,24 +36,32 @@ const PublicationHeader = ({ publication, onEdit, onDelete }) => {
           </p>
         </div>
       </div>
-      {isUserOwnerOrAdmin && (
-        <div className="flex items-center space-x-4">
-          {/* Botón para editar la publicación */}
+      <div className="flex items-center space-x-4">
+        {!isUserOwnerOrAdmin && (
           <button
-            onClick={() => onEdit(publication._id)}
-            className="text-blue-600 hover:text-blue-800 hover:scale-125 transition-all duration-300"
+            onClick={() => onReport(publication._id)}
+            className="text-gray-600 hover:text-red-700 transition-all duration-300"
           >
-            <PencilIcon className="h-6 w-6" />
+            <FlagIcon className="h-6 w-6" />
           </button>
-          {/* Botón para eliminar la publicación */}
-          <button
-            onClick={() => onDelete(publication._id)}
-            className="text-red-600 hover:text-red-800 hover:scale-125 transition-all duration-300"
-          >
-            <TrashIcon className="h-6 w-6" />
-          </button>
-        </div>
-      )}
+        )}
+        {isUserOwnerOrAdmin && (
+          <>
+            <button
+              onClick={() => onEdit(publication._id)}
+              className="text-blue-600 hover:text-blue-800 hover:scale-125 transition-all duration-300"
+            >
+              <PencilIcon className="h-6 w-6" />
+            </button>
+            <button
+              onClick={() => onDelete(publication._id)}
+              className="text-red-600 hover:text-red-800 hover:scale-125 transition-all duration-300"
+            >
+              <TrashIcon className="h-6 w-6" />
+            </button>
+          </>
+        )}
+      </div>
     </div>
   );
 };
@@ -62,6 +70,7 @@ PublicationHeader.propTypes = {
   publication: PropTypes.object.isRequired,
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  onReport: PropTypes.func.isRequired,
 };
 
 export default PublicationHeader;
