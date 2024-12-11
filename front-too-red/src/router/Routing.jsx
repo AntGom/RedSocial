@@ -17,6 +17,7 @@ import Following from "../components/follow/Following";
 import Followers from "../components/follow/Followers.jsx";
 import Profile from "../components/user/Profile/Profile.jsx";
 import MyPublications from "../components/publication/MyPublications.jsx";
+import ReportedPublications from "../components/publication/ReportedPublications.jsx";
 
 const Routing = () => {
   return (
@@ -44,6 +45,7 @@ const Routing = () => {
             <Route path="seguidores/:userId" element={<Followers />} />
             <Route path="profile/:userId" element={<Profile />} />
             <Route path="publications/:userId" element={<MyPublications />} />
+            <Route path="admin/reported-publications" element={<ReportedPublications />} />
           </Route>
 
           <Route

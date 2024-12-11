@@ -2,6 +2,13 @@ import Publication from "../../models/publicationModel.js";
 
 const getReportedPublications = async (req, res) => {
   try {
+    if (!req.user || req.user.role !== "admin") {
+      return res.status(403).send({
+        status: "error",
+        message: "Acceso denegado. Solo los administradores pueden realizar esta acción.",
+      });
+    }
+
     const reportedPublications = await Publication.find({ reportCount: { $gt: 0 } })
       .select("text file reports createdAt user")
       .populate({
