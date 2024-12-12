@@ -3,15 +3,11 @@ import { sendEmail } from "../../services/emailService.js"; // Asegúrate de imp
 
 const remove = async (req, res) => {
   try {
-    console.log("Solicitud para eliminar publicación recibida.");
-    console.log("ID de publicación recibido:", req.params.id);
-    console.log("Usuario autenticado (req.user):", req.user);
-
-    // Busca publicación con el ID
+    //Busca publicación
     const publication = await Publication.findById(req.params.id).populate("user");
     console.log("Publicación encontrada:", publication);
 
-    // Verifica que la publicación exista
+    //Publicación existe?
     if (!publication) {
       console.log("La publicación no existe.");
       return res.status(404).json({
@@ -20,15 +16,12 @@ const remove = async (req, res) => {
       });
     }
 
-    // Verificar usuario es owner/admin
+    //Usuario owner/admin
     const isOwner = publication.user?._id.toString() === req.user.id.toString();
     const isAdmin = req.user.role === "admin";
 
-    console.log("¿Es propietario?:", isOwner);
-    console.log("¿Es admin?:", isAdmin);
-
     if (isOwner || isAdmin) {
-      // Enviar correo si el admin borra la publicación
+      //Correo si admin borra
       if (isAdmin) {
         const emailSubject = "Publicación eliminada - Too-Red";
         const emailContent = `
@@ -42,18 +35,15 @@ const remove = async (req, res) => {
         const recipientEmail = publication.user.email;
 
         console.log("Correo del propietario de la publicación:", recipientEmail);
-        console.log("Contenido del correo:\n", emailContent);
-
         try {
           await sendEmail(recipientEmail, emailSubject, emailContent);
-          console.log("Correo enviado exitosamente.");
+          console.log("Correo enviado.");
         } catch (emailError) {
           console.error("Error al enviar el correo:", emailError.message);
         }
       }
 
-      // Eliminar la publicación
-      console.log("Procediendo a eliminar la publicación.");
+      //Eliminar publicación
       await publication.deleteOne();
 
       return res.status(200).json({
