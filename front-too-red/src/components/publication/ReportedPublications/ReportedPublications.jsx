@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
-import { Global } from "../../helpers/Global";
-import { TrashIcon } from "@heroicons/react/24/solid";
-import DeletePublication from "./DeletePublication";
+import { Global } from "../../../helpers/Global";
+import { TrashIcon, ReceiptRefundIcon } from "@heroicons/react/24/solid";
+import DeletePublication from "../DeletePublication";
+import RevertReport from "./RevertReport";
 
 const ReportedPublications = () => {
   const [reportedPublications, setReportedPublications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showRevertModal, setShowRevertModal] = useState(false);
   const [selectedPublicationId, setSelectedPublicationId] = useState(null);
+  const [selectedReportId, setSelectedReportId] = useState(null);
 
   useEffect(() => {
     const fetchReportedPublications = async () => {
@@ -49,13 +52,38 @@ const ReportedPublications = () => {
     setShowDeleteModal(false);
   };
 
+  const handleRevertSuccess = () => {
+    // Filtramos la publicación de la lista de reportadas
+    setReportedPublications((prev) =>
+      prev.map((pub) => {
+        if (pub._id === selectedPublicationId) {
+          return {
+            ...pub,
+            reports: pub.reports.filter(
+              (report) => report._id !== selectedReportId
+            ),
+          };
+        }
+        return pub;
+      }).filter(pub => pub.reports.length > 0) // Eliminamos las publicaciones sin reportes
+    );
+    setShowRevertModal(false);
+  };
+
   const handleCancel = () => {
     setShowDeleteModal(false);
+    setShowRevertModal(false);
   };
 
   const handleDeleteClick = (publicationId) => {
     setSelectedPublicationId(publicationId);
     setShowDeleteModal(true);
+  };
+
+  const handleRevertClick = (publicationId, reportId) => {
+    setSelectedPublicationId(publicationId);
+    setSelectedReportId(reportId);
+    setShowRevertModal(true);
   };
 
   if (loading) return <p>Loading...</p>;
@@ -132,20 +160,24 @@ const ReportedPublications = () => {
                           <strong>Fecha:</strong>{" "}
                           {new Date(report.createdAt).toLocaleString()}
                         </p>
+                        <div className="flex space-x-4 mt-2">
+                          <button
+                            onClick={() => handleRevertClick(pub._id, report._id)}
+                            className="text-yellow-600 hover:text-yellow-800"
+                          >
+                            <ReceiptRefundIcon className="h-6 w-6" />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteClick(pub._id)}
+                            className="text-red-600 hover:text-red-800"
+                          >
+                            <TrashIcon className="h-6 w-6" />
+                          </button>
+                        </div>
                       </li>
                     ))}
                   </ul>
                 )}
-              </div>
-
-              {/* Botón para eliminar publicación */}
-              <div className="p-3">
-                <button
-                  onClick={() => handleDeleteClick(pub._id)}
-                  className="text-red-600 hover:text-red-800 hover:scale-125 transition-all duration-300"
-                >
-                  <TrashIcon className="h-6 w-6" />
-                </button>
               </div>
             </div>
           ))}
@@ -157,6 +189,16 @@ const ReportedPublications = () => {
         <DeletePublication
           publicationId={selectedPublicationId}
           onDeleteSuccess={handleDeleteSuccess}
+          onCancel={handleCancel}
+        />
+      )}
+
+      {/* Modal de reversión */}
+      {showRevertModal && (
+        <RevertReport
+          publicationId={selectedPublicationId}
+          reportId={selectedReportId}
+          onRevertSuccess={handleRevertSuccess}
           onCancel={handleCancel}
         />
       )}

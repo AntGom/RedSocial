@@ -30,6 +30,7 @@ router.post("/comment/:publication_id", auth, publicationController.addComment);
 router.get("/comments/:publication_id", auth, publicationController.getComments);
 router.delete("/:publication_id/comments/:comment_id", auth, publicationController.deleteComment);
 router.post("/report/:id", auth, publicationController.reportPublication);
+router.delete("/revert-report/:publicationId/:reportId", auth, publicationController.revertReport)
 router.get("/reported-publications", auth, publicationController.getReportedPublications);
 
 router.post("/like/:publication_id", auth, likesController.newLike);
