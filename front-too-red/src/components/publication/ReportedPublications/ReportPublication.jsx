@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Global } from "../../../helpers/Global";
+import { Global } from "../../../helpers/Global.jsx";
 import Toast from "../../../helpers/Toast.jsx";
 
 const ReportPublication = ({ publicationId, onClose }) => {

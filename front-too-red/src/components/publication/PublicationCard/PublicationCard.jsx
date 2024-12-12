@@ -5,7 +5,7 @@ import PublicationContent from "./PublicationContent";
 import PublicationActions from "./PublicationActions";
 import EditPublication from "../EditPublication";
 import DeletePublication from "../DeletePublication";
-import ReportPublication from "./ReportPublication";
+import ReportPublication from "../ReportedPublications/ReportPublication";
 import { Global } from "../../../helpers/Global";
 
 const PublicationCard = ({ publication, getPublications }) => {

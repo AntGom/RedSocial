@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Global } from "../../../helpers/Global";
-import { TrashIcon, ReceiptRefundIcon } from "@heroicons/react/24/solid";
+import ReportedPublicationCard from "./ReportedPubliactionCard";
 import DeletePublication from "../DeletePublication";
 import RevertReport from "./RevertReport";
+import { Global } from "../../../helpers/Global";
 
 const ReportedPublications = () => {
   const [reportedPublications, setReportedPublications] = useState([]);
@@ -17,22 +17,10 @@ const ReportedPublications = () => {
     const fetchReportedPublications = async () => {
       try {
         const token = localStorage.getItem("token");
-
-        const response = await fetch(
-          `${Global.url}publication/reported-publications`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: token,
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Error al obtener las publicaciones");
-        }
-
+        const response = await fetch(`${Global.url}publication/reported-publications`, {
+          headers: { Authorization: token },
+        });
+        if (!response.ok) throw new Error("Error al obtener las publicaciones");
         const { data } = await response.json();
         setReportedPublications(data);
       } catch (err) {
@@ -41,165 +29,65 @@ const ReportedPublications = () => {
         setLoading(false);
       }
     };
-
     fetchReportedPublications();
   }, []);
 
   const handleDeleteSuccess = () => {
-    setReportedPublications((prev) =>
-      prev.filter((pub) => pub._id !== selectedPublicationId)
-    );
+    setReportedPublications((prev) => prev.filter((pub) => pub._id !== selectedPublicationId));
     setShowDeleteModal(false);
   };
 
   const handleRevertSuccess = () => {
-    // Filtramos la publicación de la lista de reportadas
     setReportedPublications((prev) =>
-      prev.map((pub) => {
-        if (pub._id === selectedPublicationId) {
-          return {
-            ...pub,
-            reports: pub.reports.filter(
-              (report) => report._id !== selectedReportId
-            ),
-          };
-        }
-        return pub;
-      }).filter(pub => pub.reports.length > 0) // Eliminamos las publicaciones sin reportes
+      prev.map((pub) =>
+        pub._id === selectedPublicationId
+          ? { ...pub, reports: pub.reports.filter((rep) => rep._id !== selectedReportId) }
+          : pub
+      ).filter((pub) => pub.reports.length > 0)
     );
     setShowRevertModal(false);
-  };
-
-  const handleCancel = () => {
-    setShowDeleteModal(false);
-    setShowRevertModal(false);
-  };
-
-  const handleDeleteClick = (publicationId) => {
-    setSelectedPublicationId(publicationId);
-    setShowDeleteModal(true);
-  };
-
-  const handleRevertClick = (publicationId, reportId) => {
-    setSelectedPublicationId(publicationId);
-    setSelectedReportId(reportId);
-    setShowRevertModal(true);
   };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <section className="flex flex-col mb-6">
-      <h1 className="text-2xl font-semibold text-gray-900 mb-6">
-        Publicaciones Reportadas
-      </h1>
+    <section className="mb-4">
+      <h1 className="text-2xl font-semibold mb-6">Publicaciones Reportadas</h1>
       {reportedPublications.length === 0 ? (
         <p>No hay publicaciones reportadas.</p>
       ) : (
-        <article className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {reportedPublications.map((pub) => (
-            <div
+            <ReportedPublicationCard
               key={pub._id}
-              className="bg-white border-2 border-gray-200 rounded-lg overflow-hidden hover:bg-gray-100 transition-all duration-300 flex flex-col h-full"
-            >
-              {/* Contenido principal */}
-              <div className="p-3 flex-1">
-                {/* Información del usuario */}
-                <div className="flex justify-center space-x-4">
-                  <div className="flex flex-col justify-center">
-                    <h2 className="font-semibold text-red-700">
-                      Datos de la publicación:
-                    </h2>
-                    <p className="text-sm text-gray-900 italic">
-                      {pub.user.email}
-                    </p>
-                    <p className="text-sm text-gray-900">
-                      <strong>Nick: </strong>@{pub.user.nick}
-                    </p>
-                    <p className="text-sm text-gray-900">
-                      <strong>Fecha:</strong>{" "}
-                      {new Date(pub.createdAt).toLocaleString()}
-                    </p>
-                    <p className="text-sm text-gray-900 line-2">
-                      <strong>Texto:</strong> {pub.text || "Sin texto"}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Archivos adjuntos */}
-              {pub.file && (
-                <div className="p-3 -mt-4">
-                  <h2 className="font-semibold"> Archivo adjunto:</h2>
-                  <img
-                    src={`${Global.url}publication/media/${pub.file}`}
-                    alt="Archivo adjunto"
-                    className="h-32 object-cover mt-2 rounded-lg"
-                  />
-                </div>
-              )}
-
-              {/* Reportes */}
-              <div className="p-4 -mt-4">
-                <h4 className="font-semibold text-red-700">Reportes:</h4>
-                {pub.reports.length === 0 ? (
-                  <p>No hay reportes para esta publicación.</p>
-                ) : (
-                  <ul>
-                    {pub.reports.map((report) => (
-                      <li key={report._id} className="mb-4">
-                        <p className="text-sm text-gray-900">
-                          <strong>Reportado por:</strong> {report.user.nick} (
-                          {report.user.email})
-                        </p>
-                        <p className="text-sm text-gray-900">
-                          <strong>Motivo:</strong> {report.reason}
-                        </p>
-                        <p className="text-sm text-gray-900">
-                          <strong>Fecha:</strong>{" "}
-                          {new Date(report.createdAt).toLocaleString()}
-                        </p>
-                        <div className="flex space-x-4 mt-2">
-                          <button
-                            onClick={() => handleRevertClick(pub._id, report._id)}
-                            className="text-yellow-600 hover:text-yellow-800"
-                          >
-                            <ReceiptRefundIcon className="h-6 w-6" />
-                          </button>
-                          <button
-                            onClick={() => handleDeleteClick(pub._id)}
-                            className="text-red-600 hover:text-red-800"
-                          >
-                            <TrashIcon className="h-6 w-6" />
-                          </button>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            </div>
+              publication={pub}
+              onRevertClick={(publicationId, reportId) => {
+                setSelectedPublicationId(publicationId);
+                setSelectedReportId(reportId);
+                setShowRevertModal(true);
+              }}
+              onDeleteClick={(publicationId) => {
+                setSelectedPublicationId(publicationId);
+                setShowDeleteModal(true);
+              }}
+            />
           ))}
-        </article>
+        </div>
       )}
-
-      {/* Modal de eliminación */}
       {showDeleteModal && (
         <DeletePublication
           publicationId={selectedPublicationId}
           onDeleteSuccess={handleDeleteSuccess}
-          onCancel={handleCancel}
+          onCancel={() => setShowDeleteModal(false)}
         />
       )}
-
-      {/* Modal de reversión */}
       {showRevertModal && (
         <RevertReport
           publicationId={selectedPublicationId}
           reportId={selectedReportId}
           onRevertSuccess={handleRevertSuccess}
-          onCancel={handleCancel}
+          onCancel={() => setShowRevertModal(false)}
         />
       )}
     </section>
