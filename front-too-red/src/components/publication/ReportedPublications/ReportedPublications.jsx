@@ -7,7 +7,7 @@ import { Global } from "../../../helpers/Global";
 const ReportedPublications = () => {
   const [reportedPublications, setReportedPublications] = useState([]);
   const [filteredPublications, setFilteredPublications] = useState([]);
-  const [filterStatus, setFilterStatus] = useState("all"); // Estado para el filtro
+  const [filterStatus, setFilterStatus] = useState("all");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);

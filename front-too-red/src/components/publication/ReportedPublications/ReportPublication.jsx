@@ -97,7 +97,7 @@ const ReportPublication = ({ publicationId, onClose }) => {
         </div>
       </div>
 
-      {/* Mostrar el Toast si show es true */}
+      {/* Mostrar Toast si show=true */}
       {toast.show && (
         <Toast message={toast.message} type={toast.type} onClose={closeToastAndModal} />
       )}
