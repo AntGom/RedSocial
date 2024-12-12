@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import { Global } from "../../helpers/Global";
+import { TrashIcon } from "@heroicons/react/24/solid";
+import DeletePublication from "./DeletePublication";
 
 const ReportedPublications = () => {
   const [reportedPublications, setReportedPublications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedPublicationId, setSelectedPublicationId] = useState(null);
 
   useEffect(() => {
     const fetchReportedPublications = async () => {
@@ -23,7 +27,7 @@ const ReportedPublications = () => {
         );
 
         if (!response.ok) {
-          throw new Error("Failed to fetch reported publications");
+          throw new Error("Error al obtener las publicaciones");
         }
 
         const { data } = await response.json();
@@ -38,13 +42,29 @@ const ReportedPublications = () => {
     fetchReportedPublications();
   }, []);
 
+  const handleDeleteSuccess = () => {
+    setReportedPublications((prev) =>
+      prev.filter((pub) => pub._id !== selectedPublicationId)
+    );
+    setShowDeleteModal(false);
+  };
+
+  const handleCancel = () => {
+    setShowDeleteModal(false);
+  };
+
+  const handleDeleteClick = (publicationId) => {
+    setSelectedPublicationId(publicationId);
+    setShowDeleteModal(true);
+  };
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
     <section className="flex flex-col mb-6">
       <h1 className="text-2xl font-semibold text-gray-900 mb-6">
-        Publicaciones Reportadas.
+        Publicaciones Reportadas
       </h1>
       {reportedPublications.length === 0 ? (
         <p>No hay publicaciones reportadas.</p>
@@ -117,16 +137,28 @@ const ReportedPublications = () => {
                   </ul>
                 )}
               </div>
+
+              {/* Botón para eliminar publicación */}
+              <div className="p-3">
+                <button
+                  onClick={() => handleDeleteClick(pub._id)}
+                  className="text-red-600 hover:text-red-800 hover:scale-125 transition-all duration-300"
+                >
+                  <TrashIcon className="h-6 w-6" />
+                </button>
+              </div>
             </div>
           ))}
         </article>
       )}
 
-      {/* Spinner de carga */}
-      {loading && (
-        <div className="flex justify-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-500"></div>
-        </div>
+      {/* Modal de eliminación */}
+      {showDeleteModal && (
+        <DeletePublication
+          publicationId={selectedPublicationId}
+          onDeleteSuccess={handleDeleteSuccess}
+          onCancel={handleCancel}
+        />
       )}
     </section>
   );
