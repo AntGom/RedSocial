@@ -6,6 +6,8 @@ import { Global } from "../../../helpers/Global";
 
 const ReportedPublications = () => {
   const [reportedPublications, setReportedPublications] = useState([]);
+  const [filteredPublications, setFilteredPublications] = useState([]);
+  const [filterStatus, setFilterStatus] = useState("all"); // Estado para el filtro
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -23,6 +25,7 @@ const ReportedPublications = () => {
         if (!response.ok) throw new Error("Error al obtener las publicaciones");
         const { data } = await response.json();
         setReportedPublications(data);
+        setFilteredPublications(data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -31,6 +34,21 @@ const ReportedPublications = () => {
     };
     fetchReportedPublications();
   }, []);
+
+  //Actualiza pub filtradas si cambio filtro
+  useEffect(() => {
+    const filterData = () => {
+      if (filterStatus === "all") {
+        setFilteredPublications(reportedPublications);
+      } else {
+        const filtered = reportedPublications.filter((pub) =>
+          pub.reports.some((rep) => rep.status === filterStatus)
+        );
+        setFilteredPublications(filtered);
+      }
+    };
+    filterData();
+  }, [filterStatus, reportedPublications]);
 
   const handleDeleteSuccess = () => {
     setReportedPublications((prev) => prev.filter((pub) => pub._id !== selectedPublicationId));
@@ -54,11 +72,27 @@ const ReportedPublications = () => {
   return (
     <section className="mb-4">
       <h1 className="text-2xl font-semibold mb-6">Publicaciones Reportadas</h1>
-      {reportedPublications.length === 0 ? (
-        <p>No hay publicaciones reportadas.</p>
+
+      {/* Filtro */}
+      <div className="mb-4">
+        <label htmlFor="filter" className="mr-2 font-semibold">Filtrar por estado:</label>
+        <select
+          id="filter"
+          value={filterStatus}
+          onChange={(e) => setFilterStatus(e.target.value)}
+          className="border-gray-300 rounded p-2"
+        >
+          <option value="all">Todas</option>
+          <option value="active">Activas</option>
+          <option value="reverted">Revisadas</option>
+        </select>
+      </div>
+
+      {filteredPublications.length === 0 ? (
+        <p>No hay publicaciones reportadas que coincidan con el filtro.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {reportedPublications.map((pub) => (
+          {filteredPublications.map((pub) => (
             <ReportedPublicationCard
               key={pub._id}
               publication={pub}

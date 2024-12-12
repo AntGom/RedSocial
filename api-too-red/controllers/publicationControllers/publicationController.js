@@ -9,7 +9,7 @@ import editPublication from "./editPublication.js";
 import addComment from "../comments/addComment.js";
 import getComments from "../comments/getComments.js";
 import deleteComment from "../comments/eraseComment.js";
-import reportPublication from "./reportPublication.js";
+import reportPublication from "../reports/reportPublication.js";
 import getReportedPublications from "../reports/reportedPublications.js";
 import revertReport from "../reports/revertReport.js";
 
