@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom"; // Importar Link
 import { Global } from "../../helpers/Global";
 
 const ReportedUsers = () => {
@@ -6,11 +7,11 @@ const ReportedUsers = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  //Filtros
+  // Filtros
   const [reportStatus, setReportStatus] = useState("");
 
   useEffect(() => {
-    //Usuarios con publicaciones reportadas
+    // Usuarios con publicaciones reportadas
     const fetchUsersWithReports = async () => {
       const token = localStorage.getItem("token");
 
@@ -43,7 +44,7 @@ const ReportedUsers = () => {
     };
 
     fetchUsersWithReports();
-  }, [reportStatus]); //Cargar si filtros cambian
+  }, [reportStatus]); // Cargar si filtros cambian
 
   if (loading) {
     return (
@@ -72,7 +73,7 @@ const ReportedUsers = () => {
           onChange={(e) => setReportStatus(e.target.value)}
           className="px-4 py-2 border rounded-lg"
         >
-          <option value="">Estado del Reporte</option>
+          <option value="">Estado de los Reportes</option>
           <option value="active">Activo</option>
           <option value="reverted">Revisado</option>
         </select>
@@ -85,16 +86,24 @@ const ReportedUsers = () => {
           <table className="min-w-full bg-white shadow-md">
             <thead>
               <tr className="bg-gray-100">
-                <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Nick</th>
-                <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Email</th>
-                <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Publicaciones Reportadas</th>
-                <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Número de Reportes</th>
+                <th className="px-4 py-2 text-left text-sm font-bold text-gray-700">Nick</th>
+                <th className="px-4 py-2 text-left text-sm font-bold text-gray-700">Email</th>
+                <th className="px-4 py-2 text-left text-sm font-bold text-gray-700">Publicaciones Reportadas</th>
+                <th className="px-4 py-2 text-left text-sm font-bold text-gray-700">Número de Reportes</th>
               </tr>
             </thead>
             <tbody>
               {users.map((user) => (
                 <tr key={user.userId} className="border-t">
-                  <td className="px-4 py-2 text-sm text-gray-800">{user.nick}</td>
+                  <td className="px-4 py-2 text-sm font-semibold text-gray-800">
+                    {/* Enlace al perfil del usuario */}
+                    <Link
+                      to={`/social/profile/${user.userId}`}
+                      className="text-blue-600 hover:underline"
+                    >
+                      {user.nick}
+                    </Link>
+                  </td>
                   <td className="px-4 py-2 text-sm text-gray-800">{user.email}</td>
                   <td className="px-4 py-2 text-sm">
                     <ul className="list-disc pl-5 space-y-1">
@@ -102,7 +111,7 @@ const ReportedUsers = () => {
                         <li key={index} className="text-gray-600">
                           <strong>{pub.title}</strong>
                           <div className="text-xs text-gray-500">
-                            <p className="">Fecha: {new Date(pub.createdAt).toLocaleDateString()}</p> 
+                            <p>Fecha: {new Date(pub.createdAt).toLocaleDateString()}</p>
                           </div>
                         </li>
                       ))}

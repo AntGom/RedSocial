@@ -58,13 +58,22 @@ const NewSidebar = () => {
 
           {/* Muestra el componente o el enlace según el rol */}
           {auth.role !== "admin" ? <UserCounters /> : (
+            <>
             <NavLink
               to="/social/admin/reported-publications"
               className="w-4/5 p-2 flex items-center justify-start hover:bg-gray-200 transition-all duration-300 hover:scale-110 rounded-xl gap-2"
             >
               <FlagIcon className="h-6 w-6  font-bold" />
-              <div className="font-bold text-xl">Reportes</div>
+              <div className="font-bold text-xl">Publicac.</div>
             </NavLink>
+            <NavLink
+              to="/social/admin/reported-users"
+              className="w-4/5 p-2 flex items-center justify-start hover:bg-gray-200 transition-all duration-300 hover:scale-110 rounded-xl gap-2"
+            >
+              <FlagIcon className="h-6 w-6  font-bold" />
+              <div className="font-bold text-xl">Usuarios</div>
+            </NavLink>
+            </>
           )}
 
           <NewPublicationForm />
