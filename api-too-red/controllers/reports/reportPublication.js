@@ -17,7 +17,7 @@ const reportPublication = async (req, res) => {
       });
     }
 
-    //Usuario ya ha reportado antes?
+    //Ya se ha reportado antes?
     const alreadyReported = publication.reports.some(
       (report) => report.user.toString() === userId
     );
@@ -39,7 +39,7 @@ const reportPublication = async (req, res) => {
 
     //Fecha de denuncia
     const reportDate = new Date();
-    const formattedDate = reportDate.toLocaleString(); // Puedes ajustar el formato según tus necesidades
+    const formattedDate = reportDate.toLocaleString();
 
     //Añadir reporte
     publication.reports.push({ user: userId, reason });

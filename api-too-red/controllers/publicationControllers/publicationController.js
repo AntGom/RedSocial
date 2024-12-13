@@ -12,6 +12,7 @@ import deleteComment from "../comments/eraseComment.js";
 import reportPublication from "../reports/reportPublication.js";
 import getReportedPublications from "../reports/reportedPublications.js";
 import revertReport from "../reports/revertReport.js";
+import getUsersWithReports from "../reports/getUsersWithReports.js";
 
 
 
@@ -30,5 +31,6 @@ export const publicationController =  {
     reportPublication,
     getReportedPublications,
     revertReport,
+    getUsersWithReports,
 };
     
