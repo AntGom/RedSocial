@@ -6,6 +6,8 @@ import Modal from "./ModalNewPublication";
 import NotificationMessage from "./NotificationMessage";
 import FileInput from "./FileInput";
 import { CountersContext } from "../../../context/CountersContext";
+import { MegaphoneIcon } from "@heroicons/react/24/solid";
+
 
 const NewPublicationForm = () => {
   const { auth } = useAuth();
@@ -88,12 +90,13 @@ const NewPublicationForm = () => {
 
   return (
     <>
-      <button
-        onClick={() => setShowForm(true)}
-        className="w-4/5 text-gray-900 font-bold text-xl rounded-lg hover:bg-gray-200 p-2 -mb-2 transition-all duration-300 hover:scale-110 text-left"
-      >
-        Publicar
-      </button>
+     <button
+  onClick={() => setShowForm(true)}
+  className="flex items-center gap-2 w-4/5 text-gray-900 font-bold text-xl rounded-lg hover:bg-gray-200 p-2 -mb-2 transition-all duration-300 hover:scale-110 text-left"
+>
+  <MegaphoneIcon className="w-6 h-6 text-gray-900" />
+  Publicar
+</button>
 
       <Modal
         isOpen={showForm}

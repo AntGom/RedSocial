@@ -1,6 +1,6 @@
 import { WrenchScrewdriverIcon } from "@heroicons/react/24/outline";
 import { ArrowLeftStartOnRectangleIcon, FlagIcon } from "@heroicons/react/24/solid";
-import { UserGroupIcon } from "@heroicons/react/24/solid";
+import { UsersIcon } from "@heroicons/react/24/solid";
 import avatar from "../../../assets/img/user.png";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../../hooks/UseAuth";
@@ -52,7 +52,7 @@ const NewSidebar = () => {
             to="/social/people"
             className="w-4/5 p-2 flex items-center justify-start gap-2 -mb-2 hover:bg-gray-200 transition-all duration-300 hover:scale-110 rounded-xl"
           >
-            <UserGroupIcon className="h-6 w-6" />
+            <UsersIcon className="h-6 w-6" />
             <div className="font-bold text-xl">Gente</div>
           </NavLink>
 
