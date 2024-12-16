@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import {useAuth} from "../../../hooks/UseAuth";
+import { useAuth } from "../../../hooks/UseAuth";
 import { Global } from "../../../helpers/Global";
 import PublicationList from "../../publication/PublicationList";
 import HeaderProfile from "./HeaderProfile";
@@ -18,10 +18,13 @@ const Profile = () => {
   const token = localStorage.getItem("token");
 
   const getCounters = async () => {
-    const response = await fetch(Global.url + "user/counters/" + params.userId, {
-      method: "GET",
-      headers: { "Content-Type": "application/json", Authorization: token },
-    });
+    const response = await fetch(
+      Global.url + "user/counters/" + params.userId,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json", Authorization: token },
+      }
+    );
     const data = await response.json();
     if (data.following) setCounters(data);
   };
@@ -60,7 +63,14 @@ const Profile = () => {
     getPublications(1, true);
   }, [params.userId]);
 
-  if (!user.name) return <div>Cargando...</div>;
+  if (!user?.name) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-white" role="status" aria-live="polite">
+        Cargando...
+        <div className="spinner"></div>
+      </div>
+    );
+  }
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

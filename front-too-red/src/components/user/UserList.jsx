@@ -1,11 +1,11 @@
 import { NavLink } from "react-router-dom";
 import avatar from "../../assets/img/user.png";
 import { Global } from "../../helpers/Global";
-import {useAuth} from "../../hooks/UseAuth";
+import { useAuth } from "../../hooks/UseAuth";
 import PropTypes from "prop-types";
 import ReactTimeAgo from "react-time-ago";
 import { UserPlusIcon, UserMinusIcon } from "@heroicons/react/24/solid";
-import  useCounters from "../../hooks/useCounters.js";
+import useCounters from "../../hooks/useCounters.js";
 
 const UserList = ({
   users,
@@ -142,13 +142,6 @@ const UserList = ({
           </article>
         ))}
       </div>
-
-      {/* Spinner de carga */}
-      {loading && (
-        <div className="flex justify-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-500"></div>
-        </div>
-      )}
 
       {/* Botón para cargar más */}
       {more && !loading && (

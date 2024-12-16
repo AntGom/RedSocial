@@ -5,13 +5,14 @@ import PropTypes from "prop-types";
 import DeleteComment from "../Comments/DeleteComment";
 import ReactTimeAgo from "react-time-ago";
 import LikeButton from "../Likes/LikeButton";
-import {useAuth} from "../../../hooks/UseAuth";
+import { useAuth } from "../../../hooks/UseAuth";
 
 const CommentsList = ({ publicationId, likes, publicationUserId }) => {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showComments, setShowComments] = useState(false);
   const { auth } = useAuth();
+  const token = localStorage.getItem("token");
 
   const fetchComments = async () => {
     try {
@@ -19,7 +20,9 @@ const CommentsList = ({ publicationId, likes, publicationUserId }) => {
         `${Global.url}publication/comments/${publicationId}`,
         {
           method: "GET",
-          headers: { Authorization: localStorage.getItem("token") },
+          headers: {
+            Authorization: token,
+          },
         }
       );
 
@@ -48,11 +51,12 @@ const CommentsList = ({ publicationId, likes, publicationUserId }) => {
 
   const toggleComments = () => setShowComments((prev) => !prev);
 
-  if (loading) return (
-    <div className="flex justify-center items-center mt-4">
-      <div className="spinner"></div>
-    </div>
-  );
+  if (loading)
+    return (
+      <div className="flex justify-center items-center mt-4">
+        <div className="spinner"></div>
+      </div>
+    );
   return (
     <section className="mt-1 w-full">
       <article className="flex justify-between mx-2">
