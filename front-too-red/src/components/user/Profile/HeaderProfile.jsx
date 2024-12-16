@@ -3,8 +3,16 @@ import ProfileImage from "./ProfileImage";
 import ProfileActions from "./ProfileActions/ProfileActions";
 import ProfileStats from "./ProfileStats";
 import BioSection from "./BioSection";
+import { NavLink } from "react-router-dom";
 
-const HeaderProfile = ({ user, auth, counters, iFollow, setIFollow, token }) => (
+const HeaderProfile = ({
+  user,
+  auth,
+  counters,
+  iFollow,
+  setIFollow,
+  token,
+}) => (
   <header className="w-full h-auto mt-2 mb-4 p-4 bg-white shadow-xl border-2 border-red-600 rounded-lg">
     <div className="flex flex-col">
       {/* Nombre y publicaciones */}
@@ -12,7 +20,14 @@ const HeaderProfile = ({ user, auth, counters, iFollow, setIFollow, token }) => 
         <h2 className="text-2xl font-bold text-gray-900">
           {user.name} {user.surname}
         </h2>
-        <p className="text-sm font-semibold text-red-600">Publicaciones: {counters.publications || 0}</p>
+        <NavLink
+          to={`/social/publications/${user._id}`}
+        >
+          <p className="text-sm font-semibold text-red-600 hover:scale-110 origin-left transition-all mt-2">
+  Publicaciones: {counters.publications || 0}
+</p>
+
+        </NavLink>
       </div>
 
       {/* Imagen y acciones */}
