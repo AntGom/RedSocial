@@ -51,7 +51,7 @@ const Feed = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <header className="mb-2">
+      <header className="mb-2 mt-2">
         <button
           className="font-semibold border-2 border-red-600 p-2 rounded-xl hover:scale-105 transition-all"
           onClick={() => getPublications(1, true)}

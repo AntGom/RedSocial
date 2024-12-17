@@ -62,7 +62,7 @@ const Followers = () => {
   return (
     <div className="max-w-7xl">
       <header className="mb-4">
-        <h1 className="text-3xl font-bold text-gray-900 text-start">Seguidores de {userProfile.nick}</h1>
+        <h1 className="text-xl font-bold text-gray-900 text-start">Seguidores de {userProfile.nick}</h1>
       </header>
 
       <UserList

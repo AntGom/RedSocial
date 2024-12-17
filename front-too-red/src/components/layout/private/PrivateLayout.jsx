@@ -25,12 +25,16 @@ const PrivateLayout = () => {
       </div>
   
       {/* Contenido principal */}
-      <main className="flex-1 md:ml-[25%] lg:ml-[16.67%] px-4 md:px-8 pt-16 md:pt-8">
+      <main className="flex-1 md:ml-[25%] lg:ml-[16.67%] px-4 md:px-8 pt-16 md:pt-8 mt-3">
         {auth._id ? <Outlet /> : <Navigate to="/login" />}
       </main>
   
       {/* Navbar pantallas pequeñas */}
-      <div className="md:hidden fixed top-0 left-0 right-0 bg-white z-20 border-b-2 border-red-600 flex items-center justify-between px-4 py-2">
+      <div className="md:hidden fixed top-0 left-0 right-0 bg-white z-20 border-b-2 border-red-600 flex mb-2 items-center justify-between px-4 py-2">
+        <img src="/too-red-logo.jpg"
+          alt="Logo de la Red Social"
+          className=" h-12 rounded-xl border-2 border-red-600">
+        </img>
         <h1
           className="text-lg font-semibold text-red-600 cursor-pointer"
           onClick={() => navigate("/social/feed")}

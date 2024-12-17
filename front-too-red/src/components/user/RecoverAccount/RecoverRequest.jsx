@@ -46,7 +46,7 @@ const RecoverRequest = () => {
         </h1>
       </header>
 
-      <div className="border-2 border-gray-900 p-6 rounded-lg shadow-lg shadow-gray-600 w-2/5">
+      <section className="border-2 border-gray-900 p-6 rounded-lg shadow-lg shadow-gray-600 w-4/5 lg:w-2/5">
         <form onSubmit={handleSubmit} className="mt-6">
           <div className="mb-4">
             <label
@@ -78,7 +78,7 @@ const RecoverRequest = () => {
             onClose={() => setShowToast(false)}
           />
         )}
-      </div>
+      </section>
     </div>
   );
 };

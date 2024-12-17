@@ -31,7 +31,7 @@ const RecoverPassword = () => {
         </h1>
       </header>
 
-      <div className="border-2 border-gray-900 p-6 rounded-lg shadow-lg shadow-gray-600 w-2/5">
+      <section className="border-2 border-gray-900 p-6 rounded-lg shadow-lg shadow-gray-600 w-4/5 lg:w-2/5">
         <form onSubmit={handleRecover} className="mt-6">
           <div className="mb-4">
             <label
@@ -65,7 +65,7 @@ const RecoverPassword = () => {
             {message}
           </p>
         )}
-      </div>
+      </section>
     </div>
   );
 };

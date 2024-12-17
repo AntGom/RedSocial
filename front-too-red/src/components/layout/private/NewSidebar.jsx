@@ -1,5 +1,4 @@
-import { WrenchScrewdriverIcon } from "@heroicons/react/24/outline";
-import { ArrowLeftStartOnRectangleIcon, FlagIcon } from "@heroicons/react/24/solid";
+import { ArrowLeftStartOnRectangleIcon, FlagIcon, PencilSquareIcon } from "@heroicons/react/24/solid";
 import { UsersIcon } from "@heroicons/react/24/solid";
 import avatar from "../../../assets/img/user.png";
 import { NavLink } from "react-router-dom";
@@ -82,8 +81,9 @@ const NewSidebar = () => {
             to="/social/config"
             className="h-auto w-4/5 flex items-center justify-start gap-2 hover:bg-gray-200 p-2 -mt-2 -mb-2 transition-all duration-300 hover:scale-110 rounded-xl"
           >
-            <p className="font-bold text-xl">Editar Perfil</p>
-            <WrenchScrewdriverIcon className="h-6 w-6" />
+            <PencilSquareIcon className="h-6 w-6" />
+            <p className="font-bold text-xl">Editar</p>
+
           </NavLink>
 
           <div>

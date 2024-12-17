@@ -60,7 +60,6 @@ const Login = () => {
     setAuth({});
     setSaved("not_sended");
 
-    // Redirigir al login después de aceptar
     setTimeout(() => {
       window.location.href = "/login";
     }, 2000);
@@ -71,7 +70,7 @@ const Login = () => {
       <header className="p-4 text-gray-900 text-center mt-2 w-full">
         <h1 className="text-2xl font-bold">Identifícate</h1>
       </header>
-      <div className="flex justify-center items-center h-2/5">
+      <div className="flex justify-center items-center w-full h-2/5">
         <LoginForm
           form={form}
           changed={changed}

@@ -6,6 +6,7 @@ import FollowButton from "./FollowButton";
 import BanButton from "./BanButton";
 import EditProfileButton from "./EditProfileButton";
 import ToastManager from "./ToastManager";
+import { TrashIcon } from "@heroicons/react/24/solid";
 
 const ProfileActions = ({ user, auth, iFollow, setIFollow, token }) => {
   const navigate = useNavigate();
@@ -26,15 +27,15 @@ const ProfileActions = ({ user, auth, iFollow, setIFollow, token }) => {
   };
 
   return (
-    <section className="flex flex-col items-center gap-2 mr-8 mb-3">
+    <section className=" mb-3 mr-4 md:mr-8">
       {user._id === auth._id ? (
-        <>
-          <EditProfileButton />
-          <button
-            onClick={() => setShowDeleteModal(true)}
-            className="flex items-center justify-center bg-white border-2 border-red-600 text-gray-900 font-semibold px-4 py-2 rounded-lg shadow-md hover:scale-110 duration-300 transition-all w-40 h-10"
-          >
-            Borrar perfil
+        <article className="flex  flex-col gap-8 md:flex-row">
+          <div>
+            <EditProfileButton />
+          </div>
+
+          <button onClick={() => setShowDeleteModal(true)}>
+            <TrashIcon className="w-8 h-8 text-red-600" />
           </button>
           {showDeleteModal && (
             <DeleteProfileModal
@@ -44,7 +45,7 @@ const ProfileActions = ({ user, auth, iFollow, setIFollow, token }) => {
               onCancel={() => setShowDeleteModal(false)}
             />
           )}
-        </>
+        </article>
       ) : (
         <>
           <FollowButton

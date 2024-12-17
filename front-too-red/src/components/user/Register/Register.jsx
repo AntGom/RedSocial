@@ -83,7 +83,7 @@ const Register = () => {
 
       <div className="flex flex-col gap-2 justify-center items-center h-2/5">
         <form
-          className="bg-white border-2 border-gray-900 p-6 rounded-xl shadow-lg shadow-gray-600 w-2/5"
+          className="bg-white border-2 border-gray-900 p-6 rounded-xl shadow-lg shadow-gray-600 lg:w-2/5 sm:w-4/5"
           onSubmit={saveUser}
         >
           <FormInput
