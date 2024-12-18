@@ -154,18 +154,18 @@ const ProfileForm = ({
                 className="flex items-center p-2 border border-gray-800 rounded-lg cursor-pointer hover:bg-gray-100"
               >
                 <FolderOpenIcon className="h-6 w-6 text-gray-700" />
-                <span className="ml-2 text-gray-700">Seleccionar imagen</span>
+                <p className="ml-2 text-gray-700 text-sm">Seleccionar imagen</p>
               </label>
               <input
                 id="fileInput"
                 type="file"
                 className="hidden"
-                onChange={handleFileChange} // Maneja el cambio de archivo
+                onChange={handleFileChange}
               />
               {selectedFileName && (
                 <span className="text-sm text-gray-700">
                   {selectedFileName}
-                </span> // Muestra el nombre del archivo
+                </span> 
               )}
             </div>
           </div>

@@ -72,9 +72,9 @@ const UserList = ({
             className="bg-white border-2 border-gray-200 rounded-lg overflow-hidden hover:bg-gray-100 transition-all duration-300 flex flex-col h-full"
           >
             {/* Contenido principal */}
-            <div className="p-4 flex-1 space-y-2">
+            <div className="p-4">
               {/* Información del usuario */}
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center justify-between space-x-4">
                 <NavLink to={`/social/profile/${user._id}`}>
                   <img
                     src={
@@ -83,11 +83,10 @@ const UserList = ({
                         : avatar
                     }
                     alt="Foto de perfil"
-                    className="w-16 h-16 rounded-full object-cover border border-red-900 transition-all duration-300 hover:scale-110 "
+                    className="w-16 h-16 rounded-full object-cover border border-red-900 transition-all duration-300 hover:scale-110"
                   />
                 </NavLink>
-
-                <div>
+                <div className="flex-1">
                   <p className="text-sm text-gray-700">@{user.nick}</p>
                   <p className="text-xs text-gray-400">
                     <ReactTimeAgo
@@ -96,49 +95,36 @@ const UserList = ({
                     />
                   </p>
                 </div>
+                {user._id !== auth._id && (
+                  <button
+                    onClick={() =>
+                      following.includes(user._id)
+                        ? unFollow(user._id)
+                        : follow(user._id)
+                    }
+                    className={`min-w-8 p-2 rounded-full ${
+                      following.includes(user._id)
+                        ? "bg-red-600 text-white hover:bg-red-700"
+                        : "bg-gray-300 text-gray-900 hover:bg-gray-400"
+                    }`}
+                  >
+                    {following.includes(user._id) ? (
+                      <UserMinusIcon className="w-5 h-5" />
+                    ) : (
+                      <UserPlusIcon className="w-5 h-5" />
+                    )}
+                  </button>
+                )}
               </div>
               <NavLink
                 to={`/social/profile/${user._id}`}
-                className="flex flex-col items-center text-lg font-semibold text-gray-900 "
+                className="flex justify-center text-lg font-semibold text-gray-900 mt-2"
               >
-                <p>{user.name}</p>
-                <p>{user.surname}</p>
+                <p>
+                  {user.name} {user.surname}
+                </p>
               </NavLink>
-              {/* Biografía */}
-              <p className="text-sm text-gray-700 line-clamp-2 italic">
-                {user.bio || "Sin biografía"}
-              </p>
             </div>
-
-            {/* Botón de seguir */}
-            {user._id !== auth._id && (
-              <div className="flex justify-center items-center p-3">
-                <button
-                  onClick={() =>
-                    following.includes(user._id)
-                      ? unFollow(user._id)
-                      : follow(user._id)
-                  }
-                  className={`min-w-28 px-2 py-2 font-semibold text-sm ${
-                    following.includes(user._id)
-                      ? "flex items-center justify-center bg-white border-2 text-red-600 border-gray-900  rounded-lg shadow-md hover:scale-110 duration-300 transition-all w-38 h-10"
-                      : "flex items-center justify-center bg-white border-2 border-red-600 text-gray-900 px-4 py-2 rounded-lg shadow-md hover:scale-110 duration-300 transition-all w-38 h-10"
-                  }`}
-                >
-                  {following.includes(user._id) ? (
-                    <>
-                      <UserMinusIcon className="w-5 h-5 mr-2 text-red-600" />
-                      Dejar de seguir
-                    </>
-                  ) : (
-                    <>
-                      <UserPlusIcon className="w-5 h-5 mr-2 " />
-                      Seguir
-                    </>
-                  )}
-                </button>
-              </div>
-            )}
           </article>
         ))}
       </div>

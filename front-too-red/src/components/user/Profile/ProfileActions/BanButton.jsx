@@ -31,7 +31,7 @@ const BanButton = ({ user, token, showToastMessage }) => {
   return (
     <button
       onClick={toggleBanStatus}
-      className="flex items-center justify-center bg-white border-2 border-red-600 text-gray-900 font-semibold px-4 py-2 rounded-lg shadow-md hover:scale-110 duration-300 transition-all w-40 h-10"
+      className="flex items-center justify-center bg-white border-2 border-red-600 text-gray-900 font-semibold px-2 py-2 rounded-lg shadow-md hover:scale-110 duration-300 transition-all w-auto h-10"
     >
       {user.isBanned ? (
         <>

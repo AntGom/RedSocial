@@ -46,7 +46,7 @@ const People = () => {
   return (
     <div className="flex-1 flex-col">
       <h1 className="flex text-3xl font-bold text-gray-900 mb-4">
-      Conecta con la Comunidad
+      Comunidad Too-Red
       </h1>
 
       {/* Buscador */}

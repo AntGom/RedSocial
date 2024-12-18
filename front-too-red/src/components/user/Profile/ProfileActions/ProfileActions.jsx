@@ -27,9 +27,9 @@ const ProfileActions = ({ user, auth, iFollow, setIFollow, token }) => {
   };
 
   return (
-    <section className=" mb-3 mr-4 md:mr-8">
+    <section className="mb-3 mr-4 md:mr-8">
       {user._id === auth._id ? (
-        <article className="flex  flex-col gap-8 md:flex-row">
+        <article className="flex flex-col gap-8 md:flex-row">
           <div>
             <EditProfileButton />
           </div>
@@ -47,14 +47,16 @@ const ProfileActions = ({ user, auth, iFollow, setIFollow, token }) => {
           )}
         </article>
       ) : (
-        <>
-          <FollowButton
-            userId={user._id}
-            iFollow={iFollow}
-            setIFollow={setIFollow}
-            token={token}
-            showToastMessage={showToastMessage}
-          />
+        <div>
+          {auth.role !== "admin" && (
+            <FollowButton
+              userId={user._id}
+              iFollow={iFollow}
+              setIFollow={setIFollow}
+              token={token}
+              showToastMessage={showToastMessage}
+            />
+          )}
           {auth.role === "admin" && (
             <BanButton
               user={user}
@@ -62,7 +64,7 @@ const ProfileActions = ({ user, auth, iFollow, setIFollow, token }) => {
               showToastMessage={showToastMessage}
             />
           )}
-        </>
+        </div>
       )}
       <ToastManager
         showToast={showToast}
