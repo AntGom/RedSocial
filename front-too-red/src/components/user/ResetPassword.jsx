@@ -2,15 +2,16 @@ import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import { Global } from "../../helpers/Global";
+import ToastManager from "../user/Profile/ProfileActions/ToastManager";
 
 const ResetPassword = () => {
   const { token } = useParams();
   const navigate = useNavigate();
   const [newPassword, setNewPassword] = useState("");
-  const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState({ message: "", type: "" });
+  const [showToast, setShowToast] = useState(false);
 
   const handleReset = async (e) => {
     e.preventDefault();
@@ -24,15 +25,17 @@ const ResetPassword = () => {
     });
     setLoading(false);
     const data = await request.json();
+
     if (data.status === "success") {
-      setMessageType("success");
-      setMessage(data.message);
+      setToast({ message: data.message, type: "success" });
+      setShowToast(true);
       setTimeout(() => {
+        setShowToast(false);
         navigate("/login");
       }, 1500);
     } else {
-      setMessageType("error");
-      setMessage(data.message);
+      setToast({ message: data.message, type: "error" });
+      setShowToast(true);
     }
   };
 
@@ -44,7 +47,7 @@ const ResetPassword = () => {
         </h1>
       </header>
 
-      <div className="border-2 border-gray-900 p-6 rounded-lg shadow-lg shadow-gray-600 w-2/5 bg-white">
+      <div className="border-2 border-gray-900 p-6 rounded-lg shadow-lg shadow-gray-600 w-11/12 md:w-2/5 bg-white">
         <form onSubmit={handleReset}>
           <div className="mb-4">
             <label
@@ -58,7 +61,7 @@ const ResetPassword = () => {
                 type={showPassword ? "text" : "password"}
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                placeholder="Introduce tu nueva contraseña"
+                placeholder="Tu nueva contraseña"
                 className="border-2 border-red-600 rounded w-full py-2 px-3"
               />
               <button
@@ -82,16 +85,13 @@ const ResetPassword = () => {
             {loading ? "Reseteando..." : "Establecer"}
           </button>
         </form>
-        {message && (
-          <p
-            className={`mt-4 text-center font-medium ${
-              messageType === "success" ? "text-green-600" : "text-red-600"
-            }`}
-          >
-            {message}
-          </p>
-        )}
       </div>
+
+      <ToastManager
+        showToast={showToast}
+        toast={toast}
+        onClose={() => setShowToast(false)}
+      />
     </div>
   );
 };

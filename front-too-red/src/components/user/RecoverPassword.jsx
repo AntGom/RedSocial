@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Global } from "../../helpers/Global";
+import ToastManager from "../user/Profile/ProfileActions/ToastManager";
 
 const RecoverPassword = () => {
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState("");
   const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState({ message: "", type: "" });
+  const [showToast, setShowToast] = useState(false);
 
   const handleRecover = async (e) => {
     e.preventDefault();
@@ -19,8 +20,11 @@ const RecoverPassword = () => {
     });
     setLoading(false);
     const data = await request.json();
-    setMessage(data.message);
-    setMessageType(data.status === "success" ? "success" : "error");
+    setToast({
+      message: data.message,
+      type: data.status === "success" ? "success" : "error",
+    });
+    setShowToast(true);
   };
 
   return (
@@ -31,7 +35,7 @@ const RecoverPassword = () => {
         </h1>
       </header>
 
-      <section className="border-2 border-gray-900 p-6 rounded-lg shadow-lg shadow-gray-600 w-4/5 lg:w-2/5">
+      <section className="border-2 border-gray-900 p-6 rounded-lg shadow-lg shadow-gray-600 w-11/12 md:w-4/5 lg:w-2/5">
         <form onSubmit={handleRecover} className="mt-6">
           <div className="mb-4">
             <label
@@ -56,16 +60,13 @@ const RecoverPassword = () => {
             {loading ? "Enviando..." : "Enviar"}
           </button>
         </form>
-        {message && (
-          <p
-            className={`mt-4 text-center font-medium ${
-              messageType === "success" ? "text-green-600" : "text-red-600"
-            }`}
-          >
-            {message}
-          </p>
-        )}
       </section>
+
+      <ToastManager
+        showToast={showToast}
+        toast={toast}
+        onClose={() => setShowToast(false)}
+      />
     </div>
   );
 };
