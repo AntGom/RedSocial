@@ -4,7 +4,7 @@ import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 const LoginForm = ({ changed, loginUser, showPassword, setShowPassword }) => {
   return (
     <form
-      className="bg-white border-2 border-gray-900 p-6 rounded-lg shadow-lg shadow-gray-600 lg:w-2/5 sm:w-3/5"
+      className="bg-white border-2 border-gray-900 p-4 rounded-lg shadow-lg shadow-gray-600 w-11/12 md:w-4/5 lg:w-3/5"
       onSubmit={loginUser}
     >
       <div className="mb-4">

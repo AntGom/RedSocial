@@ -3,10 +3,10 @@ import clsx from "clsx";
 
 const Toast = ({ message, type, onClose }) => {
   return (
-    <section className="bg-gray-500 w-3/6 h-3/6 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 py-4 px-6 rounded-lg shadow-lg z-[99000] text-center">
+    <section className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <article
       className={clsx(
-        "fixed top-1/2 left-1/2 w-3/5 transform -translate-x-1/2 -translate-y-1/2 py-4 px-6 rounded-lg shadow-lg z-50 text-center",
+        "fixed top-1/2 left-1/2 w-5/6 transform -translate-x-1/2 -translate-y-1/2 py-4 px-6 rounded-lg shadow-lg z-50 text-center",
         {
           "bg-green-600 text-white": type === "success",
           "bg-red-600 text-white": type === "error",

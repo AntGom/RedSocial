@@ -9,7 +9,7 @@ const PublicationList = ({ publications, getPublications, page, setPage, more })
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-7 mb-4">
       {publications.map((publication) => (
         <PublicationCard
           key={publication._id}

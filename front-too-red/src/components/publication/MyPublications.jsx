@@ -34,7 +34,7 @@ const MyPublications = () => {
   }, [params.userId]);
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="max-w-7xl sm:px-2 lg:px-8">
       <h1 className="text-2xl font-bold mb-4">Mis Publicaciones</h1>
       <PublicationList
         publications={publications}

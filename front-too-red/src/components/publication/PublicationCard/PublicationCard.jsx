@@ -15,7 +15,7 @@ const PublicationCard = ({ publication, getPublications }) => {
   const [reporting, setReporting] = useState(false);
 
   return (
-    <article className="flex flex-col relative bg-white rounded-lg border hover:bg-gray-100 p-5 mb-4">
+    <article className="flex flex-col relative bg-white rounded-lg border hover:bg-gray-100 p-3 -mb-4 ">
       <PublicationHeader
         publication={publication}
         onEdit={setEditing}

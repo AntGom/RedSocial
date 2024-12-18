@@ -1,17 +1,18 @@
 import UseForm from "../../../hooks/UseForm";
 import { Global } from "../../../helpers/Global";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAuth } from "../../../hooks/UseAuth";
 import LoginForm from "./LoginForm";
-import LoginMessage from "./LoginMessage";
 import BanNotificationModal from "./BanNotificationModal";
+import ToastManager from "../../user/Profile/ProfileActions/ToastManager";
 
 const Login = () => {
   const { form, changed } = UseForm({});
-  const [saved, setSaved] = useState("not_sended");
   const [showPassword, setShowPassword] = useState(false);
   const { setAuth } = useAuth();
   const [showBanModal, setShowBanModal] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [toast, setToast] = useState({ message: "", type: "" });
 
   const loginUser = async (e) => {
     e.preventDefault();
@@ -32,33 +33,33 @@ const Login = () => {
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      setSaved("login");
       setAuth(data.user);
+
+      // Mostrar Toast de éxito
+      setToast({ message: "¡¡Usuario identificado correctamente!!", type: "success" });
+      setShowToast(true);
 
       setTimeout(() => {
         window.location.href = "/social";
       }, 300);
     } else if (data.status === "banned") {
-      setSaved("banned");
       setShowBanModal(true);
+
+      // Mostrar Toast de advertencia
+      setToast({ message: "Tu cuenta está suspendida. Contacta al soporte.", type: "error" });
+      setShowToast(true);
     } else {
-      setSaved("error");
+      // Mostrar Toast de error
+      setToast({ message: "Email o contraseña incorrectos.", type: "error" });
+      setShowToast(true);
     }
   };
-
-  useEffect(() => {
-    if (saved === "login" || saved === "error" || saved === "banned") {
-      const timer = setTimeout(() => setSaved("not_sended"), 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [saved]);
 
   const handleConfirmBan = () => {
     setShowBanModal(false);
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setAuth({});
-    setSaved("not_sended");
 
     setTimeout(() => {
       window.location.href = "/login";
@@ -67,10 +68,10 @@ const Login = () => {
 
   return (
     <>
-      <header className="p-4 text-gray-900 text-center mt-2 w-full">
+      <header className="p-2 md:p-4 text-gray-900 text-center mt-2 w-full">
         <h1 className="text-2xl font-bold">Identifícate</h1>
       </header>
-      <div className="flex justify-center items-center w-full h-2/5">
+      <div className="flex justify-center w-full h-2/5">
         <LoginForm
           form={form}
           changed={changed}
@@ -95,11 +96,12 @@ const Login = () => {
           ¿Cuenta en suspensión? Recuperar ↻
         </a>
       </div>
-      <LoginMessage saved={saved} setSaved={setSaved} />
-      {showBanModal && (
-        <BanNotificationModal onConfirm={handleConfirmBan} />
-      )}{" "}
-      {/* Mostrar el modal cuando está baneado */}
+      {showBanModal && <BanNotificationModal onConfirm={handleConfirmBan} />}
+      <ToastManager
+        showToast={showToast}
+        toast={toast}
+        onClose={() => setShowToast(false)}
+      />
     </>
   );
 };

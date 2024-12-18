@@ -2,8 +2,8 @@ import PropTypes from "prop-types";
 
 const BanNotificationModal = ({ onConfirm }) => {
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+      <section className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <article className="bg-white rounded-lg p-8 max-w-md w-full mx-4">
           <h2 className="text-2xl font-bold text-red-600 mb-4">
             Tu cuenta ha sido suspendida
           </h2>
@@ -17,8 +17,8 @@ const BanNotificationModal = ({ onConfirm }) => {
           >
             Aceptar
           </button>
-        </div>
-      </div>
+        </article>
+      </section>
     );
   };
 

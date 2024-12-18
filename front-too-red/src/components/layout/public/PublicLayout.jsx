@@ -9,7 +9,6 @@ const PublicLayout = () => {
     <>
       <NavbarPublic />
 
-      {/* CONTENIDO PRINCIPAL */}
       <section>
         {!auth._id ? <Outlet /> : <Navigate to="/social" />}
       </section>
