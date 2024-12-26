@@ -63,7 +63,7 @@ const PublicationCard = ({ publication, getPublications }) => {
       )}
 
       {viewingImage && (
-        <div className="fixed inset-0 bg-opacity-60 flex justify-center items-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50">
           <div className="relative">
             <button
               onClick={() => setViewingImage(null)}
@@ -74,7 +74,7 @@ const PublicationCard = ({ publication, getPublications }) => {
             <img
               src={`${Global.url}publication/media/${viewingImage}`}
               alt="Imagen en tamaño original"
-              className="max-w-screen h-screen rounded-lg"
+              className="max-w-screen h-auto rounded-lg"
             />
           </div>
         </div>
