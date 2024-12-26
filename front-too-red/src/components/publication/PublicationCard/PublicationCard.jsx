@@ -67,14 +67,14 @@ const PublicationCard = ({ publication, getPublications }) => {
           <div className="relative">
             <button
               onClick={() => setViewingImage(null)}
-              className="absolute top-4 right-4 text-red-600 font-semibold text-4xl"
+              className="absolute top-3 right-4 text-red-600 font-semibold text-4xl"
             >
               &times;
             </button>
             <img
               src={`${Global.url}publication/media/${viewingImage}`}
               alt="Imagen en tamaño original"
-              className="max-w-screen h-auto rounded-lg"
+              className="max-w-screen max-h-screen rounded-lg"
             />
           </div>
         </div>

@@ -17,13 +17,13 @@ const PublicationHeader = ({ publication, onEdit, onDelete, onReport }) => {
   const isUserOwnerOrAdmin = auth?._id === publication.user?._id || auth?.role === "admin";
 
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex text-sm text-gray-800">
+    <section className="flex items-center justify-between">
+      <article className="flex text-sm text-gray-800">
         <NavLink to={`/social/profile/${publication.user?._id}`}>
           <img
             src={getUserImage(publication.user?.image)}
             alt="Foto de Perfil"
-            className="w-11 h-11 rounded-full object-cover transition-all border border-red-600 duration-300 hover:scale-110"
+            className="w-11 rounded-full object-cover transition-all border border-red-600 duration-300 hover:scale-110"
           />
         </NavLink>
         <div className="ml-4">
@@ -35,8 +35,8 @@ const PublicationHeader = ({ publication, onEdit, onDelete, onReport }) => {
             />
           </p>
         </div>
-      </div>
-      <div className="flex items-center space-x-4">
+      </article>
+      <article className="flex items-center space-x-4">
         {!isUserOwnerOrAdmin && (
           <button
             onClick={() => onReport(publication._id)}
@@ -61,8 +61,8 @@ const PublicationHeader = ({ publication, onEdit, onDelete, onReport }) => {
             </button>
           </>
         )}
-      </div>
-    </div>
+      </article>
+    </section>
   );
 };
 

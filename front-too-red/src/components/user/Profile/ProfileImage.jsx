@@ -20,7 +20,7 @@ const ProfileImage = ({ user }) => {
       <div className="relative flex-shrink-0">
         <img
           src={imageUrl}
-          className="w-28 h-28 ml-2 border-2 border-red-600 rounded-full object-cover transition-all duration-300 hover:scale-110 cursor-pointer"
+          className="w-28 h-28 ml-2 mb-4 border-2 border-red-600 rounded-full object-cover transition-all duration-300 hover:scale-110 cursor-pointer"
           alt={`Foto de perfil de ${user.name}`}
           onClick={handleImageClick}
         />
@@ -30,7 +30,7 @@ const ProfileImage = ({ user }) => {
       {isModalOpen && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70"
-          onClick={closeModal} // Cierra el modal al hacer clic en el fondo
+          onClick={closeModal}
         >
           <div className="relative">
             {/* Imagen ampliada */}
