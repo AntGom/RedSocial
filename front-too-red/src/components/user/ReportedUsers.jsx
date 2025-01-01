@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom"; // Importar Link
+import { Link } from "react-router-dom";
 import { Global } from "../../helpers/Global";
 
 const ReportedUsers = () => {
@@ -26,7 +26,7 @@ const ReportedUsers = () => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": token,
+            Authorization: token,
           },
         });
 
@@ -63,70 +63,70 @@ const ReportedUsers = () => {
   }
 
   return (
-    <div className="container mx-auto -mt-8 px-4 py-8">
-      <h1 className="text-3xl font-bold text-start mb-4">Usuarios con Publicaciones Reportadas</h1>
+    <section className="container mx-auto -mt-8 px-2 py-8">
+      <h1 className="text-xl md:text-3xl font-bold text-start mb-4">
+        Usuarios con Publicaciones Reportadas
+      </h1>
 
-      {/* Filtros */}
-      <div className="flex justify-between mb-4">
+      {/* Filtro */}
+      <article className="mb-4">
+        <label htmlFor="filter" className="mr-2 font-semibold">Filtrar por estado:</label>
         <select
+          id="filter"
           value={reportStatus}
           onChange={(e) => setReportStatus(e.target.value)}
-          className="px-4 py-2 border rounded-lg"
+          className="border-gray-300 rounded p-2 w-full md:w-auto"
         >
-          <option value="">Estado de los Reportes</option>
-          <option value="active">Activo</option>
-          <option value="reverted">Revisado</option>
+          <option value="" className="text-xs md:text-md">Estado de los Reportes</option>
+          <option value="active" className="text-xs md:text-md">Activo</option>
+          <option value="reverted" className="text-xs md:text-md">Revisado</option>
         </select>
-      </div>
+      </article>
 
       {users.length === 0 ? (
         <p className="text-center text-xl">No hay usuarios con publicaciones reportadas</p>
       ) : (
-        <div className="overflow-x-auto rounded-lg border-2 border-red-600">
-          <table className="min-w-full bg-white shadow-md">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="px-4 py-2 text-left text-sm font-bold text-gray-700">Nick</th>
-                <th className="px-4 py-2 text-left text-sm font-bold text-gray-700">Email</th>
-                <th className="px-4 py-2 text-left text-sm font-bold text-gray-700">Publicaciones Reportadas</th>
-                <th className="px-4 py-2 text-left text-sm font-bold text-gray-700">Número de Reportes</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((user) => (
-                <tr key={user.userId} className="border-t">
-                  <td className="px-4 py-2 text-sm font-semibold text-gray-800">
-                    {/* Enlace al perfil del usuario */}
-                    <Link
-                      to={`/social/profile/${user.userId}`}
-                      className="text-blue-600 hover:underline"
-                    >
-                      {user.nick}
-                    </Link>
-                  </td>
-                  <td className="px-4 py-2 text-sm text-gray-800">{user.email}</td>
-                  <td className="px-4 py-2 text-sm">
-                    <ul className="list-disc pl-5 space-y-1">
-                      {user.reportedPublications.map((pub, index) => (
-                        <li key={index} className="text-gray-600">
-                          <strong>{pub.title}</strong>
-                          <div className="text-xs text-gray-500">
-                            <p>Fecha: {new Date(pub.createdAt).toLocaleDateString()}</p>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  </td>
-                  <td className="px-4 py-2 text-sm text-center text-gray-800">
-                    {user.reportedCount}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <article className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {users.map((user) => (
+            <div
+              key={user.userId}
+              className="bg-white shadow-md rounded-lg border p-3 flex flex-col gap-2 hover:bg-gray-100 transition-all duration-300 h-full"
+            >
+              <div>
+                <h2 className="text-lg font-semibold text-gray-800">
+                  <Link
+                    to={`/social/profile/${user.userId}`}
+                    className="text-blue-600 hover:underline"
+                  >
+                    {user.nick}
+                  </Link>
+                </h2>
+                <p className="text-sm text-gray-600">{user.email}</p>
+              </div>
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700">Publicaciones Reportadas:</h3>
+                <ul className="list-disc pl-5 text-sm space-y-1">
+                  {user.reportedPublications.map((pub, index) => (
+                    <li key={index}>
+                      <strong>{pub.title}</strong>
+                      <div className="text-xs text-gray-500">
+                        <p>Fecha: {new Date(pub.createdAt).toLocaleDateString()}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-gray-800">
+                  Número de reportes:{" "}
+                  <span className="font-normal">{user.reportedCount}</span>
+                </p>
+              </div>
+            </div>
+          ))}
+        </article>
       )}
-    </div>
+    </section>
   );
 };
 

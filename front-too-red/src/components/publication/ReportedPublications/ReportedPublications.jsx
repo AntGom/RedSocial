@@ -74,7 +74,7 @@ const ReportedPublications = () => {
       <h1 className="text-3xl font-bold text-start mb-4">Publicaciones Reportadas</h1>
 
       {/* Filtro */}
-      <div className="mb-4">
+      <article className="mb-4">
         <label htmlFor="filter" className="mr-2 font-semibold">Filtrar por estado:</label>
         <select
           id="filter"
@@ -82,16 +82,16 @@ const ReportedPublications = () => {
           onChange={(e) => setFilterStatus(e.target.value)}
           className="border-gray-300 rounded p-2"
         >
-          <option value="all">Todas</option>
-          <option value="active">Activas</option>
-          <option value="reverted">Revisadas</option>
+          <option value="all" className="text-xs md:text-md">Todas</option>
+          <option value="active" className="text-xs md:text-md">Activas</option>
+          <option value="reverted" className="text-xs md:text-md">Revisadas</option>
         </select>
-      </div>
+      </article>
 
       {filteredPublications.length === 0 ? (
         <p>No hay publicaciones reportadas que coincidan con el filtro.</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <article className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredPublications.map((pub) => (
             <ReportedPublicationCard
               key={pub._id}
@@ -107,7 +107,7 @@ const ReportedPublications = () => {
               }}
             />
           ))}
-        </div>
+        </article>
       )}
       {showDeleteModal && (
         <DeletePublication

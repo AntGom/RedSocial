@@ -7,8 +7,8 @@ const ReportedPublicationCard = ({
     onRevertClick,
     onDeleteClick,
   }) => (
-    <div className="bg-white border-2 border-gray-200 rounded-lg overflow-hidden hover:bg-gray-100 transition-all duration-300 flex flex-col h-full">
-      <div className="p-3 flex-1">
+    <section className="bg-white border-2 border-gray-200 rounded-lg overflow-hidden hover:bg-gray-100 transition-all duration-300 flex flex-col h-full">
+      <article className="p-3 flex-1">
         <h2 className="font-semibold text-red-700">Datos de la publicación:</h2>
         <p className="text-sm text-gray-900 italic">{publication.user.email}</p>
         <p className="text-sm text-gray-900">
@@ -20,26 +20,26 @@ const ReportedPublicationCard = ({
         <p className="text-sm text-gray-900">
           <strong>Texto:</strong> {publication.text || "Sin texto"}
         </p>
-      </div>
+      </article>
   
       {publication.file && (
-        <div className="p-3">
+        <article className="p-2 -mt-3">
           <h2 className="font-semibold">Archivo adjunto:</h2>
           <img
             src={`${Global.url}publication/media/${publication.file}`}
             alt="Archivo adjunto"
-            className="h-32 object-cover mt-2 rounded-lg"
+            className="h-32 object-cover mt-1 rounded-lg"
           />
-        </div>
+        </article>
       )}
   
-      <div className="p-4">
-        <h4 className="font-semibold text-red-700">Reportes:</h4>
+      <article className="p-3">
+        <h4 className="font-semibold text-red-700 ">Reportes:</h4>
         {publication.reports.map((report) => (
           <div
             key={report._id}
-            className={`mb-4 p-3 rounded-lg ${
-              report.status === "reverted" ? "bg-gray-200 text-gray-600" : ""
+            className={`mb-2 p-3 rounded-lg ${
+              report.status === "reverted" ? "bg-gray-200 text-gray-600" : "bg-orange-300"
             }`}
           >
             <p className="text-sm">
@@ -56,7 +56,7 @@ const ReportedPublicationCard = ({
                ✅ Publicación Revisada 
               </p>
             )}
-            <div className="flex space-x-4 mt-2">
+            <div className="flex justify-around mt-2">
               {report.status !== "reverted" && (
                 <button
                   onClick={() => onRevertClick(publication._id, report._id)}
@@ -74,8 +74,8 @@ const ReportedPublicationCard = ({
             </div>
           </div>
         ))}
-      </div>
-    </div>
+      </article>
+    </section>
   );
   
 

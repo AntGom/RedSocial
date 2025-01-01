@@ -81,9 +81,9 @@ const CommentsList = ({ publicationId, likes, publicationUserId }) => {
           <p className="text-gray-500">No hay comentarios aún.</p>
         ) : (
           comments.map((comment) => (
-            <div
+            <article
               key={comment._id}
-              className="flex items-start space-x-3 mt-3 bg-gray-50 border-2 border-red-300 p-3 rounded-lg"
+              className="flex items-start space-x-3 mt-2 bg-gray-50 border-2 border-red-300 p-2 rounded-lg"
             >
               <img
                 src={
@@ -97,14 +97,14 @@ const CommentsList = ({ publicationId, likes, publicationUserId }) => {
               <div className="flex-1">
                 <p className="font-semibold text-gray-800">
                   {comment.user?.name} {comment.user?.surname}
-                  <span className="text-gray-600 text-sm ml-2">
+                  <span className="text-gray-600 text-xs md:text-md ml-2">
                     <ReactTimeAgo
                       date={new Date(comment.createdAt).getTime()}
                       locale="es-ES"
                     />
                   </span>
                 </p>
-                <p className="text-gray-600">{comment.text}</p>
+                <p className="text-gray-600 text-sm md:text-md">{comment.text}</p>
               </div>
               <DeleteComment
                 publicationId={publicationId}
@@ -113,7 +113,7 @@ const CommentsList = ({ publicationId, likes, publicationUserId }) => {
                 commentId={comment._id}
                 commentUserId={comment.user._id}
               />
-            </div>
+            </article>
           ))
         ))}
     </section>
